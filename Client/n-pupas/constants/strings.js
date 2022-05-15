@@ -27,6 +27,18 @@ export const adminPages = {
   editSale: 'Modificar venta',
 };
 
+export const titles = {
+  salary: 'Salario',
+  afp: 'AFP',
+  today: 'Este día',
+  history: 'Historial',
+  personalData: 'Datos personales',
+  accountData: 'Datos sobre la cuenta',
+  pupuseriaData: 'Datos sobre pupusería',
+  groceries: 'Comestibles',
+  drinks: 'Bebidas',
+};
+
 export const crudActionTypes = {
   create: 'Comentario',
   read: 'Ver',
