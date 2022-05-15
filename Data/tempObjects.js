@@ -78,3 +78,33 @@ export const testEmployeeAdmin = [
       salary: 450,
     },
 ];
+
+export const testProducts = [
+    {
+      id: 1,
+      name: 'Pupusa revuelta',
+      price: 0.8,
+      type: 'food',
+    },
+    {
+      id: 2,
+      name: 'Pupusa de queso',
+      price: 0.9,
+      type: 'food',
+    },
+    { id: 3, 
+      name: 'Horchata', 
+      price: 1.0, 
+      type: 'drink' 
+    },
+];
+
+export const testHistoryAdmin = [
+    {
+      id: 1,
+      name: 'Pupusa revuelta ',
+      price: 0.8,
+      total: 0.8,
+      date: '02/10/2021 18:00',
+    },
+];
