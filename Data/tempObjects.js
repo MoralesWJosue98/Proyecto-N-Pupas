@@ -18,3 +18,28 @@ export const testAdmin = {
     openingDate: '10/09/2019'
 };
 
+export const testComments = [
+    {
+      id: 1,
+      name: 'Alan Britto',
+      date: '12/03/2022',
+      body: 'Excelente trabajo Excelente trabajo Excelente trabajo Excelente trabajo Excelente trabajo Excelente Excelente trabajo ',
+    },
+    {
+      id: 2,
+      name: 'Alan Britta',
+      date: '12/04/2022',
+      body: 'Excelente trabajo Excelente trabajo Excelente trabajo Excelente trabajo Excelente trabajo Excelente trabajo Excelente trabajo ',
+    },
+];
+
+export const testComment = {
+    name: 'Alan Britto',
+    date: '12/03/2022',
+    body: 'Excelente trabajo Excelente trabajo Excelente trabajo Excelente trabajo Excelente trabajo Excelente trabajo Excelente trabajo Excelente trabajo ',
+};
+
+export const categories = [
+    { id: 1, category: 'Alimento' },
+    { id: 2, category: 'Bebida' },
+];
