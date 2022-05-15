@@ -108,3 +108,42 @@ export const testHistoryAdmin = [
       date: '02/10/2021 18:00',
     },
 ];
+
+export const testSaleDetails = [
+    {
+      id: 1,
+      saleID: 1,
+      amount: 3,
+      total: 4.5,
+      product: {
+        id: 1,
+        name: 'Pupusa revuelta',
+        price: 0.8,
+      },
+      date: '02/10/2021 18:00',
+    },
+    {
+      id: 2,
+      saleID: 1,
+      amount: 2,
+      total: 2.0,
+      product: {
+        id: 2,
+        name: 'Pupusa de queso',
+        price: 0.8,
+      },
+      date: '02/10/2021 18:00',
+    },
+    {
+      id: 3,
+      saleID: 1,
+      amount: 3,
+      total: 1.0,
+      product: {
+        id: 3,
+        name: 'Horchata',
+        price: 1.0,
+      },
+      date: '02/10/2021 18:00',
+    },
+];    
