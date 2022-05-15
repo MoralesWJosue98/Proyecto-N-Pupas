@@ -43,3 +43,38 @@ export const categories = [
     { id: 1, category: 'Alimento' },
     { id: 2, category: 'Bebida' },
 ];
+
+export const branches = [
+    {
+      id: 1,
+      name: 'Peatonal UCA',
+      address: 'C. del Cantábrico local 4 b',
+      openingDate: '3/05/2021',
+      pupuseriaId: 2,
+    },
+    {
+      id: 2,
+      name: 'Antiguo',
+      address: 'Calle Del Mediterraneo #10',
+      openingDate: '5/01/2022',
+      pupuseriaId: 2,
+    },
+];
+
+export const testBranch = [
+    {
+      id: 1,
+      name: 'Peatonal UCA',
+      address: 'Urb.Cumbres de Cuscatlan, Col. Las Margaritas.',
+      date: '1/05/2022',
+    },
+];
+
+export const testEmployeeAdmin = [
+    {
+      id: 1,
+      name: 'Elsa Pito',
+      date: '02/10/2021',
+      salary: 450,
+    },
+];
