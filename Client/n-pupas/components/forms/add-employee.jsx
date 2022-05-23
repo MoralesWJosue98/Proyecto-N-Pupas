@@ -46,6 +46,7 @@ const AddEmployeeForm = ({ onSubmitHandler, id, employee = false }) => {
           <input
             type='text'
             placeholder='Fecha de contratación'
+            defaultValue={employee ? employee.hiring : ''}
             onFocus={e => (e.target.type = 'date')}
             className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
             {...register('date', { required: 'Fecha requerida' })}
@@ -56,6 +57,7 @@ const AddEmployeeForm = ({ onSubmitHandler, id, employee = false }) => {
           <input
             type='number'
             placeholder='Salario'
+            defaultValue={employee ? employee.salary : ''}
             className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
             {...register('salary', {
               required: 'Salario requerido',
