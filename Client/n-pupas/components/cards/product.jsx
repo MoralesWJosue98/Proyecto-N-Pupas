@@ -4,7 +4,7 @@ import CrudButton from 'components/buttons/crud';
 import { adminRoutes } from 'routes/routes';
 import { useRouter } from 'next/router';
 
-const ProductCard = ({ product, quantity = 0 }) => {
+const ProductCard = ({ product, quantity = 0, onDeleteHandler }) => {
   const router = useRouter();
 
   const handleOnModify = () => {
@@ -12,7 +12,7 @@ const ProductCard = ({ product, quantity = 0 }) => {
   };
 
   const handleOnDelete = () => {
-    alert('Próximamente se va a poder eliminar');
+    onDeleteHandler();
   };
 
   return (
