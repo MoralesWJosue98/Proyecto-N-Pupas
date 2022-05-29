@@ -3,6 +3,7 @@ import SimpleProductCard from 'components/cards/simple-product';
 import AddSaleForm from 'components/forms/add-sale';
 import { testProducts } from 'data/tempObjects';
 import { adminPages } from 'constants/strings';
+import toast from 'react-hot-toast';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Head from 'next/head';
@@ -38,8 +39,8 @@ export default function NewSalePage() {
   };
 
   const addSale = () => {
-    alert('Va a crear objeto compra y agregarlo');
     setAddedProducts([]);
+    toast.success('Venta guardada existosamente');
   };
 
   return (

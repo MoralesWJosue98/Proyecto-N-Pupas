@@ -1,10 +1,12 @@
 import AddProductForm from 'components/forms/add-product';
 import { adminPages } from 'constants/strings';
+import toast from 'react-hot-toast';
 import Head from 'next/head';
 
 export default function NewProductPage() {
   const onSubmitForm = data => {
-    alert(data.name);
+    //alert(data.name);
+    toast.success('Producto agregado existosamente');
   };
 
   return (

@@ -1,11 +1,13 @@
 import AddEmployeeReportForm from 'components/forms/add-report';
 import { testEmployee } from 'data/tempObjects';
 import { adminPages } from 'constants/strings';
+import toast from 'react-hot-toast';
 import Head from 'next/head';
 
 export default function NewEmployeeReportPage({ employee }) {
   const onSubmitForm = data => {
-    alert(data.report);
+    //alert(data.report);
+    toast.success('Reporte enviado existosamente');
   };
 
   return (

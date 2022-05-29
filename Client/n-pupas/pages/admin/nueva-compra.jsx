@@ -1,11 +1,13 @@
 import AddPurchaseForm from 'components/forms/add-purchase';
 import { adminPages } from 'constants/strings';
+import toast from 'react-hot-toast';
 import Head from 'next/head';
 import React from 'react';
 
 export default function NewPurchasePage() {
   const onSubmitForm = data => {
-    alert(data.concept);
+    //alert(data.concept);
+    toast.success('Compra agregada existosamente');
   };
 
   return (
