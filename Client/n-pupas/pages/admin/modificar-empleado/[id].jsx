@@ -2,11 +2,13 @@ import AddEmployeeForm from 'components/forms/add-employee';
 import { adminPages } from 'constants/strings';
 import { testAdmin } from 'data/tempObjects';
 import { fillWithZero } from 'utils/utils';
+import toast from 'react-hot-toast';
 import Head from 'next/head';
 
 export default function editEmployeePage({ employee }) {
   const onSubmitForm = (data) => {
-    alert(data.name);
+    //alert(data.name);
+    toast.success('Cambios guardados con éxito');
   }
 
   return (

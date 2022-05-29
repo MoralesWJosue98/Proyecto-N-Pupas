@@ -1,12 +1,14 @@
 import AddBranchForm from 'components/forms/add-branch';
 import { adminPages } from 'constants/strings';
 import { testBranch } from 'data/tempObjects';
+import toast from 'react-hot-toast';
 import Head from 'next/head';
 import React from 'react';
 
 export default function editBranchPage({ branch }) {
   const onSubmitForm = (data) => {
-    alert(data.address);
+    //alert(data.address);
+    toast.success('Cambios guardados con éxito');
   }
 
   return (
