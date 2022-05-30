@@ -3,7 +3,7 @@ import CrudButton from 'components/buttons/crud';
 import { adminRoutes } from 'routes/routes';
 import { useRouter } from 'next/router';
 
-const SaleCard = ({ history }) => {
+const SaleCard = ({ history, onDeleteHandler }) => {
   const router = useRouter();
 
   const handleOnUpdate = () => {
@@ -11,7 +11,7 @@ const SaleCard = ({ history }) => {
   };
 
   const handleOnDelete = () => {
-    alert('Próximamente se va a poder eliminar');
+    onDeleteHandler();
   };
 
   return (

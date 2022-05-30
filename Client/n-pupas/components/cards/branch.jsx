@@ -3,7 +3,7 @@ import CrudButton from 'components/buttons/crud';
 import { adminRoutes } from 'routes/routes';
 import { useRouter } from 'next/router';
 
-const BranchCard = ({ branch }) => {
+const BranchCard = ({ branch, onDeleteHandler }) => {
   const router = useRouter();
 
   const handleOnModify = () => {
@@ -11,7 +11,7 @@ const BranchCard = ({ branch }) => {
   };
 
   const handleOnDelete = () => {
-    alert('Próximamente se va a poder eliminar');
+    onDeleteHandler();
   };
 
   return (

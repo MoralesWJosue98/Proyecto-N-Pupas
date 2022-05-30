@@ -3,19 +3,19 @@ import CrudButton from 'components/buttons/crud';
 import { adminRoutes } from 'routes/routes';
 import { useRouter } from 'next/router';
 
-const EmployeeCard = ({ employee }) => {
+const EmployeeCard = ({ employee, onDeleteHandler }) => {
   const router = useRouter();
 
   const handleOnModify = () => {
-    router.push(`${adminRoutes.editEmployee}/${employee.id}`)
+    router.push(`${adminRoutes.editEmployee}/${employee.id}`);
   };
 
   const handleOnDelete = () => {
-    alert('Próximamente se va a poder eliminar');
+    onDeleteHandler();
   };
 
   const handleOnCreateComment = () => {
-      router.push(`${adminRoutes.newReport}/${employee.id}`);
+    router.push(`${adminRoutes.newReport}/${employee.id}`);
   };
 
   return (
