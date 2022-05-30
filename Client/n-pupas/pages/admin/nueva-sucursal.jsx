@@ -1,11 +1,13 @@
 import AddBranchForm from 'components/forms/add-branch';
 import { adminPages } from 'constants/strings';
+import toast from 'react-hot-toast';
 import Head from 'next/head';
 import React from 'react';
 
 export default function NewBranchPage() {
   const onSubmitForm = data => {
-    alert(data.address);
+    //alert(data.address);
+    toast.success('Sucursal agregada existosamente');
   };
 
   return (

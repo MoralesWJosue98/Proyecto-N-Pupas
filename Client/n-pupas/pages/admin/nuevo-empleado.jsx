@@ -1,11 +1,13 @@
 import AddEmployeeForm from 'components/forms/add-employee';
 import { adminPages } from 'constants/strings';
 import { fillWithZero } from 'utils/utils';
+import toast from 'react-hot-toast';
 import Head from 'next/head';
 
 export default function NewEmployeePage() {
   const onSubmitForm = data => {
-    alert(data.name);
+    //alert(data.name);
+    toast.success('Empleado agregado existosamente');
   };
 
   return (

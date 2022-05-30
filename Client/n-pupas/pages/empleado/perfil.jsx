@@ -1,5 +1,8 @@
+import { CustomModal } from 'components/layout/modal/custom-modal';
 import SecondaryButton from 'components/buttons/secondary';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import { profilePageName } from 'constants/strings';
+import { confirmAlert } from 'react-confirm-alert';
 import ProfileCard from 'components/cards/profile';
 import { testEmployee } from 'data/tempObjects';
 import Head from 'next/head';
@@ -7,9 +10,24 @@ import Head from 'next/head';
 const EmployeeProfilePage = () => {
   const router = useRouter();
 
-  const handleOnLogout = () => {
-    // Cerrar sesión
+  const logout = () => {
+    // Lógica para cerrar sesión
     router.push(loginRoute);
+  };
+
+  const handleOnLogout = () => {
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <CustomModal
+            onClose={onClose}
+            onConfirm={logout}
+            text={`¿Segura/o que quieres cerrar sesión?`}
+            confirmText='Confirmar'
+          />
+        );
+      },
+    });
   };
 
   return (

@@ -4,6 +4,7 @@ import AddSaleForm from 'components/forms/add-sale';
 import { testSaleDetails } from 'data/tempObjects';
 import { testProducts } from 'data/tempObjects';
 import { adminPages } from 'constants/strings';
+import toast from 'react-hot-toast';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Head from 'next/head';
@@ -48,8 +49,8 @@ export default function EditSalePage({ id, saleDetails }) {
     setAddedProducts(auxProducts);
   };
 
-  const addSale = () => {
-    alert('Va a modificar los detalles de la venta correspondiente');
+  const editSale = () => {
+    toast.success('Cambios guardados con éxito');
   };
 
   return (
@@ -77,7 +78,7 @@ export default function EditSalePage({ id, saleDetails }) {
           <p className='text-primary-500 font-bold text-lg text-right'>Total: ${saleTotal}</p>
           <button
             type='button'
-            onClick={() => addSale()}
+            onClick={() => editSale()}
             className='mt-4 w-full px-6 py-2 bg-primary-500 font-bold text-white uppercase rounded-md border-2 border-transparent cursor-pointer hover:bg-primary-700 transform transition duration-300 ease-in-out'
           >
             Guardar cambios

@@ -3,7 +3,7 @@ import Navbar from './navbar/navbar';
 
 const Layout = ({ children }) => {
   return (
-    <div className='relative pb-28 min-h-screen'>
+    <div className='relative pb-24 min-h-screen'>
       <Navbar />
       {children}
       <Footer />
