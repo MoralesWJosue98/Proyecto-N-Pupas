@@ -1,4 +1,4 @@
-export const CustomModal = ({ onClose, onConfirm, text }) => {
+export const CustomModal = ({ onClose, onConfirm, text, confirmText = 'Eliminar' }) => {
   return (
     <div className='bg-white p-6 text-black rounded-sm m-6'>
       <h1 className='text-center font-bold text- mb-6'>{text}</h1>
@@ -16,7 +16,7 @@ export const CustomModal = ({ onClose, onConfirm, text }) => {
             onClose();
           }}
         >
-          Eliminar
+          {confirmText}
         </button>
       </div>
     </div>
