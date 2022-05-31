@@ -9,7 +9,6 @@ import com.npupas.api.models.dtos.MessageDTO;
 import com.npupas.api.models.entities.Purchase;
 import com.npupas.api.services.BranchService;
 import com.npupas.api.services.PurchaseService;
-import com.npupas.api.services.utils.ServiceResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,13 +30,15 @@ public class PurchaseController {
   BranchService branchService;
 
   @GetMapping("/{id}/purchases")
-  public ServiceResponse<List<Purchase>> getAll(@PathVariable("id") Long branchId) {
-    return purchaseService.getAllBranchPurchases(branchId);
+  public ResponseEntity<List<Purchase>> getAll(@PathVariable("id") Long branchId) {
+    List<Purchase> purchases = purchaseService.getAllBranchPurchases(branchId);
+    return new ResponseEntity<List<Purchase>>(purchases, HttpStatus.OK);
   }
 
   @GetMapping("/{id}/purchases/{id_purchase}")
-  public Purchase getOne(@PathVariable("id_purchase") Long purchaseId) {
-    return purchaseService.getOnePurchase(purchaseId);
+  public ResponseEntity<Purchase> getOne(@PathVariable("id_purchase") Long purchaseId) {
+    Purchase foundPurchase = purchaseService.getOnePurchase(purchaseId);
+    return new ResponseEntity<Purchase>(foundPurchase, HttpStatus.OK);
   }
 
   @PostMapping("/{id}/purchases")
