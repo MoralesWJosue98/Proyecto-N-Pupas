@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.npupas.api.models.entities.Branch;
+import com.npupas.api.models.entities.Pupuseria;
 import com.npupas.api.repositories.BranchRepository;
+import com.npupas.api.repositories.PupuseriaRepository;
 import com.npupas.api.services.BranchService;
 
 @Service
@@ -15,9 +17,16 @@ public class BranchServiceImpl implements BranchService {
 	@Autowired
 	BranchRepository branchRepository;
 
+	@Autowired
+	PupuseriaRepository pupuseriaRepository;
+	
 	@Override
-	public List<Branch> getAllBranches(Long pupuseriaId) {
-		List<Branch> foundBranches = branchRepository.findByPupuseria(pupuseriaId);
+	public ServiceResponse<List<Branch>> getAllBranches(Long pupuseriaId) {
+		Pupuseria pupuseria = pupuseriaRepository.findById(pupuseriaId).orElse(null);
+		if(pupuseria == null)
+			return new ServiceResponse<>(false);
+		
+		List<Branch> foundBranches = branchRepository.findByPupuseria(pupuseria);
 
 		return foundBranches;
 	}

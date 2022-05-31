@@ -22,8 +22,12 @@ public class PurchaseServiceImpl implements PurchaseService {
 	BranchRepository branchRepository;
 
 	@Override
-	public List<Purchase> getAllBranchPurchases(Long branchId) {
-		List<Purchase> foundBranchPurchase = purchaseRepository.findByBranch(branchId);
+	public ServiceResponse<List<Purchase>> getAllBranchPurchases(Long branchId) {
+		Branch branch = branchRepository.findById(branchId).orElse(null);
+		if(branch == null) {
+			return new ServiceResponse<>(false);
+		}
+		List<Purchase> foundBranchPurchase = purchaseRepository.findByBranch(branch);
 
 		return foundBranchPurchase;
 	}

@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.npupas.api.models.entities.Branch;
 import com.npupas.api.models.entities.Employee;
+import com.npupas.api.repositories.BranchRepository;
 import com.npupas.api.repositories.EmployeeRepository;
 import com.npupas.api.services.EmployeeService;
 
@@ -15,9 +17,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	EmployeeRepository employeeRepository;
 
+	@Autowired
+	BranchRepository branchRepository;
+	
 	@Override
-	public List<Employee> getBranchEmployees(Long branchId) {
-		List<Employee> foundBranchEmployee = employeeRepository.findByBranch(branchId);
+	public ServiceResponse<List<Employee>> getBranchEmployees(Long branchId) {
+		Branch branch = branchRepository.findById(branchId).orElse(null);
+		if(branch == null)
+			return new ServiceResponse<>(false);
+		
+		List<Employee> foundBranchEmployee = employeeRepository.findByBranch(branch);
 
 		return foundBranchEmployee;
 	}

@@ -9,13 +9,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity(name = "employee")
 public class Employee {
 	@Id
-	@Column(name = "user_id")
+	@Column(name = "id_user")
 	private Long ID;
 	
 	@Column
@@ -33,11 +35,15 @@ public class Employee {
 	@Column(name= "hiring_date")
 	private LocalDate hiringDate;
 	
-	@OneToOne(mappedBy = "admin")
+	@OneToOne(mappedBy = "employee")
 	User user;
 	
 	@OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
 	private List<Report> reports;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_branch", nullable = true)
+	private Branch branch;
 
 	public Employee() {
 		super();
@@ -106,6 +112,15 @@ public class Employee {
 	public void setReports(List<Report> reports) {
 		this.reports = reports;
 	}
+
+	public Branch getBranch() {
+		return branch;
+	}
+
+	public void setBranch(Branch branch) {
+		this.branch = branch;
+	}
+	
 	
 	
 }
