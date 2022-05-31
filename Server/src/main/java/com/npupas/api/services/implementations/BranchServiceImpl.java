@@ -21,10 +21,10 @@ public class BranchServiceImpl implements BranchService {
 	PupuseriaRepository pupuseriaRepository;
 	
 	@Override
-	public ServiceResponse<List<Branch>> getAllBranches(Long pupuseriaId) {
+	public List<Branch> getAllBranches(Long pupuseriaId) {
 		Pupuseria pupuseria = pupuseriaRepository.findById(pupuseriaId).orElse(null);
 		if(pupuseria == null)
-			return new ServiceResponse<>(false);
+			return null;
 		
 		List<Branch> foundBranches = branchRepository.findByPupuseria(pupuseria);
 
