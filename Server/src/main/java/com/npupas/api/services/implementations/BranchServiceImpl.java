@@ -10,7 +10,6 @@ import com.npupas.api.models.entities.Pupuseria;
 import com.npupas.api.repositories.BranchRepository;
 import com.npupas.api.repositories.PupuseriaRepository;
 import com.npupas.api.services.BranchService;
-import com.npupas.api.services.utils.ServiceResponse;
 
 @Service
 public class BranchServiceImpl implements BranchService {
@@ -29,10 +28,7 @@ public class BranchServiceImpl implements BranchService {
 		
 		List<Branch> foundBranches = branchRepository.findByPupuseria(pupuseria);
 
-		if (foundBranches == null) {
-			return new ServiceResponse<>(false);
-		}
-		return new ServiceResponse<>(true, foundBranches);
+		return foundBranches;
 	}
 
 	@Override
@@ -46,13 +42,10 @@ public class BranchServiceImpl implements BranchService {
 	}
 
 	@Override
-	public ServiceResponse<Void> createBranch(Branch branch) {
-		try {
-			branchRepository.save(branch);
-			return new ServiceResponse<>(true);
-		} catch (Exception e) {
-			return new ServiceResponse<>(false);
-		}
+	public void createBranch(Branch branch) {
+
+		branchRepository.save(branch);
+
 	}
 
 }

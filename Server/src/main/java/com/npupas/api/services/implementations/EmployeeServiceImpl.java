@@ -10,7 +10,6 @@ import com.npupas.api.models.entities.Employee;
 import com.npupas.api.repositories.BranchRepository;
 import com.npupas.api.repositories.EmployeeRepository;
 import com.npupas.api.services.EmployeeService;
-import com.npupas.api.services.utils.ServiceResponse;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -29,20 +28,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 		List<Employee> foundBranchEmployee = employeeRepository.findByBranch(branch);
 
-		if (foundBranchEmployee == null) {
-			return new ServiceResponse<>(false);
-		}
-		return new ServiceResponse<>(true, foundBranchEmployee);
+		return foundBranchEmployee;
 	}
 
 	@Override
-	public ServiceResponse<Employee> getOneEmployee(Long idUser) {
+	public Employee getOneEmployee(Long idUser) {
 		Employee foundEmployee = employeeRepository.findById(idUser).orElse(null);
 
-		if (foundEmployee == null) {
-			return new ServiceResponse<>(false);
-		}
-		return new ServiceResponse<>(true, foundEmployee);
+		return foundEmployee;
 	}
 
 }
