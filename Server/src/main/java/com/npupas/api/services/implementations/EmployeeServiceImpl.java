@@ -21,10 +21,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	BranchRepository branchRepository;
 	
 	@Override
-	public ServiceResponse<List<Employee>> getBranchEmployees(Long branchId) {
+	public List<Employee> getBranchEmployees(Long branchId) {
 		Branch branch = branchRepository.findById(branchId).orElse(null);
 		if(branch == null)
-			return new ServiceResponse<>(false);
+			return null;
 		
 		List<Employee> foundBranchEmployee = employeeRepository.findByBranch(branch);
 
