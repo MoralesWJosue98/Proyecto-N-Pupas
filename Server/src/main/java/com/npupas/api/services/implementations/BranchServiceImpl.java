@@ -27,13 +27,13 @@ public class BranchServiceImpl implements BranchService {
 	}
 
 	@Override
-	public ServiceResponse<Branch> getOneBranch(Long id) {
+	public Branch getOneBranch(Long id) {
 		Branch foundBranch = branchRepository.findById(id).orElse(null);
 
 		if (foundBranch == null) {
-			return new ServiceResponse<>(false);
+			return new Branch();
 		}
-		return new ServiceResponse<>(true, foundBranch);
+		return foundBranch;
 	}
 
 	@Override
