@@ -41,7 +41,10 @@ public class Branch {
 	
 	@OneToMany(mappedBy = "branch", fetch = FetchType.LAZY)
 	private List<Sale> sales;
-
+	
+	@OneToMany(mappedBy = "branch", fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
+	private List<Employee> employees;
+	
 	public Branch() {
 		super();
 	}
@@ -100,6 +103,14 @@ public class Branch {
 
 	public void setSales(List<Sale> sales) {
 		this.sales = sales;
+	}
+
+	public List<Employee> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(List<Employee> employees) {
+		this.employees = employees;
 	} 
 	
 	
