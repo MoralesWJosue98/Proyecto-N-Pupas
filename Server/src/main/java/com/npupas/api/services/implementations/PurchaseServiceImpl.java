@@ -11,7 +11,6 @@ import com.npupas.api.models.entities.Purchase;
 import com.npupas.api.repositories.BranchRepository;
 import com.npupas.api.repositories.PurchaseRepository;
 import com.npupas.api.services.PurchaseService;
-import com.npupas.api.services.utils.ServiceResponse;
 
 @Service
 public class PurchaseServiceImpl implements PurchaseService {
@@ -23,14 +22,10 @@ public class PurchaseServiceImpl implements PurchaseService {
 	BranchRepository branchRepository;
 
 	@Override
-	public ServiceResponse<List<Purchase>> getAllBranchPurchases(Long branchId) {
+	public List<Purchase> getAllBranchPurchases(Long branchId) {
 		List<Purchase> foundBranchPurchase = purchaseRepository.findByBranch(branchId);
 
-		if (foundBranchPurchase == null) {
-			return new ServiceResponse<>(false);
-		}
-
-		return new ServiceResponse<>(true, foundBranchPurchase);
+		return foundBranchPurchase;
 	}
 
 	@Override
