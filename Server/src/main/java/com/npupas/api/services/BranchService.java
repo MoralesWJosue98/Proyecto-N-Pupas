@@ -8,7 +8,7 @@ import com.npupas.api.services.utils.ServiceResponse;
 public interface BranchService {
 
 	ServiceResponse<List<Branch>> getAllBranches(Long pupuseriaId);
-	ServiceResponse<Branch> getOneBranch(Long branchId);
+	Branch getOneBranch(Long branchId);
 	ServiceResponse<Void> createBranch(Branch branch);
 
 }
