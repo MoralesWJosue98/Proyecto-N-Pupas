@@ -22,21 +22,18 @@ public class AuthServiceImpl implements AuthService {
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	@Autowired
-	AuthenticationManager authenticationManager;
-
 	private static Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
 
 	@Override
 	public void login(String userName, String password) {
-		UsernamePasswordAuthenticationToken userNamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-				userName, password);
-		authenticationManager.authenticate(userNamePasswordAuthenticationToken);
-
-		if (userNamePasswordAuthenticationToken.isAuthenticated()) {
-			SecurityContextHolder.getContext().setAuthentication(userNamePasswordAuthenticationToken);
-			logger.debug(String.format("Auto login %s successfully!", userName));
-		}
+//		UsernamePasswordAuthenticationToken userNamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+//				userName, password);
+//		authenticationManager.authenticate(userNamePasswordAuthenticationToken);
+//
+//		if (userNamePasswordAuthenticationToken.isAuthenticated()) {
+//			SecurityContextHolder.getContext().setAuthentication(userNamePasswordAuthenticationToken);
+//			logger.debug(String.format("Auto login %s successfully!", userName));
+//		}
 	}
 
 	@Override
