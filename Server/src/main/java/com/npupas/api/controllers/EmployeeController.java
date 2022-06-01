@@ -18,41 +18,43 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 @RequestMapping("/pupuserias/branches")
 public class EmployeeController {
-    @Autowired
-    EmployeeService employeeService;
+	@Autowired
+	EmployeeService employeeService;
 
-    @GetMapping("/{id}/employees")
-    public ResponseEntity<List<Employee>> getAllEmployees() {
-        // TODO
-        return null;
-    }
+	@GetMapping("/{id}/employees")
+	public ResponseEntity<List<Employee>> getAllEmployees() {
+		// TODO
+		return null;
+	}
 
-    @GetMapping("/{id}/employees/{id_employee}")
-    public ResponseEntity<Employee> getOneEmployee(@PathVariable("id_employee") Long employeeId) {
-        // TODO
-        return null;
-    }
+	@GetMapping("/{id}/employees/{id_employee}")
+	public ResponseEntity<Employee> getOneEmployee(@PathVariable("id_employee") Long employeeId) {
+		// TODO
+		return null;
+	}
 
-    @PostMapping("/{id}/employees")
-    public ResponseEntity<MessageDTO> saveEmployee(@Valid AddEmployeeDTO employeeDTO,
-            @PathVariable("id") Long branchId, BindingResult result) {
-        // TODO
-        return null;
-    }
+	@PostMapping("/{id}/employees")
+	public ResponseEntity<MessageDTO> saveEmployee(@Valid AddEmployeeDTO employeeDTO, @PathVariable("id") Long branchId,
+			BindingResult result) {
+		// TODO
+		return null;
+	}
 
-    @PutMapping("/{id}/employees/{id_employee}")
-    public ResponseEntity<MessageDTO> updateEmployee(@Valid AddEmployeeDTO employeeDTO,
-            @PathVariable("id_employee") Long employeeId, BindingResult result) {
-        // TODO
-        return null;
-    }
+	@PutMapping("/{id}/employees/{id_employee}")
+	public ResponseEntity<MessageDTO> updateEmployee(@Valid AddEmployeeDTO employeeDTO,
+			@PathVariable("id_employee") Long employeeId, BindingResult result) {
+		// TODO
+		return null;
+	}
 
-    @DeleteMapping("/{id}/employees/{id_employee}")
-    public ResponseEntity<MessageDTO> deleteEmployee(@PathVariable("id_employee") Long employeeId) {
-        // TODO
-        return null;
-    }
+	@DeleteMapping("/{id}/employees/{id_employee}")
+	public ResponseEntity<MessageDTO> deleteEmployee(@PathVariable("id_employee") Long employeeId) {
+		// TODO
+		return null;
+	}
 }
