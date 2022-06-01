@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.npupas.api.models.dtos.AddBranchDTO;
 import com.npupas.api.models.entities.Branch;
 import com.npupas.api.models.entities.Pupuseria;
 import com.npupas.api.repositories.BranchRepository;
@@ -42,10 +43,30 @@ public class BranchServiceImpl implements BranchService {
 	}
 
 	@Override
-	public void createBranch(Branch branch) {
+	public void createBranch(Long pupuseriId, AddBranchDTO branchDTO) {
+		Pupuseria pupuseria = pupuseriaRepository.findById(pupuseriId).orElse(null);
+
+		Branch branchToSave = new Branch();
+		branchToSave.setAddress(branchDTO.getAddress());
+		branchToSave.setName(branchDTO.getNameBranch());
+		branchToSave.setOpeningDate(branchDTO.getOpeningDate());
+		branchToSave.setPupuseria(pupuseria);
+
+		branchRepository.save(branchToSave);
+	}
+
+	@Override
+	public void delete(Long branchId) {
+		branchRepository.deleteById(branchId);
+	}
+
+	@Override
+	public void update(Branch branch, AddBranchDTO branchDTO) {
+		branch.setAddress(branchDTO.getAddress());
+		branch.setName(branchDTO.getNameBranch());
+		branch.setOpeningDate(branchDTO.getOpeningDate());
 
 		branchRepository.save(branch);
-
 	}
 
 }

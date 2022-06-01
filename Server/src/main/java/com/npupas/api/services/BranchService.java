@@ -2,6 +2,7 @@ package com.npupas.api.services;
 
 import java.util.List;
 
+import com.npupas.api.models.dtos.AddBranchDTO;
 import com.npupas.api.models.entities.Branch;
 
 public interface BranchService {
@@ -10,6 +11,10 @@ public interface BranchService {
 
 	Branch getOneBranch(Long branchId);
 
-	void createBranch(Branch branch);
+	void createBranch(Long pupuseriaId, AddBranchDTO branchDTO);
+
+	void delete(Long branchId);
+
+	void update(Branch branch, AddBranchDTO updatedBranch);
 
 }
