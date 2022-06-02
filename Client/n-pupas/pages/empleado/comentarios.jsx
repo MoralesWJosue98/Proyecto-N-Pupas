@@ -10,7 +10,7 @@ const CommentsPage = () => {
         <title>{employeePages.comments}</title>
       </Head>
       <h1 className='font-bold text-2xl sm:text-3xl'>{employeePages.comments}</h1>
-      <section className='flex flex-col gap-5'>
+      <section className='flex flex-col gap-5 md:grid md:grid-cols-2'>
         {testComments.map(comment => {
           return <CommentCard comment={comment} key={comment.id} />;
         })}

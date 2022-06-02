@@ -62,15 +62,17 @@ const SalesPage = ({ salesByProduct, total }) => {
       </section>
       <section>
         <SectionTitle title={titles.history} />
-        {testHistoryAdmin.map(history => {
-          return (
-            <SaleCard
-              history={history}
-              key={history.id}
-              onDeleteHandler={() => onDeleteHandler(history.id)}
-            />
-          );
-        })}
+        <div className='flex flex-col gap-5 md:grid md:grid-cols-2'>
+          {testHistoryAdmin.map(history => {
+            return (
+              <SaleCard
+                history={history}
+                key={history.id}
+                onDeleteHandler={() => onDeleteHandler(history.id)}
+              />
+            );
+          })}
+        </div>
       </section>
     </main>
   );

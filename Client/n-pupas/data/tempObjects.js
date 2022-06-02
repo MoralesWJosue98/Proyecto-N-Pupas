@@ -71,12 +71,47 @@ export const testBranch = [
     address: 'Urb.Cumbres de Cuscatlan, Col. Las Margaritas.',
     date: '1/05/2022',
   },
+  {
+    id: 2,
+    name: 'Peatonal UCA',
+    address: 'Urb.Cumbres de Cuscatlan, Col. Las Margaritas.',
+    date: '1/05/2022',
+  },
+  {
+    id: 3,
+    name: 'Peatonal UCA',
+    address: 'Urb.Cumbres de Cuscatlan, Col. Las Margaritas.',
+    date: '1/05/2022',
+  },
 ];
 
 export const testEmployeeAdmin = [
   {
     id: 1,
     name: 'Elsa Frozen',
+    date: '02/10/2021',
+    salary: 450,
+  },
+  {
+    id: 2,
+    name: 'Elsa Frozen 2',
+    date: '02/10/2021',
+    salary: 450,
+  },
+  {
+    id: 2,
+    name: 'Elsa Frozen 2',
+    date: '02/10/2021',
+    salary: 450,
+  },
+  {
+    id: 3,
+    name: 'Elsa Frozen 3',
+    date: '02/10/2021',
+    salary: 450,
+  },{
+    id: 4,
+    name: 'Elsa Frozen 4',
     date: '02/10/2021',
     salary: 450,
   },
@@ -95,12 +130,34 @@ export const testProducts = [
     price: 0.9,
     type: 'food',
   },
+  {
+    id: 3,
+    name: 'Pupusa de queso y loroco ',
+    price: 0.9,
+    type: 'food',
+  },
   { id: 3, name: 'Horchata', price: 1.0, type: 'drink' },
 ];
 
 export const testHistoryAdmin = [
   {
     id: 1,
+    name: 'Pupusa revuelta ',
+    amount: 2,
+    price: 0.55,
+    total: 0.55,
+    date: '02/10/2021 18:00',
+  },
+  {
+    id: 2,
+    name: 'Pupusa revuelta ',
+    amount: 2,
+    price: 0.55,
+    total: 0.55,
+    date: '02/10/2021 18:00',
+  },
+  {
+    id: 3,
     name: 'Pupusa revuelta ',
     amount: 2,
     price: 0.55,

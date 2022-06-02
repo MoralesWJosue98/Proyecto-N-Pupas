@@ -46,28 +46,32 @@ const MenuPage = ({ products }) => {
 
       <section className='flex flex-col gap-4'>
         <SectionTitle title={titles.groceries} />
-        {food.map(product => {
-          return (
-            <ProductCard
-              product={product}
-              key={product.id}
-              onDeleteHandler={() => onDeleteHandler(product.name)}
-            />
-          );
-        })}
+        <div className='flex flex-col gap-5 md:grid md:grid-cols-2'>
+          {food.map(product => {
+            return (
+              <ProductCard
+                product={product}
+                key={product.id}
+                onDeleteHandler={() => onDeleteHandler(product.name)}
+              />
+            );
+          })}
+        </div>
       </section>
 
       <section className='flex flex-col gap-4'>
         <SectionTitle title={titles.drinks} />
-        {drinks.map(product => {
-          return (
-            <ProductCard
-              product={product}
-              key={product.id}
-              onDeleteHandler={() => onDeleteHandler(product.name)}
-            />
-          );
-        })}
+        <div className='flex flex-col gap-5 md:grid md:grid-cols-2'>
+          {drinks.map(product => {
+            return (
+              <ProductCard
+                product={product}
+                key={product.id}
+                onDeleteHandler={() => onDeleteHandler(product.name)}
+              />
+            );
+          })}
+        </div>
       </section>
     </main>
   );
