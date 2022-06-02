@@ -18,9 +18,16 @@ function MyApp({ Component, pageProps }) {
         </Layout>
       )}
       <Toaster
-        position='bottom-left'
+        position='top-center'
         reverseOrder={false}
         containerClassName='toast-container font-bold'
+        toastOptions={{
+          style: {
+            padding: '14px',
+            background: 'rgba(0, 0, 0, 0.7)',
+            color: '#fff',
+          },
+        }}
       />
     </AppContextProvider>
   );
