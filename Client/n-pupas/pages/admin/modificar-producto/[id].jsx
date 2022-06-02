@@ -15,7 +15,7 @@ export default function editProductPage({ product }) {
       <Head>
         <title>{adminPages.editProduct}</title>
       </Head>
-      <h1 className='font-bold text-2xl sm:text-3xl'>{adminPages.editProduct}</h1>
+      <h1 className='font-bold text-2xl sm:text-3xl md:text-center md:my-3'>{adminPages.editProduct}</h1>
       <AddProductForm onSubmitHandler={onSubmitForm} product={product} />
     </main>
   );

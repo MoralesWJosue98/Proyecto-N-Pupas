@@ -58,7 +58,7 @@ export default function EditSalePage({ id, saleDetails }) {
       <Head>
         <title>{adminPages.editSale}</title>
       </Head>
-      <h1 className='font-bold text-2xl sm:text-3xl'>{adminPages.editSale}</h1>
+      <h1 className='font-bold text-2xl sm:text-3xl md:text-center md:my-3'>{adminPages.editSale}</h1>
       <h2 className='text-xl sm:text-2xl font-bold mt-5'>Agregar productos</h2>
       <AddSaleForm onSubmitHandler={addProduct} />
       {saleTotal > 0 && (

@@ -16,7 +16,7 @@ export default function editBranchPage({ branch }) {
       <Head>
         <title>{adminPages.editBranch}</title>
       </Head>
-      <h1 className='font-bold text-2xl sm:text-3xl'>{adminPages.editBranch}</h1>
+      <h1 className='font-bold text-2xl sm:text-3xl md:text-center md:my-3'>{adminPages.editBranch}</h1>
       <AddBranchForm onSubmitHandler={onSubmitForm} branch={branch} />
     </main>
   );

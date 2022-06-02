@@ -15,8 +15,8 @@ export default function NewEmployeeReportPage({ employee }) {
       <Head>
         <title>{adminPages.newReport}</title>
       </Head>
-      <h1 className='font-bold text-2xl sm:text-3xl'>{adminPages.newReport}</h1>
-      <h2 className='font-bold'>Para {employee.name}</h2>
+      <h1 className='font-bold text-2xl sm:text-3xl md:text-center md:my-3'>{adminPages.newReport}</h1>
+      <h2 className='font-bold w-full md:max-w-[900px] mx-auto'>Para {employee.name}</h2>
       <AddEmployeeReportForm onSubmitHandler={onSubmitForm} />
     </main>
   );
