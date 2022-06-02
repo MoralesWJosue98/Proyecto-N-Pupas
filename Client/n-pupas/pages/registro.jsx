@@ -13,7 +13,7 @@ const RegisterPage = () => {
       <Head>
         <title>{registerPageName}</title>
       </Head>
-      <h1 className='font-bold text-2xl sm:text-3xl'>{registerPageName}</h1>
+      <h1 className='font-bold text-2xl sm:text-3xl md:text-center md:my-3'>{registerPageName}</h1>
       <RegisterForm onSubmitHandler={onSubmitForm} />
     </main>
   );
