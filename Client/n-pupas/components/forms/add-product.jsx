@@ -16,50 +16,55 @@ const AddProductForm = ({ onSubmitHandler, product = false }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4'>
-      <div>
-        <input
-          type='text'
-          placeholder='Nombre'
-          defaultValue={product ? product.name : ''}
-          className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-          {...register('name', {
-            required: 'Nombre requerido',
-            maxLength: {
-              value: 80,
-              message: 'El máximo de caracteres es 80',
-            },
-          })}
-        />
-        {errors.name && <p className='mt-1 text-red-700'>{errors.name.message}</p>}
-      </div>
-      <div>
-        <input
-          type='number'
-          placeholder='Precio'
-          defaultValue={product ? product.price : ''}
-          className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-          {...register('price', {
-            required: 'Precio requerido',
-            min: { value: 0.01, message: 'La cantidad debe ser mayor a $0.01' },
-          })}
-        />
-        {errors.price && <p className='mt-1 text-red-700'>{errors.price.message}</p>}
-      </div>
-      <div>
-        <select
-          className='shadow border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-          {...register('category', { required: 'Categoría requerida' })}
-        >
-          {categories.map(category => {
-            return (
-              <option key={category.id} value={category.id}>
-                {category.category}
-              </option>
-            );
-          })}
-        </select>
-        {errors.category && <p className='mt-1 text-red-700'>{errors.category.message}</p>}
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className='w-full md:max-w-[900px] mx-auto flex flex-col gap-4'
+    >
+      <div className='flex flex-col gap-5 md:grid md:grid-cols-2 mb-5'>
+        <div className='md:col-span-2'>
+          <input
+            type='text'
+            placeholder='Nombre'
+            defaultValue={product ? product.name : ''}
+            className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
+            {...register('name', {
+              required: 'Nombre requerido',
+              maxLength: {
+                value: 80,
+                message: 'El máximo de caracteres es 80',
+              },
+            })}
+          />
+          {errors.name && <p className='mt-1 text-red-700'>{errors.name.message}</p>}
+        </div>
+        <div>
+          <input
+            type='number'
+            placeholder='Precio'
+            defaultValue={product ? product.price : ''}
+            className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
+            {...register('price', {
+              required: 'Precio requerido',
+              min: { value: 0.01, message: 'La cantidad debe ser mayor a $0.01' },
+            })}
+          />
+          {errors.price && <p className='mt-1 text-red-700'>{errors.price.message}</p>}
+        </div>
+        <div>
+          <select
+            className='shadow border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
+            {...register('category', { required: 'Categoría requerida' })}
+          >
+            {categories.map(category => {
+              return (
+                <option key={category.id} value={category.id}>
+                  {category.category}
+                </option>
+              );
+            })}
+          </select>
+          {errors.category && <p className='mt-1 text-red-700'>{errors.category.message}</p>}
+        </div>
       </div>
       <PrimaryButton text={product ? 'Guardar' : 'Agregar'} />
     </form>
