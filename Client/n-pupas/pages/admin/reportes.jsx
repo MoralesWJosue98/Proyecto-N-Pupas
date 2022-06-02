@@ -8,18 +8,18 @@ const ReportsPage = () => {
     };
 
     return (
-        <main className='p-6 flex flex-col gap-6'>
+        <main className='p-6 flex flex-col gap-5'>
             <Head>
                 <title>{adminPages.reports}</title>
             </Head>
 
-            <h1 className='font-bold text-2xl sm:text-3xl'>{adminPages.reports}</h1>
+            <h1 className='font-bold text-2xl sm:text-3xl md:text-center md:my-3'>{adminPages.reports}</h1>
             <div>
-                <p className='font-bold text-lg mb-3'>Ingrese un rango de fechas</p>
+                <p className='w-full md:max-w-[900px] mx-auto font-bold text-lg mb-3'>Ingrese un rango de fechas</p>
                 <GenerateReportForm onSubmitHandler={generateReport} />
             </div>
 
-            <p>* Los reportes de ingresos y egresos serán generados en un archivo de formato PDF</p>
+            <p className='w-full md:max-w-[900px] mx-auto'>* Los reportes de ingresos y egresos serán generados en un archivo de formato PDF</p>
         </main>
     );
 };

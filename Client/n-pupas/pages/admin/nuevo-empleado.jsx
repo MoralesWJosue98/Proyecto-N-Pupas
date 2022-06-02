@@ -15,7 +15,7 @@ export default function NewEmployeePage() {
       <Head>
         <title>{adminPages.newEmployee}</title>
       </Head>
-      <h1 className='font-bold text-2xl sm:text-3xl'>{adminPages.newEmployee}</h1>
+      <h1 className='font-bold text-2xl sm:text-3xl md:text-center md:my-3'>{adminPages.newEmployee}</h1>
       <AddEmployeeForm id={fillWithZero(3)} onSubmitHandler={onSubmitForm} />
     </main>
   );

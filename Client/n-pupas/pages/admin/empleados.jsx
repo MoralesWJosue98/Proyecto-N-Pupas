@@ -35,7 +35,7 @@ const EmployeesPage = () => {
         <title>{adminPages.employees}</title>
       </Head>
       <PageHeading title={adminPages.employees} route={adminRoutes.newEmployee} />
-      <div>
+      <div className='flex flex-col gap-5 md:grid md:grid-cols-2'>
         {testEmployeeAdmin.map(employee => {
           return (
             <EmployeeCard

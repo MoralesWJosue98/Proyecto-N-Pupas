@@ -15,7 +15,7 @@ export default function NewBranchPage() {
       <Head>
         <title>{adminPages.newBranch}</title>
       </Head>
-      <h1 className='font-bold text-2xl sm:text-3xl'>{adminPages.newBranch}</h1>
+      <h1 className='font-bold text-2xl sm:text-3xl md:text-center md:my-3'>{adminPages.newBranch}</h1>
       <AddBranchForm onSubmitHandler={onSubmitForm} />
     </main>
   );

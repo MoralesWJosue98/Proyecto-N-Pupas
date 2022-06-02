@@ -35,7 +35,7 @@ const BranchesPage = () => {
         <title>{adminPages.branches}</title>
       </Head>
       <PageHeading title={adminPages.branches} route={adminRoutes.newBranch} />
-      <div>
+      <div className='flex flex-col gap-5 md:grid md:grid-cols-2'>
         {testBranch.map(branch => {
           return (
             <BranchCard

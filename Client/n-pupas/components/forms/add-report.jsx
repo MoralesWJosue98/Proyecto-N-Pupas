@@ -15,7 +15,7 @@ const AddEmployeeReportForm = ({ onSubmitHandler }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4'>
+    <form onSubmit={handleSubmit(onSubmit)} className='w-full md:max-w-[900px] mx-auto flex flex-col gap-4'>
       <div>
         <textarea
           placeholder='Escribe tu comentario o reporte...'

@@ -15,7 +15,7 @@ export default function NewPurchasePage() {
       <Head>
         <title>{adminPages.newPurchase}</title>
       </Head>
-      <h1 className='font-bold text-2xl sm:text-3xl'>{adminPages.newPurchase}</h1>
+      <h1 className='font-bold text-2xl sm:text-3xl md:text-center md:my-3'>{adminPages.newPurchase}</h1>
       <AddPurchaseForm onSubmitHandler={onSubmitForm} />
     </main>
   );

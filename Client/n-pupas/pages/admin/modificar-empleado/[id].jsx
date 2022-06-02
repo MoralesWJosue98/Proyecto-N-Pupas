@@ -16,7 +16,7 @@ export default function editEmployeePage({ employee }) {
       <Head>
         <title>{adminPages.editEmployee}</title>
       </Head>
-      <h1 className='font-bold text-2xl sm:text-3xl'>{adminPages.editEmployee}</h1>
+      <h1 className='font-bold text-2xl sm:text-3xl md:text-center md:my-3'>{adminPages.editEmployee}</h1>
       <AddEmployeeForm onSubmitHandler={onSubmitForm} id={fillWithZero(3)} employee={employee}/>
     </main>
   );
