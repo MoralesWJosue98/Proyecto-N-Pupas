@@ -29,3 +29,23 @@ CREATE TABLE IF NOT EXISTS public.admin
         ON DELETE NO ACTION
         NOT VALID
 );
+
+CREATE SEQUENCE IF NOT EXISTS public.pupuseria_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 2147483647
+    CACHE 1;
+
+CREATE TABLE IF NOT EXISTS public.pupuseria
+(
+    id integer NOT NULL DEFAULT nextval('pupuseria_id_seq'::regclass),
+    name character varying COLLATE pg_catalog."default" NOT NULL,
+    id_admin integer NOT NULL,
+    CONSTRAINT unique_pupuseria_admin_id PRIMARY KEY (id),
+    CONSTRAINT fk_pupuseria_admin_id FOREIGN KEY (id_admin)
+        REFERENCES public.admin (user_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+);
+
