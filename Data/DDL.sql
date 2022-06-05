@@ -49,3 +49,23 @@ CREATE TABLE IF NOT EXISTS public.pupuseria
         ON DELETE NO ACTION
 );
 
+CREATE SEQUENCE IF NOT EXISTS public.product_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 2147483647
+    CACHE 1;
+
+CREATE TABLE IF NOT EXISTS public.product
+(
+    id integer NOT NULL DEFAULT nextval('product_id_seq'::regclass),
+    name character varying COLLATE pg_catalog."default" NOT NULL,
+    price money NOT NULL,
+    type character varying COLLATE pg_catalog."default" NOT NULL,
+    id_pupuseria integer NOT NULL,
+    CONSTRAINT pk_product PRIMARY KEY (id),
+    CONSTRAINT fk_product_pupuseria_id FOREIGN KEY (id_pupuseria)
+        REFERENCES public.pupuseria (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+);
