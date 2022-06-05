@@ -99,12 +99,18 @@ CREATE TABLE IF NOT EXISTS public.employee
     isss_accumulated money NOT NULL,
     rent_accumulated money NOT NULL,
     hiring_date timestamp without time zone NOT NULL,
+    branch_id integer NOT NULL,
     CONSTRAINT employee_pkey PRIMARY KEY (user_id),
+    CONSTRAINT fk_employee_branch_id FOREIGN KEY (branch_id)
+        REFERENCES public.branch (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
     CONSTRAINT fk_user_employee_user_id FOREIGN KEY (user_id)
         REFERENCES public."user" (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
-);
+)
 
 CREATE SEQUENCE IF NOT EXISTS public.report_id_seq
     INCREMENT 1
