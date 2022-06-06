@@ -43,8 +43,9 @@ export const testComment = {
 };
 
 export const categories = [
-  { id: 1, category: 'Alimento' },
+  { id: 1, category: 'Pupusa' },
   { id: 2, category: 'Bebida' },
+  { id: 3, category: 'Otros' },
 ];
 
 export const branches = [
@@ -109,7 +110,8 @@ export const testEmployeeAdmin = [
     name: 'Elsa Frozen 3',
     date: '02/10/2021',
     salary: 450,
-  },{
+  },
+  {
     id: 4,
     name: 'Elsa Frozen 4',
     date: '02/10/2021',
