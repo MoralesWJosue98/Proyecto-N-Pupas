@@ -1,7 +1,10 @@
+import { SaleProductModal } from 'components/layout/modal/sale-modal';
+import SaleProductsSection from 'components/sections/sale-products';
 import { checkForProduct, getProductDetails } from 'utils/utils';
 import SimpleProductCard from 'components/cards/simple-product';
-import AddSaleForm from 'components/forms/add-sale';
-import { testProducts } from 'data/tempObjects';
+import { categories, testProducts } from 'data/tempObjects';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import { confirmAlert } from 'react-confirm-alert';
 import { adminPages } from 'constants/strings';
 import toast from 'react-hot-toast';
 import { useEffect } from 'react';
@@ -9,7 +12,7 @@ import { useState } from 'react';
 import Head from 'next/head';
 import React from 'react';
 
-export default function NewSalePage() {
+export default function NewSalePage({ products, categories }) {
   const [saleTotal, setSaleTotal] = useState(0);
   const [addedProducts, setAddedProducts] = useState([]);
 
@@ -43,13 +46,31 @@ export default function NewSalePage() {
     toast.success('Venta guardada existosamente');
   };
 
+  const openProductModal = product => {
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return <SaleProductModal onClose={onClose} onSave={onClose} product={product} />;
+      },
+    });
+  };
+
   return (
     <main className='p-6 flex flex-col gap-5'>
       <Head>
         <title>{adminPages.newSale}</title>
       </Head>
       <h1 className='font-bold text-2xl sm:text-3xl'>{adminPages.newSale}</h1>
-      <AddSaleForm onSubmitHandler={addProduct} />
+
+      {categories.map(category => {
+        return (
+          <SaleProductsSection
+            products={products}
+            category={category}
+            onClickHandler={openProductModal}
+          />
+        );
+      })}
+
       {saleTotal > 0 && (
         <div className='flex flex-col gap-5'>
           <h2 className='text-xl sm:text-2xl font-bold mt-5'>Detalle</h2>
@@ -75,4 +96,13 @@ export default function NewSalePage() {
       )}
     </main>
   );
+}
+
+export async function getServerSideProps() {
+  return {
+    props: {
+      products: testProducts,
+      categories: categories,
+    },
+  };
 }
