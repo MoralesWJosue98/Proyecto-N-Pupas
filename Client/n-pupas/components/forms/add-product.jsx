@@ -21,7 +21,7 @@ const AddProductForm = ({ onSubmitHandler, product = false }) => {
       className='w-full md:max-w-[900px] mx-auto flex flex-col gap-4'
     >
       <div className='flex flex-col gap-5 md:grid md:grid-cols-2 mb-5'>
-        <div className='md:col-span-2'>
+        <div>
           <input
             type='text'
             placeholder='Nombre'
@@ -65,7 +65,31 @@ const AddProductForm = ({ onSubmitHandler, product = false }) => {
           </select>
           {errors.category && <p className='mt-1 text-red-700'>{errors.category.message}</p>}
         </div>
+        <div className='w-full cursor-pointer shadow appearance-none border border-gray-400 rounded py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500 hover:bg-gray-200'>
+          <label for='files'>Elige una imagen (opcional)</label>
+          <input
+            type='file'
+            id='files'
+            placeholder='Imagen'
+            accept='image/png, image/jpeg'
+            // TODO: mostrar imagen guardada al modificar
+            className='hidden shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
+            {...register('image', {
+              required: false,
+              validate: {
+                lessThan10MB: files =>
+                  !files[0]?.size || files[0]?.size < 10000000 || 'El máximo es de 10MB',
+                acceptedFormats: files =>
+                  !files[0]?.size ||
+                  ['image/jpeg', 'image/png'].includes(files[0]?.type) ||
+                  'La imagen debe ser PNG o JPEG',
+              },
+            })}
+          />
+          {errors.image && <p className='mt-1 text-red-700'>{errors.image.message}</p>}
+        </div>
       </div>
+
       <PrimaryButton text={product ? 'Guardar' : 'Agregar'} />
     </form>
   );

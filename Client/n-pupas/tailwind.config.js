@@ -1,8 +1,5 @@
 module.exports = {
-  content: [
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -12,12 +9,14 @@ module.exports = {
         'secondary-500': '#0099FF',
         'gray-250': '#DBDBDB',
         'yellow-550': '#DEB929',
-
       },
       fontFamily: {
         sans: ['Lato', 'sans-serif'],
       },
+      screens: {
+        xs: '281px',
+      },
     },
   },
   plugins: [],
-}
+};
