@@ -35,8 +35,9 @@ export const titles = {
   personalData: 'Datos personales',
   accountData: 'Datos sobre la cuenta',
   pupuseriaData: 'Datos sobre pupusería',
-  groceries: 'Comestibles',
+  pupusas: 'Pupusas',
   drinks: 'Bebidas',
+  other: 'Otros'
 };
 
 export const crudActionTypes = {
