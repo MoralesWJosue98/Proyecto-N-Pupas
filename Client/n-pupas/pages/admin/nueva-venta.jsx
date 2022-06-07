@@ -1,11 +1,11 @@
 import SaleDetailProductCard from 'components/cards/sale-detail-product';
 import { SaleProductModal } from 'components/layout/modal/sale-modal';
 import SaleProductsSection from 'components/sections/sale-products';
-import { checkForProduct, getProductDetails } from 'utils/utils';
 import { categories, testProducts } from 'data/tempObjects';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { confirmAlert } from 'react-confirm-alert';
 import { adminPages } from 'constants/strings';
+import { checkForProduct } from 'utils/utils';
 import toast from 'react-hot-toast';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -24,10 +24,8 @@ export default function NewSalePage({ products, categories }) {
     setSaleTotal(total.toFixed(2));
   }, [addedProducts]);
 
-  const addProduct = (productId, formData) => {
-    const product = getProductDetails(testProducts, productId);
-
-    setAddedProducts(checkForProduct(addedProducts, productId, formData));
+  const addProduct = (product, formData) => {
+    setAddedProducts(checkForProduct(addedProducts, product.id, formData));
     setSaleTotal((Number(saleTotal) + product.price * Number(formData.quantity)).toFixed(2));
   };
 
@@ -93,7 +91,7 @@ export default function NewSalePage({ products, categories }) {
             return (
               <SaleDetailProductCard
                 key={obj.product.id}
-                addedProduct={obj}
+                detailProduct={obj}
                 onDeleteHandler={() => deleteProductFromList(index)}
               />
             );

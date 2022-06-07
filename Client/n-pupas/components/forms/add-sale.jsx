@@ -10,7 +10,7 @@ const AddSaleForm = ({ onSubmitHandler, product }) => {
   } = useForm();
 
   const onSubmit = data => {
-    onSubmitHandler(product.id, data);
+    onSubmitHandler(data);
     reset();
   };
 
@@ -33,7 +33,7 @@ const AddSaleForm = ({ onSubmitHandler, product }) => {
             </label>
             <label htmlFor='corn'>
               <input
-                {...register('dough', { required:'Selecciona el tipo de masa' })}
+                {...register('dough', { required: 'Selecciona el tipo de masa' })}
                 type='radio'
                 name='dough'
                 value='2'
@@ -45,9 +45,8 @@ const AddSaleForm = ({ onSubmitHandler, product }) => {
           </div>
           {errors.dough && <p className='mt-1 text-red-700'>{errors.dough.message}</p>}
         </div>
-        
       )}
-      
+
       <div>
         <p className='mb-1 text-sm'>Cantidad</p>
         <input

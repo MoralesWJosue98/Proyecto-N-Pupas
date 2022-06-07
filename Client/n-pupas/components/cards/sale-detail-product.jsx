@@ -1,7 +1,7 @@
 import { crudActionTypes } from 'constants/strings';
 import CrudButton from 'components/buttons/crud';
 
-const SaleDetailProductCard = ({ addedProduct, onDeleteHandler }) => {
+const SaleDetailProductCard = ({ detailProduct, onDeleteHandler }) => {
   const handleOnDelete = () => {
     onDeleteHandler();
   };
@@ -10,19 +10,19 @@ const SaleDetailProductCard = ({ addedProduct, onDeleteHandler }) => {
     <article className='bg-white shadow-md flex'>
       <div className='p-3 flex w-full flex-col'>
         <div className='flex flex-col xs:flex-row xs:justify-between font-bold '>
-          <h2>{addedProduct.product.name}</h2>
+          <h2>{detailProduct.product.name}</h2>
           <p>
             {' '}
-            {addedProduct.quantity > 0
-              ? `$${(addedProduct.product.price * addedProduct.quantity).toFixed(2)}`
-              : `$${addedProduct.product.price.toFixed(2)}`}{' '}
+            {detailProduct.quantity > 0
+              ? `$${(detailProduct.product.price * detailProduct.quantity).toFixed(2)}`
+              : `$${detailProduct.product.price.toFixed(2)}`}{' '}
           </p>
         </div>
         <div className='flex gap-3'>
-          {addedProduct.product.type === 1 && (
-            <p className='text-sm'>{addedProduct.dough == 1 ? 'Arroz' : 'Maíz'}</p>
+          {detailProduct.product.type === 1 && (
+            <p className='text-sm'>{detailProduct.dough == 1 ? 'Arroz' : 'Maíz'}</p>
           )}
-          <p className='text-sm'>{addedProduct.quantity > 0 ? `x${addedProduct.quantity}` : ''}</p>
+          <p className='text-sm'>{detailProduct.quantity > 0 ? `x${detailProduct.quantity}` : ''}</p>
         </div>
 
         <div>
