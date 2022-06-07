@@ -6,7 +6,7 @@ const BranchSelect = ({ onChangeHandler, branches, value }) => {
     return (
         <select
             name='branch'
-            value={value}
+            value={value ? value : ''}
             onChange={handleOnChange}
             className='shadow border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
         >

@@ -1,16 +1,15 @@
+import MenuProductsSection from 'components/sections/menu-products';
 import { CustomModal } from 'components/layout/modal/custom-modal';
-import SectionTitle from 'components/information/section-title';
 import PageHeading from 'components/information/page-heading';
+import { categories, testProducts } from 'data/tempObjects';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import { adminPages, titles } from 'constants/strings';
+import { adminPages } from 'constants/strings';
 import { confirmAlert } from 'react-confirm-alert';
-import ProductCard from 'components/cards/product';
-import { testProducts } from 'data/tempObjects';
 import { adminRoutes } from 'routes/routes';
 import toast from 'react-hot-toast';
 import Head from 'next/head';
 
-const MenuPage = ({ products }) => {
+const MenuPage = ({ products, categories }) => {
   const deleteProduct = () => {
     // Lógica para eliminar
     toast.success('Producto eliminado exitosamente');
@@ -30,13 +29,6 @@ const MenuPage = ({ products }) => {
     });
   };
 
-  const food = [];
-  const drinks = [];
-
-  products.forEach(product => {
-    product.type === 'food' ? food.push(product) : drinks.push(product);
-  });
-
   return (
     <main className='p-6 flex flex-col gap-5'>
       <Head>
@@ -44,35 +36,16 @@ const MenuPage = ({ products }) => {
       </Head>
       <PageHeading title={adminPages.menu} route={adminRoutes.newProduct} />
 
-      <section className='flex flex-col gap-4'>
-        <SectionTitle title={titles.groceries} />
-        <div className='flex flex-col gap-5 md:grid md:grid-cols-2'>
-          {food.map(product => {
-            return (
-              <ProductCard
-                product={product}
-                key={product.id}
-                onDeleteHandler={() => onDeleteHandler(product.name)}
-              />
-            );
-          })}
-        </div>
-      </section>
-
-      <section className='flex flex-col gap-4'>
-        <SectionTitle title={titles.drinks} />
-        <div className='flex flex-col gap-5 md:grid md:grid-cols-2'>
-          {drinks.map(product => {
-            return (
-              <ProductCard
-                product={product}
-                key={product.id}
-                onDeleteHandler={() => onDeleteHandler(product.name)}
-              />
-            );
-          })}
-        </div>
-      </section>
+      {categories.map(category => {
+        return (
+          <MenuProductsSection
+            key={category.id}
+            products={products}
+            category={category}
+            onDeleteHandler={onDeleteHandler}
+          />
+        );
+      })}
     </main>
   );
 };
@@ -83,6 +56,7 @@ export async function getServerSideProps() {
   return {
     props: {
       products: testProducts,
+      categories: categories,
     },
   };
 }

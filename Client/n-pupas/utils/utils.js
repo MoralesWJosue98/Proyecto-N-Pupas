@@ -9,19 +9,22 @@ export const getProductDetails = (products, id) => {
   return product[0];
 };
 
-export const checkForProduct = (addedProducts, id, quantity) => {
+export const checkForProduct = (addedProducts, id, formData) => {
   const product = getProductDetails(testProducts, id);
   const found = false;
 
   addedProducts.forEach(obj => {
-    if (obj.product.id == id) {
-      obj.quantity += Number(quantity);
+    if (obj.product.id == id && obj.dough == formData.dough) {
+      obj.quantity += Number(formData.quantity);
       found = true;
     }
   });
 
   if (!found) {
-    return [...addedProducts, { product: product, quantity: Number(quantity) }];
+    return [
+      ...addedProducts,
+      { product: product, quantity: Number(formData.quantity), dough: formData.dough },
+    ];
   }
 
   return addedProducts;

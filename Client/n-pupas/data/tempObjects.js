@@ -43,8 +43,8 @@ export const testComment = {
 };
 
 export const categories = [
-  { id: 1, category: 'Pupusa' },
-  { id: 2, category: 'Bebida' },
+  { id: 1, category: 'Pupusas' },
+  { id: 2, category: 'Bebidas' },
   { id: 3, category: 'Otros' },
 ];
 
@@ -124,21 +124,22 @@ export const testProducts = [
     id: 1,
     name: 'Pupusa revuelta',
     price: 0.8,
-    type: 'food',
+    type: 1,
   },
   {
     id: 2,
     name: 'Pupusa de queso',
     price: 0.9,
-    type: 'food',
+    type: 1,
   },
   {
     id: 3,
     name: 'Pupusa de queso y loroco ',
     price: 0.9,
-    type: 'food',
+    type: 1,
   },
-  { id: 3, name: 'Horchata', price: 1.0, type: 'drink' },
+  { id: 4, name: 'Horchata', price: 1.0, type: 2 },
+  { id: 5, name: 'Curtido', price: 0.75, type: 3 },
 ];
 
 export const testHistoryAdmin = [
@@ -173,10 +174,12 @@ export const testSaleDetails = [
     id: 1,
     amount: 3,
     total: 2.4,
+    dough: 1,
     product: {
       id: 1,
       name: 'Pupusa revuelta',
       price: 0.8,
+      type: 1,
     },
     date: '02/10/2021 18:00',
   },
@@ -184,10 +187,12 @@ export const testSaleDetails = [
     id: 2,
     amount: 2,
     total: 1.8,
+    dough: 2,
     product: {
       id: 2,
       name: 'Pupusa de queso',
       price: 0.8,
+      type: 1,
     },
     date: '02/10/2021 18:00',
   },
@@ -195,10 +200,12 @@ export const testSaleDetails = [
     id: 3,
     amount: 3,
     total: 3.0,
+    dough: null,
     product: {
       id: 3,
       name: 'Horchata',
       price: 1.0,
+      type: 2,
     },
     date: '02/10/2021 18:00',
   },

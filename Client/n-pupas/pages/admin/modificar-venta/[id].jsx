@@ -1,31 +1,33 @@
-import { checkForProduct, getProductDetails } from 'utils/utils';
-import SimpleProductCard from 'components/cards/simple-product';
-import AddSaleForm from 'components/forms/add-sale';
+import SaleDetailProductCard from 'components/cards/sale-detail-product';
+import { SaleProductModal } from 'components/layout/modal/sale-modal';
+import SaleProductsSection from 'components/sections/sale-products';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import { testSaleDetails } from 'data/tempObjects';
+import { confirmAlert } from 'react-confirm-alert';
 import { testProducts } from 'data/tempObjects';
 import { adminPages } from 'constants/strings';
+import { checkForProduct } from 'utils/utils';
+import { categories } from 'data/tempObjects';
 import toast from 'react-hot-toast';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Head from 'next/head';
 import React from 'react';
 
-export default function EditSalePage({ id, saleDetails }) {
+export default function EditSalePage({ id, saleDetails, products, categories }) {
   const [saleTotal, setSaleTotal] = useState(0);
   const [addedProducts, setAddedProducts] = useState([]);
 
-  const addProduct = (productId, quantity) => {
-    const product = getProductDetails(testProducts, productId);
-
-    setAddedProducts(checkForProduct(addedProducts, productId, quantity));
-    setSaleTotal((Number(saleTotal) + product.price * Number(quantity)).toFixed(2));
+  const addProduct = (product, formData) => {
+    setAddedProducts(checkForProduct(addedProducts, product.id, formData));
+    setSaleTotal((Number(saleTotal) + product.price * Number(formData.quantity)).toFixed(2));
   };
 
   useEffect(() => {
     const savedProducts = [];
-    
+
     saleDetails.forEach(detail => {
-      savedProducts.push({ product: detail.product, quantity: detail.amount });
+      savedProducts.push({ product: detail.product, quantity: detail.amount, dough: detail.dough });
     });
 
     setAddedProducts(savedProducts);
@@ -53,52 +55,77 @@ export default function EditSalePage({ id, saleDetails }) {
     toast.success('Cambios guardados con éxito');
   };
 
+  const openProductModal = product => {
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return <SaleProductModal onClose={onClose} onSave={addProduct} product={product} />;
+      },
+    });
+  };
+
   return (
-    <main className='p-6 flex flex-col gap-5'>
+    <main className='flex flex-col gap-5'>
       <Head>
         <title>{adminPages.editSale}</title>
       </Head>
-      <h1 className='font-bold text-2xl sm:text-3xl md:text-center md:my-3'>{adminPages.editSale}</h1>
-      <h2 className='text-xl sm:text-2xl font-bold mt-5'>Agregar productos</h2>
-      <AddSaleForm onSubmitHandler={addProduct} />
-      {saleTotal > 0 && (
-        <div className='flex flex-col gap-5'>
-          <h2 className='text-xl sm:text-2xl font-bold mt-5'>Detalle de venta #{id.id}</h2>
-        
+      <div className='flex flex-col gap-5 lg:flex-row lg:grid lg:grid-cols-7'>
+        <div className='col-span-5 p-6 flex flex-col gap-5'>
+          <h1 className='font-bold text-2xl sm:text-3xl'>{adminPages.editSale}</h1>
+          {categories.map(category => {
+            return (
+              <SaleProductsSection
+                key={category.id}
+                products={products}
+                category={category}
+                onClickHandler={openProductModal}
+              />
+            );
+          })}
+        </div>
+        <div className='flex flex-col gap-5 col-span-2 bg-gray-200 p-6 lg:p-4'>
+          <h2 className='text-xl sm:text-2xl font-bold mt-3'>{`Detalle de venta #${id.id}`} </h2>
+          {saleTotal > 0 ? (
+            <div className='flex justify-between items-center'>
+              <p className='text-primary-500 font-bold text-lg sm:text-xl text-right'>
+                Total: ${saleTotal}
+              </p>
+              <button
+                type='button'
+                onClick={() => editSale()}
+                className='px-4 py-2 bg-primary-500 font-bold text-white uppercase rounded-md border-2 border-transparent cursor-pointer hover:bg-primary-700 transform transition duration-300 ease-in-out'
+              >
+                Guardar cambios
+              </button>
+            </div>
+          ) : (
+            <p className='text-lg'>No hay productos agregados.</p>
+          )}
           {addedProducts.map((obj, index) => {
             return (
-              <SimpleProductCard
+              <SaleDetailProductCard
                 key={obj.product.id}
-                product={obj.product}
-                quantity={obj.quantity}
+                detailProduct={obj}
                 onDeleteHandler={() => deleteProductFromList(index)}
               />
             );
           })}
-          <p className='text-primary-500 font-bold text-lg text-right'>Total: ${saleTotal}</p>
-          <button
-            type='button'
-            onClick={() => editSale()}
-            className='mt-4 w-full px-6 py-2 bg-primary-500 font-bold text-white uppercase rounded-md border-2 border-transparent cursor-pointer hover:bg-primary-700 transform transition duration-300 ease-in-out'
-          >
-            Guardar cambios
-          </button>
         </div>
-      )}
+      </div>
     </main>
   );
 }
 
 export async function getServerSideProps(context) {
-    const saleId = context.query;
-  
-    // Fetch para obtener venta según id
-  
-    return {
-      props: {
-        id: saleId,
-        saleDetails: testSaleDetails,
-      },
-    };
-  }
-  
+  const saleId = context.query;
+
+  // Fetch para obtener detalles de venta según id
+
+  return {
+    props: {
+      id: saleId,
+      saleDetails: testSaleDetails,
+      products: testProducts,
+      categories: categories,
+    },
+  };
+}
