@@ -1,8 +1,8 @@
 import AddSaleForm from 'components/forms/add-sale';
 
 export const SaleProductModal = ({ onClose, onSave, product }) => {
-  const handleOnFormSubmit = () => {
-    onSave();
+  const handleOnFormSubmit = (productId, quantity) => {
+    onSave(productId, quantity);
     onClose();
   };
 

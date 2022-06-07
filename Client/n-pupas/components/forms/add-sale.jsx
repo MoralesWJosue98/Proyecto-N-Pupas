@@ -10,13 +10,13 @@ const AddSaleForm = ({ onSubmitHandler, product }) => {
   } = useForm();
 
   const onSubmit = data => {
-    onSubmitHandler(data.product, data.quantity);
+    onSubmitHandler(product.id, data);
     reset();
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-5'>
-      {product.type === 'pupusas' && (
+      {product.type === 1 && (
         <div>
           <p className='mb-1 text-sm'>Tipo de masa</p>
           <div className='flex gap-6'>
@@ -28,13 +28,12 @@ const AddSaleForm = ({ onSubmitHandler, product }) => {
                 value='1'
                 className='mr-1'
                 id='rice'
-                checked
               />
               Arroz
             </label>
             <label htmlFor='corn'>
               <input
-                {...register('dough', { required: true })}
+                {...register('dough', { required:'Selecciona el tipo de masa' })}
                 type='radio'
                 name='dough'
                 value='2'
@@ -44,8 +43,11 @@ const AddSaleForm = ({ onSubmitHandler, product }) => {
               Maíz
             </label>
           </div>
+          {errors.dough && <p className='mt-1 text-red-700'>{errors.dough.message}</p>}
         </div>
+        
       )}
+      
       <div>
         <p className='mb-1 text-sm'>Cantidad</p>
         <input
