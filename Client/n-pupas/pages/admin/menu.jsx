@@ -39,6 +39,7 @@ const MenuPage = ({ products, categories }) => {
       {categories.map(category => {
         return (
           <MenuProductsSection
+            key={category.id}
             products={products}
             category={category}
             onDeleteHandler={onDeleteHandler}
