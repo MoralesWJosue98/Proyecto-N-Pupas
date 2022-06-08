@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity(name = "employee")
 public class Employee {
 	
@@ -49,6 +51,7 @@ public class Employee {
 	private List<Report> reports;
 	
 	@ManyToOne
+	@JsonBackReference
 	@JoinColumn(name = "branch_id", nullable = true)
 	private Branch branch;
 

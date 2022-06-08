@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity(name = "branch")
 public class Branch {
 	@Id
@@ -33,15 +36,19 @@ public class Branch {
 	private LocalDate openingDate;
 	
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "id_pupuseria", nullable = true)
 	private Pupuseria pupuseria;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "branch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Purchase> purchases;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "branch", fetch = FetchType.LAZY)
 	private List<Sale> sales;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "branch", fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
 	private List<Employee> employees;
 	

@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 
 import com.npupas.api.models.dtos.RegistrationFormDTO;
 import com.npupas.api.models.entities.Admin;
+import com.npupas.api.models.entities.Branch;
 import com.npupas.api.models.entities.Pupuseria;
 import com.npupas.api.models.entities.Token;
 import com.npupas.api.models.entities.User;
 import com.npupas.api.repositories.AdminRepository;
+import com.npupas.api.repositories.BranchRepository;
 import com.npupas.api.repositories.PupuseriaRepository;
 import com.npupas.api.repositories.TokenRepository;
 import com.npupas.api.repositories.UserRepository;
@@ -36,10 +38,15 @@ public class UserServiceImpl implements UserService {
 	private TokenRepository tokenRepository;
 	
 	@Autowired
+	private BranchRepository branchRepository;
+	
+	@Autowired
 	private TokenManager tokenManager;
 	
 	@Autowired
 	private PasswordEncoder passEncoder;
+	
+	
 	
 
 	@Override
@@ -100,9 +107,15 @@ public class UserServiceImpl implements UserService {
 		User user = new User();
 		Admin admin = new Admin();
 		Pupuseria pupuseria = new Pupuseria();
-		System.out.println("El ID del user es: " + user.getID());
+		Branch branch = new Branch();
+		
+		branch.setAddress(userInfo.getAddress());
+		branch.setName(userInfo.getNameBranch());
+		branch.setOpeningDate(userInfo.getOpeningDate());
+		branch.setPupuseria(pupuseria);
 		
 		String encPassword = passEncoder.encode(userInfo.getPassword());
+		
 		
 		user.setName(userInfo.getName());
 		user.setUsername(userInfo.getUsername());
@@ -120,7 +133,9 @@ public class UserServiceImpl implements UserService {
 		pupuseria.setName(userInfo.getNamePupuseria());
 		System.out.println("Se llega");
 		
+		
 		pupuseriaRepository.save(pupuseria);
+		branchRepository.save(branch);
 		adminRepository.save(admin);
 		userRepository.save(user);
 	}

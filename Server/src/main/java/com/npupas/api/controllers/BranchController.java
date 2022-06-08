@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,8 +28,9 @@ public class BranchController {
 	@Autowired
 	BranchService branchService;
 
-	@GetMapping("/me")
+	@GetMapping("/me/")
 	private ResponseEntity<List<Branch>> getBranch(Long idPupuseria) {
+		// Verificas si es admin, Admin -> pupuseria -> Branches
 		List<Branch> branches = branchService.getAllBranches(idPupuseria);
 		return new ResponseEntity<List<Branch>>(branches, HttpStatus.OK);
 	}
@@ -36,12 +38,12 @@ public class BranchController {
 	@GetMapping("/{id}")
 	private ResponseEntity<Branch> getOneBranch(@PathVariable("id") Long id) {
 		Branch branch = branchService.getOneBranch(id);
-		return new ResponseEntity<Branch>(branch, HttpStatus.OK);
+		return new ResponseEntity<Branch>(branch, HttpStatus.OK);	
 	}
 
 	@PostMapping("/")
-	private ResponseEntity<MessageDTO> saveBranch(@Valid AddBranchDTO branchDTO, Long idPupuseria,
-			BindingResult result) {
+	private ResponseEntity<MessageDTO> saveBranch(@Valid AddBranchDTO branchDTO, BindingResult result) {
+		// Admin -> pupuseria 
 		try {
 			if (result.hasErrors()) {
 				new ResponseEntity<MessageDTO>(
@@ -49,7 +51,7 @@ public class BranchController {
 						HttpStatus.BAD_REQUEST);
 			}
 
-			branchService.createBranch(idPupuseria, branchDTO);
+			//branchService.createBranch(idPupuseria, branchDTO);
 			return new ResponseEntity<MessageDTO>(new MessageDTO("Sucursal creada"), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<MessageDTO>(new MessageDTO("Error interno."), HttpStatus.INTERNAL_SERVER_ERROR);
