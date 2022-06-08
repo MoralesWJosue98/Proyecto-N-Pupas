@@ -16,7 +16,7 @@ public class RegistrationFormDTO {
 	
 	
 	@NotBlank(message = "DUI cannot be blank!")
-	@Size(min = 9, max = 9, message = "DUI has to be 9 characters")
+	@Size(min = 10, max = 10, message = "DUI has to be 10 characters with dash")
 	private String DUI;
 	
 	@NotBlank(message = "NIT cannot be blank!")
@@ -28,7 +28,7 @@ public class RegistrationFormDTO {
 	private String phoneNumber;
 	
 	@NotBlank(message = "User Name cannot be blank!")
-	@Size(min = 8, max = 10, message = "User Name has to be 10 characters")
+	@Size(min = 5, message = "User Name has to be 5 characters minimum")
 	private String username;
 	
 	@NotBlank(message = "Password cannot be blank!")
@@ -37,15 +37,18 @@ public class RegistrationFormDTO {
 	private String password;
 	
 	@NotBlank(message = "Name of the pupuseria cannot be blank!")
-	@Size(min = 8,  message = "Name of the pupuseria has to be 8 characters minimum")
+	@Size(min = 5,  message = "Name of the pupuseria has to be 5 characters minimum")
 	private String namePupuseria;
+	
+	@NotBlank(message = "Name of the branch cannot be blank!")
+	@Size(min = 5,  message = "Name of the branch has to be 5 characters minimum")
+	private String nameBranch;
 	
 	@NotBlank(message = "Address cannot be blank!")
 	@Size(min = 6,  message = "Address has to be 6 characters minimum")
 	private String address;
 	
 	
-	@NotBlank(message = "Date cannot be blank!")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate openingDate;
 
@@ -54,6 +57,8 @@ public class RegistrationFormDTO {
 		super();
 	}
 
+	
+	
 	public RegistrationFormDTO(
 			@NotBlank(message = "Name cannot be blank!") @Size(min = 5, max = 50, message = "Name has to be 8 characters minimum") String name,
 			@NotBlank(message = "DUI cannot be blank!") @Size(min = 9, max = 9, message = "DUI has to be 9 characters") String dUI,
@@ -62,6 +67,7 @@ public class RegistrationFormDTO {
 			@NotBlank(message = "User Name cannot be blank!") @Size(min = 8, max = 10, message = "User Name has to be 10 characters") String username,
 			@NotBlank(message = "Password cannot be blank!") @Size(min = 6, max = 32, message = "Password  has to be 6 characters minimum") @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,32}$") String password,
 			@NotBlank(message = "Name of the pupuseria cannot be blank!") @Size(min = 8, message = "Name of the pupuseria has to be 8 characters minimum") String namePupuseria,
+			@NotBlank(message = "Name of the branch cannot be blank!") @Size(min = 8, message = "Name of the branch has to be 8 characters minimum") String nameBranch,
 			@NotBlank(message = "Address cannot be blank!") @Size(min = 6, message = "Address has to be 6 characters minimum") String address,
 			@NotBlank(message = "Date cannot be blank!") LocalDate openingDate) {
 		super();
@@ -72,9 +78,12 @@ public class RegistrationFormDTO {
 		this.username = username;
 		this.password = password;
 		this.namePupuseria = namePupuseria;
+		this.nameBranch = nameBranch;
 		this.address = address;
 		this.openingDate = openingDate;
 	}
+
+
 
 	public String getName() {
 		return name;
@@ -165,5 +174,16 @@ public class RegistrationFormDTO {
 		this.openingDate = openingDate;
 	}
 
+
+
+	public String getNameBranch() {
+		return nameBranch;
+	}
+
+
+
+	public void setNameBranch(String nameBranch) {
+		this.nameBranch = nameBranch;
+	}
 	
 }

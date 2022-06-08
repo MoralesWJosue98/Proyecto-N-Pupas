@@ -8,16 +8,22 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 
 @Entity(name = "employee")
 public class Employee {
+	
 	@Id
-	@Column(name = "id_user")
+	@Column(name = "id")
+	@SequenceGenerator(name = "user_id_gen", sequenceName = "user_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_gen")
 	private Long ID;
 	
 	@Column
@@ -35,14 +41,15 @@ public class Employee {
 	@Column(name= "hiring_date")
 	private LocalDate hiringDate;
 	
-	@OneToOne(mappedBy = "employee")
+	@JoinColumn(name = "user_id")
+	@OneToOne(cascade = CascadeType.ALL)
 	User user;
 	
 	@OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
 	private List<Report> reports;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_branch", nullable = true)
+	@JoinColumn(name = "branch_id", nullable = true)
 	private Branch branch;
 
 	public Employee() {

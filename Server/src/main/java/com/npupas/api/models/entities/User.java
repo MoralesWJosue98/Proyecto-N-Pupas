@@ -1,10 +1,15 @@
 package com.npupas.api.models.entities;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
@@ -29,15 +34,16 @@ public class User {
 	@Column(name = "password")
 	private String password;
 	
-	@OneToOne
-	@PrimaryKeyJoinColumn(name = "id", referencedColumnName = "user_id")
+	@OneToOne(mappedBy = "user")
 	@NotFound(action = NotFoundAction.IGNORE)
 	private Admin admin;
 	
-	@OneToOne
-	@PrimaryKeyJoinColumn(name = "id", referencedColumnName = "user_id")
+	@OneToOne(mappedBy = "user")
 	@NotFound(action = NotFoundAction.IGNORE)
 	private Employee employee;
+	
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Token> tokens;
 
 	public User() {
 		super();
@@ -90,7 +96,13 @@ public class User {
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
-	
-	
+
+	public List<Token> getTokens() {
+		return tokens;
+	}
+
+	public void setTokens(List<Token> tokens) {
+		this.tokens = tokens;
+	}
 	
 }
