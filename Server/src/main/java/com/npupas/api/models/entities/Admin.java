@@ -6,14 +6,23 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 @Entity(name = "admin")
 public class Admin {
 	@Id
-	@Column(name="user_id")
+	@Column(name = "id")
+	@SequenceGenerator(name = "admin_id_gen", sequenceName = "admin_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "admin_id_gen")
 	private Long ID;
 	
 	@Column(name="dui")
@@ -24,8 +33,10 @@ public class Admin {
 	
 	@Column(name = "phone_number")
 	private String phoneNumber;
-
-	@OneToOne(mappedBy = "admin")
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@NotFound(action = NotFoundAction.IGNORE)
+	@JoinColumn(name = "user_id")
 	User user;
 	
 	@OneToOne(mappedBy = "admin")
