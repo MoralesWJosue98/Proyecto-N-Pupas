@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.npupas.api.models.dtos.AddBranchDTO;
 import com.npupas.api.models.dtos.MessageDTO;
+import com.npupas.api.models.entities.Admin;
 import com.npupas.api.models.entities.Branch;
+import com.npupas.api.repositories.TokenRepository;
 import com.npupas.api.services.BranchService;
+import com.npupas.api.utils.ControllersUtils;
 
 @RestController
 @RequestMapping("/pupuserias/branches")
@@ -28,63 +31,104 @@ public class BranchController {
 	@Autowired
 	BranchService branchService;
 
-	@GetMapping("/me/")
-	private ResponseEntity<List<Branch>> getBranch(Long idPupuseria) {
-		// Verificas si es admin, Admin -> pupuseria -> Branches
-		List<Branch> branches = branchService.getAllBranches(idPupuseria);
-		return new ResponseEntity<List<Branch>>(branches, HttpStatus.OK);
+	@Autowired
+	TokenRepository tokenRepository;
+
+	@GetMapping("/me")
+	private ResponseEntity<List<Branch>> getBranch(@RequestHeader("Authorization") String token) {
+		try {
+			Admin adminUser = ControllersUtils.searchAdminUser(tokenRepository, token);
+
+			if (adminUser == null) {
+				return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+			}
+
+			List<Branch> branches = branchService.getAllBranches(adminUser.getPupuseria().getID());
+			return new ResponseEntity<List<Branch>>(branches, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@GetMapping("/{id}")
-	private ResponseEntity<Branch> getOneBranch(@PathVariable("id") Long id) {
-		Branch branch = branchService.getOneBranch(id);
-		return new ResponseEntity<Branch>(branch, HttpStatus.OK);	
+	private ResponseEntity<Branch> getOneBranch(@RequestHeader("Authorization") String token,
+			@PathVariable("id") Long id) {
+		try {
+			Admin adminUser = ControllersUtils.searchAdminUser(tokenRepository, token);
+			Branch branch = branchService.getOneBranch(id);
+
+			if (adminUser == null) {
+				return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+			} else if (branch == null) {
+				return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			}
+
+			return new ResponseEntity<Branch>(branch, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@PostMapping("/")
-	private ResponseEntity<MessageDTO> saveBranch(@Valid AddBranchDTO branchDTO, BindingResult result) {
-		// Admin -> pupuseria 
+	private ResponseEntity<MessageDTO> saveBranch(@RequestHeader("Authorization") String token,
+			@Valid AddBranchDTO branchDTO, BindingResult result) {
 		try {
+			Admin adminUser = ControllersUtils.searchAdminUser(tokenRepository, token);
+
 			if (result.hasErrors()) {
-				new ResponseEntity<MessageDTO>(
-						new MessageDTO("No se pudo guardar la sucursal" + result.getAllErrors().toString()),
-						HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			} else if (adminUser == null) {
+				return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 			}
 
-			//branchService.createBranch(idPupuseria, branchDTO);
-			return new ResponseEntity<MessageDTO>(new MessageDTO("Sucursal creada"), HttpStatus.OK);
+			branchService.createBranch(adminUser.getPupuseria().getID(), branchDTO);
+			return new ResponseEntity<>(null, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<MessageDTO>(new MessageDTO("Error interno."), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@DeleteMapping("/{id}")
-	private ResponseEntity<MessageDTO> deleteBranch(@PathVariable("id") Long branchId) {
+	private ResponseEntity<MessageDTO> deleteBranch(@RequestHeader("Authorization") String token,
+			@PathVariable("id") Long branchId) {
 		try {
+			Admin adminUser = ControllersUtils.searchAdminUser(tokenRepository, token);
+			Branch branchToDelete = branchService.getOneBranch(branchId);
+
+			if (branchToDelete == null) {
+				return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			} else if (adminUser == null) {
+				return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+			}
+
 			branchService.delete(branchId);
-			return new ResponseEntity<MessageDTO>(new MessageDTO("Sucursal eliminada"), HttpStatus.OK);
+			return new ResponseEntity<>(null, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<MessageDTO>(new MessageDTO("Error interno."), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@PutMapping("/{id}")
-	private ResponseEntity<MessageDTO> updateBranch(@Valid AddBranchDTO branchDTO,
+	private ResponseEntity<MessageDTO> updateBranch(@RequestHeader("Authorization") String token,
+			@Valid AddBranchDTO branchDTO,
 			@PathVariable("id") Long branchId, BindingResult result) {
 		try {
+			Admin adminUser = ControllersUtils.searchAdminUser(tokenRepository, token);
 			Branch branchToUpdate = branchService.getOneBranch(branchId);
 
-			if (branchToUpdate == null || result.hasErrors()) {
-				new ResponseEntity<MessageDTO>(
-						new MessageDTO("No se pudo modificar la sucursal" + result.getAllErrors().toString()),
-						HttpStatus.BAD_REQUEST);
+			if (result.hasErrors()) {
+				System.out.println(result);
+				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			} else if (branchToUpdate == null) {
+				return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			} else if (adminUser == null) {
+				return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 			}
 
 			branchService.update(branchToUpdate, branchDTO);
-			return new ResponseEntity<MessageDTO>(new MessageDTO("Sucursal actualizada"), HttpStatus.OK);
+			return new ResponseEntity<>(null, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<MessageDTO>(new MessageDTO("Error interno."), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
 }
