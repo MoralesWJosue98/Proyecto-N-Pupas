@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name="pupuseria")
 public class Pupuseria {
 	@Id
@@ -26,6 +28,7 @@ public class Pupuseria {
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_admin", nullable = true)
+	@JsonIgnore
 	private Admin admin;
 	
 	@OneToMany(mappedBy = "pupuseria")
