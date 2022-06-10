@@ -9,4 +9,5 @@ import com.npupas.api.models.entities.User;
 
 public interface TokenRepository extends JpaRepository<Token, Long> {
 	List<Token> findByUserAndActive(User user, Boolean active);
+	Token findByContent(String tokenContent);
 }

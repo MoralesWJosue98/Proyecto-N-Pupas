@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity(name = "purchase")
 public class Purchase {
 	@Id
@@ -30,6 +32,7 @@ public class Purchase {
 	private BigDecimal amount;
 	
 	@ManyToOne
+	@JsonBackReference
 	@JoinColumn(name = "id_branch", nullable = true)
 	private Branch branch;
 

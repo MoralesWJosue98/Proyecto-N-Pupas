@@ -35,7 +35,6 @@ public class Admin {
 	private String phoneNumber;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@NotFound(action = NotFoundAction.IGNORE)
 	@JoinColumn(name = "user_id")
 	User user;
 	
