@@ -17,6 +17,9 @@ import javax.persistence.SequenceGenerator;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name = "user")
 public class User {
 	@Id
@@ -31,6 +34,7 @@ public class User {
 	@Column(name = "name")
 	private String name;
 	
+	@JsonIgnore
 	@Column(name = "password")
 	private String password;
 	
@@ -39,10 +43,12 @@ public class User {
 	private Admin admin;
 	
 	@OneToOne(mappedBy = "user")
+	@JsonBackReference
 	@NotFound(action = NotFoundAction.IGNORE)
 	private Employee employee;
 	
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<Token> tokens;
 
 	public User() {

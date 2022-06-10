@@ -18,6 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity(name = "employee")
 public class Employee {
@@ -44,6 +45,7 @@ public class Employee {
 	private LocalDate hiringDate;
 	
 	@JoinColumn(name = "user_id")
+	@JsonManagedReference
 	@OneToOne(cascade = CascadeType.ALL)
 	User user;
 	

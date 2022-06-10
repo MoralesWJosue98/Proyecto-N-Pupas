@@ -12,42 +12,42 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class AddEmployeeDTO {
 	
 	@NotBlank(message = "Name cannot be blank!")
-	@Size(min = 8, max = 10, message = "Name has to be 10 characters")
+	@Size(min = 5, message = "Name has to be 10 characters")
 	private String name;
 	
-	@NotBlank(message = "Date cannot be blank!")
+	@NotBlank(message = "Username cannot be blank!")
+	@Size(min = 5, message = "Username has to be at least 5 characters")
+	private String userName;
+	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate hiringDate;
 	
-	@NotBlank(message = "Salary cannot be blank!")
+	
 	private BigDecimal salary;
 	
 	@NotBlank(message = "Password cannot be blank!")
-	@Size(min = 6, max = 32, message = "Code has to be 6 characters minimum")
+	@Size(min = 8, max = 32, message = "Code has to be 6 characters minimum")
 	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,32}$")
 	private String password;
 
-	@NotBlank(message = "Branch cannot be blank!")
-	private String id_pupuseria;
-
+	
+	
 	public AddEmployeeDTO() {
 		super();
 	}
 
 	public AddEmployeeDTO(
-			@NotBlank(message = "Name cannot be blank!") @Size(min = 8, max = 10, message = "Name has to be 10 characters") String name,
-			@NotBlank(message = "Date cannot be blank!") LocalDate hiringDate,
-			@NotBlank(message = "Salary cannot be blank!") BigDecimal salary,
-			@NotBlank(message = "Password cannot be blank!") @Size(min = 6, max = 32, message = "Code has to be 6 characters minimum") @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,32}$") String password,
-			@NotBlank(message = "Branch cannot be blank!") String id_pupuseria) {
+			@NotBlank(message = "Name cannot be blank!") @Size(min = 5, message = "Name has to be 10 characters") String name,
+			@NotBlank(message = "Username cannot be blank!") @Size(min = 5, message = "Username has to be at least 5 characters") String userName,
+			LocalDate hiringDate, @NotBlank(message = "Salary cannot be blank!") BigDecimal salary,
+			@NotBlank(message = "Password cannot be blank!") @Size(min = 8, max = 32, message = "Code has to be 6 characters minimum") @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,32}$") String password) {
 		super();
 		this.name = name;
+		this.userName = userName;
 		this.hiringDate = hiringDate;
 		this.salary = salary;
 		this.password = password;
-		this.id_pupuseria = id_pupuseria;
 	}
-
 
 	public String getName() {
 		return name;
@@ -81,4 +81,11 @@ public class AddEmployeeDTO {
 		this.password = password;
 	}
 
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 }
