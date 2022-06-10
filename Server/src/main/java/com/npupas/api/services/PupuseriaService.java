@@ -4,5 +4,5 @@ import com.npupas.api.models.entities.Pupuseria;
 
 public interface PupuseriaService {
 
-	Pupuseria getPupuseria(Long id);
+	Pupuseria getPupuseria(String tokenStr);
 }
