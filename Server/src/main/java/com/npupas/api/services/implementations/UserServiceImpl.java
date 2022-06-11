@@ -65,11 +65,17 @@ public class UserServiceImpl implements UserService {
 	    List<Token> tokens = tokenRepository.findByUserAndActive(user, true);
 	    
 	    tokens.forEach((userToken) -> {
-	        if(!tokenManager.validateJwtToken(userToken.getContent(), user.getUsername())) {
+	        if(tokenManager.validateJwtToken(userToken.getContent(), user.getUsername())) {
 	            userToken.setActive(false);
 	            tokenRepository.save(userToken);
 	        }
 	    });
+	    
+	    if(tokens.size() > 0) {    	
+	    Token lastOne = tokens.get(tokens.size() -1);
+	    lastOne.setActive(true);
+	    tokenRepository.save(lastOne);
+	    }
 	}
 	
 	@Override
