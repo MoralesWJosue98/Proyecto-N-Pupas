@@ -14,11 +14,9 @@ public class AddPurchaseDTO {
 	@Size(min = 15,  message = "The concept must have a minimum of 15 characters")
 	private String concept;
 	
-	@NotBlank(message = "Date cannot be blank!")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate purchaseDate;
 	
-	@NotBlank(message = "Amount cannot be blank!")
 	private BigDecimal amount;
 
 	public AddPurchaseDTO() {

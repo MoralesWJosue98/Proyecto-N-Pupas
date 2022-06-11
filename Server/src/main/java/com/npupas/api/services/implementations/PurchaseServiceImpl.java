@@ -57,11 +57,15 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	@Override
-	public void update(Purchase purchase, AddPurchaseDTO purchaseDTO) {
+	public Boolean update(Long purchaseId, AddPurchaseDTO purchaseDTO) {
+		Purchase purchase = purchaseRepository.findById(purchaseId).orElse(null);
+		if(purchase == null) return false;
+		
 		purchase.setConcept(purchaseDTO.getConcept());
 		purchase.setAmount(purchaseDTO.getAmount());
 		purchase.setPurchaseDate(purchaseDTO.getPurchaseDate());
 
 		purchaseRepository.save(purchase);
+		return true;
 	}
 }
