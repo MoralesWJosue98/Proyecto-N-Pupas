@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.springframework.web.multipart.MultipartFile;
+
 
 public class AddProductDTO {
 	
@@ -13,26 +15,33 @@ public class AddProductDTO {
 	@Size(min = 8,  message = "Name of the product has to be 8 characters minimum")
 	private String nameProduct;
 	
-	@NotBlank(message = "Price cannot be blank!")
 	private BigDecimal price;
 
 	@NotBlank(message = "Type cannot be blank!")
-	@Size(min = 8, max = 30, message = "Type has to be 8 characters minimum")
 	private String type;
-
+	
+	private MultipartFile image;
+	
+	
+	
 	public AddProductDTO() {
 		super();
 	}
 
+	
+
 	public AddProductDTO(
 			@NotBlank(message = "Name of the product cannot be blank!") @Size(min = 8, message = "Name of the product has to be 8 characters minimum") String nameProduct,
 			@NotBlank(message = "Price cannot be blank!") BigDecimal price,
-			@NotBlank(message = "Type cannot be blank!") @Size(min = 8, max = 30, message = "Type has to be 8 characters minimum") String type) {
+			@NotBlank(message = "Type cannot be blank!") @Size(min = 8, max = 30, message = "Type has to be 8 characters minimum") String type,
+			MultipartFile image) {
 		super();
 		this.nameProduct = nameProduct;
 		this.price = price;
 		this.type = type;
+		this.image = image;
 	}
+
 
 
 	public String getNameProduct() {
@@ -59,4 +68,13 @@ public class AddProductDTO {
 		this.type = type;
 	}
 
+	public MultipartFile getImage() {
+		return image;
+	}
+
+	public void setImage(MultipartFile image) {
+		this.image = image;
+	}
+	
+	
 }
