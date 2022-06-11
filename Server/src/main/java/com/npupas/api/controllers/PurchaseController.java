@@ -33,14 +33,27 @@ public class PurchaseController {
 
 	@GetMapping("/{id}/purchases")
 	public ResponseEntity<List<Purchase>> getAll(@PathVariable("id") Long branchId) {
-		List<Purchase> purchases = purchaseService.getAllBranchPurchases(branchId);
-		return new ResponseEntity<List<Purchase>>(purchases, HttpStatus.OK);
+		try {
+			List<Purchase> purchases = purchaseService.getAllBranchPurchases(branchId);
+			if(purchases == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+			return new ResponseEntity<List<Purchase>>(purchases, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@GetMapping("/{id}/purchases/{id_purchase}")
 	public ResponseEntity<Purchase> getOne(@PathVariable("id_purchase") Long purchaseId) {
-		Purchase foundPurchase = purchaseService.getOnePurchase(purchaseId);
-		return new ResponseEntity<Purchase>(foundPurchase, HttpStatus.OK);
+		try {
+			Purchase foundPurchase = purchaseService.getOnePurchase(purchaseId);
+			if(foundPurchase == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			
+			return new ResponseEntity<Purchase>(foundPurchase, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@PostMapping("/{id}/purchases")
@@ -54,7 +67,7 @@ public class PurchaseController {
 			}
 
 			purchaseService.save(branchId, purchaseDTO);
-			return new ResponseEntity<MessageDTO>(new MessageDTO("Compra guardada"), HttpStatus.OK);
+			return new ResponseEntity<MessageDTO>(new MessageDTO("Compra guardada con éxito."), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<MessageDTO>(new MessageDTO("Error interno."), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -64,7 +77,7 @@ public class PurchaseController {
 	public ResponseEntity<MessageDTO> deleteOne(@PathVariable("id_purchase") Long purchaseId) {
 		try {
 			purchaseService.delete(purchaseId);
-			return new ResponseEntity<MessageDTO>(new MessageDTO("Compra eliminada"), HttpStatus.OK);
+			return new ResponseEntity<MessageDTO>(new MessageDTO("Compra eliminada."), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<MessageDTO>(new MessageDTO("Error interno."), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -74,16 +87,18 @@ public class PurchaseController {
 	public ResponseEntity<MessageDTO> updateOne(@Valid AddPurchaseDTO purchaseDTO,
 			@PathVariable("id_purchase") Long purchaseId, BindingResult result) {
 		try {
-			Purchase purchaseToUpdate = purchaseService.getOnePurchase(purchaseId);
-
-			if (purchaseToUpdate == null || result.hasErrors()) {
-				new ResponseEntity<MessageDTO>(
-						new MessageDTO("No se pudo modificar la compra" + result.getAllErrors().toString()),
+			if (result.hasErrors()) {
+				return new ResponseEntity<MessageDTO>(
+						new MessageDTO("No se pudo modificar la compra." + result.getAllErrors().toString()),
 						HttpStatus.BAD_REQUEST);
 			}
 
-			purchaseService.update(purchaseToUpdate, purchaseDTO);
-			return new ResponseEntity<MessageDTO>(new MessageDTO("Compra actualizada"), HttpStatus.OK);
+			if(purchaseService.update(purchaseId, purchaseDTO))
+			return new ResponseEntity<MessageDTO>(new MessageDTO("Compra actualizada."), HttpStatus.OK);
+			
+			return new ResponseEntity<MessageDTO>(
+					new MessageDTO("No se pudo modificar la compra." + result.getAllErrors().toString()),
+					HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			return new ResponseEntity<MessageDTO>(new MessageDTO("Error interno."), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

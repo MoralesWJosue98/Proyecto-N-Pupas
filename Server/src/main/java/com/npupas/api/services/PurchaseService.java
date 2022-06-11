@@ -15,6 +15,6 @@ public interface PurchaseService {
 
 	void delete(Long purchaseId);
 
-	void update(Purchase purchase, AddPurchaseDTO purchaseDTO);
+	Boolean update(Long purchaseId, AddPurchaseDTO purchaseDTO);
 
 }
