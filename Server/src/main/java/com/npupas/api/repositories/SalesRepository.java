@@ -13,5 +13,7 @@ public interface SalesRepository extends JpaRepository<Sale, Long> {
 	List<Sale> findByBranch(Branch branch);
 	
 	List<Sale> findBySaleDate(LocalDate saleDate);
+	
+	List<Sale> findBySaleDateAndBranch(LocalDate saleDate, Branch branch);
 
 }
