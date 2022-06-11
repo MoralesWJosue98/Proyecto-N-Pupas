@@ -36,19 +36,32 @@ CREATE TABLE IF NOT EXISTS public.pupuseria
         ON DELETE NO ACTION
 );
 
+CREATE TABLE IF NOT EXISTS public.type
+(
+    id serial NOT NULL,
+    type character varying COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT pk_type PRIMARY KEY (id)
+);
+
 CREATE TABLE IF NOT EXISTS public.product
 (
-    id serial NOT NULL ,
+    id serial NOT NULL,
     name character varying COLLATE pg_catalog."default" NOT NULL,
     price money NOT NULL,
-    type character varying COLLATE pg_catalog."default" NOT NULL,
     id_pupuseria integer NOT NULL,
+    image bytea NOT NULL,
+    id_type integer NOT NULL,
     CONSTRAINT pk_product PRIMARY KEY (id),
     CONSTRAINT fk_product_pupuseria_id FOREIGN KEY (id_pupuseria)
         REFERENCES public.pupuseria (id) MATCH SIMPLE
         ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fk_product_type_id FOREIGN KEY (id_type)
+        REFERENCES public.type (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
         ON DELETE NO ACTION
-);
+        NOT VALID
+)
 
 CREATE TABLE IF NOT EXISTS public.branch
 (
