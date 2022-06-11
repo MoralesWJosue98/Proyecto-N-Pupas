@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS public.product
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
         NOT VALID
-)
+);
 
 CREATE TABLE IF NOT EXISTS public.branch
 (
@@ -143,6 +143,13 @@ CREATE TABLE IF NOT EXISTS public.sale
         ON DELETE NO ACTION
 );
 
+CREATE TABLE IF NOT EXISTS public.mass
+(
+    id serial NOT NULL,
+    mass character varying COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT mass_pkey PRIMARY KEY (id)
+);
+
 CREATE TABLE IF NOT EXISTS public.sales_detail
 (
     id serial NOT NULL,
@@ -157,6 +164,22 @@ CREATE TABLE IF NOT EXISTS public.sales_detail
         ON DELETE NO ACTION,
     CONSTRAINT fk_sales_detail_id_sale FOREIGN KEY (id_sale)
         REFERENCES public.sale (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+);
+
+CREATE TABLE IF NOT EXISTS public.sales_details_mass
+(
+    id serial NOT NULL,
+    id_sale_detail integer NOT NULL,
+    id_mass integer NOT NULL,
+    CONSTRAINT pk_sales_details_mass PRIMARY KEY (id),
+    CONSTRAINT fk_sales_details_mass_id FOREIGN KEY (id_mass)
+        REFERENCES public.mass (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fk_sales_details_sale_id FOREIGN KEY (id_sale_detail)
+        REFERENCES public.sales_detail (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 );
