@@ -18,6 +18,7 @@ import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.Type;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "product")
@@ -48,6 +49,7 @@ public class Product {
 	@JoinColumn(name = "id_type")
 	private ProductType type;
 	
+	@JsonBackReference
 	@OneToMany(mappedBy = "product")
 	private List<SalesDetail> details;
 

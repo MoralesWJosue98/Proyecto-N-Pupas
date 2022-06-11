@@ -1,30 +1,50 @@
 package com.npupas.api.models.dtos;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class AddSaleDTO {
 	
-	@NotBlank(message = "Name of the product cannot be blank!")
-	@Size(min = 8,  message = "Name of the product has to be 8 characters minimum")
-	private String nameProduct;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate date;
+	
+	
+	private List<SalesDetailsDTO> details;
+	
+	
+
+	
+	public AddSaleDTO(LocalDate date,
+			@NotEmpty(message = "You must provide the sale details") List<SalesDetailsDTO> details) {
+		super();
+		this.date = date;
+		this.details = details;
+	}
 
 	public AddSaleDTO() {
 		super();
 	}
 
-	public AddSaleDTO(
-			@NotBlank(message = "Name of the product cannot be blank!") @Size(min = 8, message = "Name of the product has to be 8 characters minimum") String nameProduct) {
-		super();
-		this.nameProduct = nameProduct;
+	public LocalDate getDate() {
+		return date;
 	}
 
-	public String getNameProduct() {
-		return nameProduct;
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 
-	public void setNameProduct(String nameProduct) {
-		this.nameProduct = nameProduct;
+	public List<SalesDetailsDTO> getDetails() {
+		return details;
 	}
 
+	public void setDetails(List<SalesDetailsDTO> details) {
+		this.details = details;
+	}
 }
