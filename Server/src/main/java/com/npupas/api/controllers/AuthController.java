@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import com.npupas.api.models.entities.User;
 import com.npupas.api.services.UserService;
 import com.npupas.api.utils.TokenManager;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -70,22 +72,22 @@ public class AuthController {
 		try {
 			if (result.hasErrors()) {
 				String errors = result.getAllErrors().toString();
-
 				return new ResponseEntity<>(new MessageDTO("Hay errores: " + errors), HttpStatus.BAD_REQUEST);
 			}
 
 			User foundUser = userService.getUserByUsername(formDTO.getUsername());
 
 			if (foundUser != null) {
-				return new ResponseEntity<>(new MessageDTO("Este usuario ya existe"), HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(new MessageDTO("El nombre de usuario ya existe"),
+						HttpStatus.BAD_REQUEST);
 			}
 
 			userService.register(formDTO);
 
-			return new ResponseEntity<>(new MessageDTO("Usuario Registrado"), HttpStatus.CREATED);
+			return new ResponseEntity<>(new MessageDTO("Usuario registrado exitosamente"), HttpStatus.CREATED);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return new ResponseEntity<>(new MessageDTO("Error interno"), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(new MessageDTO("Error interno del servidor"), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
