@@ -3,6 +3,7 @@ package com.npupas.api.models.entities;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,7 +32,7 @@ public class Sale {
 	@JoinColumn(name = "id_branch", nullable = true)
 	private Branch branch;
 	
-	@OneToMany(mappedBy = "sale")
+	@OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
 	private List<SalesDetail> details;
 
 	public Sale() {

@@ -9,4 +9,5 @@ import com.npupas.api.models.entities.Pupuseria;
 
 public interface BranchRepository extends JpaRepository<Branch, Long> {
 	List<Branch> findByPupuseria(Pupuseria pupuseria);
+	
 }
