@@ -1,4 +1,4 @@
-package com.npupas.api.controllers;
+	package com.npupas.api.controllers;
 
 import javax.validation.Valid;
 
@@ -50,9 +50,10 @@ public class AuthController {
 	        final String token = tokenManager.generateJwtToken(user.getUsername());
 	        
 	        userService.insertToken(user, token); 
+	        String role = user.getAdmin() == null ? "Employee": "Admin";
 	        
 	        return new ResponseEntity<>(
-	                    new TokenDTO(token),
+	                    new TokenDTO(token, role),
 	                    HttpStatus.CREATED
 	                );
 	        
