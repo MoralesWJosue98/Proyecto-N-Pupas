@@ -1,6 +1,5 @@
 import SectionTitle from 'components/information/section-title';
 import PrimaryButton from 'components/buttons/primary';
-import { departments } from 'constants/data';
 import { titles } from 'constants/strings';
 import { useForm } from 'react-hook-form';
 import { useRef, useState } from 'react';
@@ -17,7 +16,7 @@ const RegisterForm = ({ onSubmitHandler }) => {
   } = useForm();
 
   const password = useRef({});
-  password.current = watch('password', '');
+  password.current = watch('Password', '');
 
   const showPreviousSection = () => {
     setSectionIndex(sectionIndex - 1);
@@ -33,8 +32,7 @@ const RegisterForm = ({ onSubmitHandler }) => {
 
   const onSubmit = data => {
     onSubmitHandler(data);
-    console.log(data);
-    reset();
+    //reset();
   };
 
   return (
@@ -53,6 +51,10 @@ const RegisterForm = ({ onSubmitHandler }) => {
                 className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
                 {...register('name', {
                   required: 'Nombre requerido',
+                  minLength: {
+                    value: 8,
+                    message: 'El mínimo de caracteres es 8',
+                  },
                   maxLength: {
                     value: 80,
                     message: 'El máximo de caracteres es 80',
@@ -66,7 +68,7 @@ const RegisterForm = ({ onSubmitHandler }) => {
                 type='text'
                 placeholder='DUI (incluyendo guión)'
                 className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-                {...register('dui', {
+                {...register('DUI', {
                   required: 'DUI requerido',
                   pattern: {
                     value: /^\d{8}-\d{1}$/,
@@ -74,14 +76,14 @@ const RegisterForm = ({ onSubmitHandler }) => {
                   },
                 })}
               />
-              {errors.dui && <p className='mt-1 text-red-700'>{errors.dui.message}</p>}
+              {errors.DUI && <p className='mt-1 text-red-700'>{errors.DUI.message}</p>}
             </div>
             <div>
               <input
                 type='text'
                 placeholder='NIT (incluyendo guión)'
                 className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-                {...register('nit', {
+                {...register('NIT', {
                   required: 'NIT requerido',
                   pattern: {
                     value: /^\d{4}-\d{6}-\d{3}-\d{1}$/,
@@ -89,7 +91,7 @@ const RegisterForm = ({ onSubmitHandler }) => {
                   },
                 })}
               />
-              {errors.nit && <p className='mt-1 text-red-700'>{errors.nit.message}</p>}
+              {errors.NIT && <p className='mt-1 text-red-700'>{errors.NIT.message}</p>}
             </div>
             <div>
               <input
@@ -97,15 +99,15 @@ const RegisterForm = ({ onSubmitHandler }) => {
                 pattern='[0-9]{4}-[0-9]{4}'
                 placeholder='Número de teléfono'
                 className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-                {...register('phone', {
+                {...register('phoneNumber', {
                   required: 'Número de teléfono requerido',
                   pattern: {
-                    value: /^\d{4}-\d{4}$/,
+                    value: /^\d{8}$/,
                     message: 'Número de teléfono inválido',
                   },
                 })}
               />
-              {errors.phone && <p className='mt-1 text-red-700'>{errors.phone.message}</p>}
+              {errors.phoneNumber && <p className='mt-1 text-red-700'>{errors.phoneNumber.message}</p>}
             </div>
           </div>
         </section>
@@ -121,9 +123,13 @@ const RegisterForm = ({ onSubmitHandler }) => {
                 className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
                 {...register('username', {
                   required: 'Nombre de usuario requerido',
+                  minLength: {
+                    value: 10,
+                    message: 'El mínimo de caracteres es 10',
+                  },
                   pattern: {
-                    value: /^[A-Za-z][A-Za-z0-9_]{6,20}$/,
-                    message: 'Nombre de usuario inválido',
+                    value: /^[A-Za-z0-9_-]{10,20}$/,
+                    message: 'Algunos caracteres son inválidos',
                   },
                 })}
               />
@@ -134,7 +140,7 @@ const RegisterForm = ({ onSubmitHandler }) => {
                 type='password'
                 placeholder='Contraseña'
                 className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-                {...register('password', {
+                {...register('Password', {
                   required: 'Contraseña requerida',
                   minLength: {
                     value: 6,
@@ -142,7 +148,7 @@ const RegisterForm = ({ onSubmitHandler }) => {
                   },
                 })}
               />
-              {errors.password && <p className='mt-1 text-red-700'>{errors.password.message}</p>}
+              {errors.Password && <p className='mt-1 text-red-700'>{errors.Password.message}</p>}
             </div>
             <div>
               <input
@@ -170,32 +176,42 @@ const RegisterForm = ({ onSubmitHandler }) => {
                   type='text'
                   placeholder='Nombre'
                   className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-                  {...register('pupuseria_name', {
+                  {...register('namePupuseria', {
                     required: 'Nombre requerido',
+                    minLength: {
+                      value: 8,
+                      message: 'El mínimo de caracteres es 8',
+                    },
                     maxLength: {
                       value: 80,
                       message: 'El máximo de caracteres es 80',
                     },
                   })}
                 />
-                {errors.pupuseria_name && (
-                  <p className='mt-1 text-red-700'>{errors.pupuseria_name.message}</p>
+                {errors.namePupuseria && (
+                  <p className='mt-1 text-red-700'>{errors.namePupuseria.message}</p>
                 )}
               </div>
               <div>
-                <select
-                  className='shadow border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-                  {...register('dept', { required: 'Departamento requerido' })}
-                >
-                  {departments.map(dept => {
-                    return (
-                      <option key={dept} value={dept}>
-                        {dept}
-                      </option>
-                    );
+                <input
+                  type='text'
+                  placeholder='Nombre de sucursal principal'
+                  className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
+                  {...register('nameBranch', {
+                    required: 'Nombre requerido',
+                    minLength: {
+                      value: 8,
+                      message: 'El mínimo de caracteres es 8',
+                    },
+                    maxLength: {
+                      value: 80,
+                      message: 'El máximo de caracteres es 80',
+                    },
                   })}
-                </select>
-                {errors.dept && <p className='mt-1 text-red-700'>{errors.dept.message}</p>}
+                />
+                {errors.nameBranch && (
+                  <p className='mt-1 text-red-700'>{errors.nameBranch.message}</p>
+                )}
               </div>
               <div>
                 <input
@@ -204,6 +220,10 @@ const RegisterForm = ({ onSubmitHandler }) => {
                   className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
                   {...register('address', {
                     required: 'Dirección requerida',
+                    minLength: {
+                      value: 6,
+                      message: 'El mínimo de caracteres es 8',
+                    },
                     maxLength: {
                       value: 80,
                       message: 'El máximo de caracteres es 80',
@@ -218,9 +238,9 @@ const RegisterForm = ({ onSubmitHandler }) => {
                   placeholder='Fecha de apertura'
                   onFocus={e => (e.target.type = 'date')}
                   className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-                  {...register('date', { required: 'Fecha de apertura requerida' })}
+                  {...register('openingDate', { required: 'Fecha de apertura requerida' })}
                 />
-                {errors.date && <p className='mt-1 text-red-700'>{errors.date.message}</p>}
+                {errors.openingDate && <p className='mt-1 text-red-700'>{errors.openingDate.message}</p>}
               </div>
             </div>
           </section>
