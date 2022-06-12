@@ -1,11 +1,31 @@
 import { registerPageName } from 'constants/strings';
 import RegisterForm from 'components/forms/register';
-import Head from 'next/head';
+import { PupuseriaApi } from 'services/PupuseriaApi';
+import { adminRoutes } from 'routes/routes';
+import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
+import Head from 'next/head';
 
 const RegisterPage = () => {
-  const onSubmitForm = data => {
-    toast.success('Cuenta creada exitosamente');
+  const pupuseriaApi = new PupuseriaApi();
+  const router = useRouter();
+
+  const onSubmitForm = async data => {
+    delete data.password_repeat;
+
+    try {
+      const response = await pupuseriaApi.registerAdmin(data);
+
+      if (!response.ok) {
+        const errorObj = await response.json();
+        toast.error(errorObj.message);
+      } else {
+        toast.success('Usuario registrado existosamente');
+        router.push(adminRoutes.home);
+      }
+    } catch (e) {
+      toast.error('Ocurrió un error');
+    }
   };
 
   return (
