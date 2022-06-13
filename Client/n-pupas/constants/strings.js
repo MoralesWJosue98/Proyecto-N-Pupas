@@ -24,7 +24,9 @@ export const adminPages = {
   editProduct: 'Modificar producto',
   editEmployee: 'Modificar empleado',
   editBranch: 'Modificar sucursal',
+  editReport: 'Modificar reporte',
   editSale: 'Modificar venta',
+  reportsEmployee: 'Reportes de empleados',
 };
 
 export const titles = {

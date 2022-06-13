@@ -27,4 +27,6 @@ export const employeeRoutes = {
     editEmployee: '/admin/modificar-empleado',
     editBranch: '/admin/modificar-sucursal',
     editSale: '/admin/modificar-venta',
+    editReport: '/admin/modificar-reporte',
+    reportEmployee: '/admin/reportes-empleados',
   };
