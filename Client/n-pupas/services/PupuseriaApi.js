@@ -19,4 +19,14 @@ export const PupuseriaApi = class {
 
     return response;
   }
+
+  async login(credentials) {
+    const response = await fetch(`${BASE_URL}/auth/login`, {
+      method: 'POST',
+      body: toFormData(credentials),
+    });
+
+    const user = await response.json();
+    return user;
+  }
 };

@@ -11,7 +11,7 @@ const LoginForm = ({ onSubmitHandler }) => {
 
   const onSubmit = data => {
     onSubmitHandler(data);
-    reset();
+    //reset();
   };
 
   return (

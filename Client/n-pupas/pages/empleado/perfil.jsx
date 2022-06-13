@@ -8,12 +8,7 @@ import { testEmployee } from 'data/tempObjects';
 import Head from 'next/head';
 
 const EmployeeProfilePage = () => {
-  const router = useRouter();
-
-  const logout = () => {
-    // Lógica para cerrar sesión
-    router.push(loginRoute);
-  };
+  const { logout } = useAuthContext();
 
   const handleOnLogout = () => {
     confirmAlert({

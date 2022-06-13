@@ -4,18 +4,12 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import { profilePageName } from 'constants/strings';
 import { confirmAlert } from 'react-confirm-alert';
 import ProfileCard from 'components/cards/profile';
+import useAuthContext from 'context/AuthContext';
 import { testAdmin } from 'data/tempObjects';
-import { loginRoute } from 'routes/routes';
-import { useRouter } from 'next/router';
 import Head from 'next/head';
 
 const EmployeeProfilePage = () => {
-  const router = useRouter();
-
-  const logout = () => {
-    // Lógica para cerrar sesión
-    router.push(loginRoute);
-  };
+  const { logout } = useAuthContext();
 
   const handleOnLogout = () => {
     confirmAlert({
