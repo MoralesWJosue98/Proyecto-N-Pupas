@@ -1,6 +1,8 @@
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { adminPages } from 'constants/strings';
+import { CustomModal } from 'components/layout/modal/custom-modal';
 import Head from 'next/head';
+import toast from 'react-hot-toast';
 import ReportECard from 'components/cards/report-card';
 import { testComments } from 'data/tempObjects';
 
@@ -10,7 +12,21 @@ const ReportesPages = ({ }) => {
         // Lógica para eliminar
         toast.success('Reporte eliminado exitosamente');
     };
-    
+
+    const onDeleteHandler = report => {
+        confirmAlert({
+          customUI: ({ onClose }) => {
+            return (
+              <CustomModal
+                onClose={onClose}
+                onConfirm={deleteReport}
+                text={`¿Segura/o que quieres eliminar el reporte de "${report}"?`}
+              />
+            );
+          },
+        });
+      };
+
   return (
     <main className='p-6 flex flex-col gap-5'>
         <Head>
