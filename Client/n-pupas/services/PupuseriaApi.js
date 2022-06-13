@@ -45,4 +45,9 @@ export const PupuseriaApi = class {
     const branches = getData(token, '/pupuserias/branches/me');
     return branches;
   }
+
+  getOneBranch(token, id) {
+    const branch = getData(token, `/pupuserias/branches/${id}`);
+    return branch;
+  }
 };
