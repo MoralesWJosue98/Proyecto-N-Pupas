@@ -3,6 +3,17 @@ import { toFormData } from 'utils/utils';
 export const BASE_URL = 'http://localhost:8080';
 let instance;
 
+const getData = async (token, path) => {
+  const response = await fetch(`${BASE_URL}${path}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = response.json();
+  return data;
+};
+
 export const PupuseriaApi = class {
   constructor() {
     if (!instance) {
@@ -28,5 +39,10 @@ export const PupuseriaApi = class {
 
     const user = await response.json();
     return user;
+  }
+
+  getAllBranches(token) {
+    const branches = getData(token, '/pupuserias/branches/me');
+    return branches;
   }
 };
