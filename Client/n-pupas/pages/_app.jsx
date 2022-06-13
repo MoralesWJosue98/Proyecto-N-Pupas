@@ -1,4 +1,5 @@
 import { AuthContextProvider } from 'context/AuthContext';
+import { RouteGuard } from 'components/guards/RouteGuard';
 import { AppContextProvider } from 'context/context';
 import Layout from 'components/layout/layout';
 import { loginRoute } from 'routes/routes';
@@ -15,9 +16,11 @@ function MyApp({ Component, pageProps }) {
         {router.pathname === loginRoute ? (
           <Component {...pageProps} />
         ) : (
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <RouteGuard>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </RouteGuard>
         )}
         <Toaster
           position='top-center'
