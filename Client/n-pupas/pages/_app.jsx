@@ -1,5 +1,5 @@
 import { AuthContextProvider } from 'context/AuthContext';
-import { AppContextProvider } from 'context/context';
+import { BranchContextProvider } from 'context/BranchContext';
 import Layout from 'components/layout/layout';
 import { loginRoute } from 'routes/routes';
 import { Toaster } from 'react-hot-toast';
@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <AuthContextProvider>
-      <AppContextProvider>
+      <BranchContextProvider>
         {router.pathname === loginRoute ? (
           <Component {...pageProps} />
         ) : (
@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }) {
             },
           }}
         />
-      </AppContextProvider>
+      </BranchContextProvider>
     </AuthContextProvider>
   );
 }
