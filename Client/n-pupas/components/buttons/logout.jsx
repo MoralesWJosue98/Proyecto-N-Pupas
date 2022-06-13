@@ -1,16 +1,10 @@
 import { CustomModal } from 'components/layout/modal/custom-modal';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { confirmAlert } from 'react-confirm-alert';
-import { loginRoute } from 'routes/routes';
-import { useRouter } from 'next/router';
+import useAuthContext from 'context/AuthContext';
 
 const LogoutButton = () => {
-  const router = useRouter();
-
-  const logout = () => {
-    // Lógica para cerrar sesión
-    router.push(loginRoute);
-  };
+  const { logout } = useAuthContext();
 
   const handleOnClick = () => {
     confirmAlert({
