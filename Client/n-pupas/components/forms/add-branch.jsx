@@ -20,22 +20,6 @@ const AddBranchForm = ({ onSubmitHandler, branch = false }) => {
       className='w-full md:max-w-[900px] mx-auto flex flex-col gap-4'
     >
       <div className='flex flex-col gap-5 md:grid md:grid-cols-2 mb-5'>
-        <div className='md:col-span-2'>
-          <input
-            type='text'
-            placeholder='Dirección'
-            defaultValue={branch ? branch.address : ''}
-            className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-            {...register('address', {
-              required: 'Dirección requerida',
-              maxLength: {
-                value: 80,
-                message: 'El máximo de caracteres es 80',
-              },
-            })}
-          />
-          {errors.address && <p className='mt-1 text-red-700'>{errors.address.message}</p>}
-        </div>
         <div>
           <input
             type='text'
@@ -56,12 +40,28 @@ const AddBranchForm = ({ onSubmitHandler, branch = false }) => {
           <input
             type='text'
             placeholder='Fecha de apertura'
-            defaultValue={branch ? branch.date : ''}
+            defaultValue={branch ? branch.openingDate : ''}
             onFocus={e => (e.target.type = 'date')}
             className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
             {...register('date', { required: 'Fecha de apertura requerida' })}
           />
           {errors.date && <p className='mt-1 text-red-700'>{errors.date.message}</p>}
+        </div>
+        <div className='md:col-span-2'>
+          <input
+            type='text'
+            placeholder='Dirección'
+            defaultValue={branch ? branch.address : ''}
+            className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
+            {...register('address', {
+              required: 'Dirección requerida',
+              maxLength: {
+                value: 80,
+                message: 'El máximo de caracteres es 80',
+              },
+            })}
+          />
+          {errors.address && <p className='mt-1 text-red-700'>{errors.address.message}</p>}
         </div>
       </div>
 
