@@ -3,13 +3,12 @@ import CrudButton from 'components/buttons/crud';
 import { adminRoutes } from 'routes/routes';
 import { useRouter } from 'next/router';
 
-const ReportECard = ({  comment, onDeleteHandler , onHandleOnMOdify}) => {
+const ReportECard = ({  comment, onDeleteHandler }) => {
   const router = useRouter();
 
 
 const handleOnModify = () => {
-    onHandleOnMOdify();
-    
+    router.push(`${adminRoutes.editReport}/${comment.id}`)
   };
 
   const handleOnDelete = () => {

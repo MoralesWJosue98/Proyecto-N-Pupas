@@ -1,6 +1,7 @@
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { adminPages } from 'constants/strings';
 import { CustomModal } from 'components/layout/modal/custom-modal';
+import { confirmAlert } from 'react-confirm-alert';
 import Head from 'next/head';
 import toast from 'react-hot-toast';
 import ReportECard from 'components/cards/report-card';
