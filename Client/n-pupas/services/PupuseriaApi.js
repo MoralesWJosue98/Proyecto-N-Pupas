@@ -103,6 +103,10 @@ export const PupuseriaApi = class {
     return getData(`/pupuserias/branches/${branchID}/purchases/today`, token);
   }
 
+  getAllPurchases(token, branchID) {
+    return getData(`/pupuserias/branches/${branchID}/purchases`, token);
+  }
+
   createPurchase(token, branchID, body) {
     return postData(`/pupuserias/branches/${branchID}/purchases`, token, body);
   }
