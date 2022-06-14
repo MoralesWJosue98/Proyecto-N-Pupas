@@ -1,8 +1,11 @@
 import AddBranchForm from 'components/forms/add-branch';
 import { PupuseriaApi } from 'services/PupuseriaApi';
+import useAuthContext from 'context/AuthContext';
 import { adminPages } from 'constants/strings';
 import { tokenCookie } from 'constants/data';
+import { adminRoutes } from 'routes/routes';
 import { getCookie } from 'cookies-next';
+import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import Head from 'next/head';
 import React from 'react';
@@ -10,9 +13,22 @@ import React from 'react';
 const pupuseriaApi = new PupuseriaApi();
 
 export default function editBranchPage({ branch }) {
-  const onSubmitForm = data => {
-    //alert(data.address);
-    toast.success('Cambios guardados con éxito');
+  const router = useRouter();
+  const { token } = useAuthContext();
+
+  const onSubmitForm = async data => {
+    try {
+      const upated = await pupuseriaApi.updateBranch(token, branch.id, data);
+      if (upated) {
+        toast.success('Cambios guardados exitosamente');
+        router.push(adminRoutes.branches);
+      } else {
+        toast.error('No se pudieron guardar los cambios');
+      }
+    } catch (e) {
+      console.log(e);
+      toast.error('Ocurrió un error interno');
+    }
   };
 
   return (

@@ -15,16 +15,16 @@ const getData = async (path, token) => {
 };
 
 const postData = async (path, token, body) => {
+  console.log(body);
   const response = await fetch(`${BASE_URL}${path}`, {
     method: 'POST',
-    mode: 'no-cors',
     headers: {
       Authorization: `Bearer ${token}`,
     },
     body: toFormData(body),
   });
 
-  return response;
+  return response.ok;
 };
 
 const deleteData = async (path, token) => {
@@ -35,7 +35,19 @@ const deleteData = async (path, token) => {
     },
   });
 
-  return response;
+  return response.ok;
+};
+
+const putData = async (path, token, body) => {
+  const response = await fetch(`${BASE_URL}${path}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: toFormData(body),
+  });
+
+  return response.ok;
 };
 
 export const PupuseriaApi = class {
@@ -76,12 +88,14 @@ export const PupuseriaApi = class {
   }
 
   createBranch(token, body) {
-    const response = postData('/pupuserias/branches/', token, body);
-    return response.ok;
+    return postData('/pupuserias/branches/', token, body);
   }
 
   deleteBranch(token, id) {
-    const response = deleteData(`/pupuserias/branches/${id}`, token);
-    return response.ok;
+    return deleteData(`/pupuserias/branches/${id}`, token);
+  }
+
+  updateBranch(token, id, body) {
+    return putData(`/pupuserias/branches/${id}`, token, body);
   }
 };
