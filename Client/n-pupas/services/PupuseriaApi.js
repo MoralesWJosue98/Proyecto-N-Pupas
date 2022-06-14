@@ -17,10 +17,22 @@ const getData = async (path, token) => {
 const postData = async (path, token, body) => {
   const response = await fetch(`${BASE_URL}${path}`, {
     method: 'POST',
+    mode: 'no-cors',
     headers: {
       Authorization: `Bearer ${token}`,
     },
     body: toFormData(body),
+  });
+
+  return response;
+};
+
+const deleteData = async (path, token) => {
+  const response = await fetch(`${BASE_URL}${path}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   return response;
@@ -65,6 +77,11 @@ export const PupuseriaApi = class {
 
   createBranch(token, body) {
     const response = postData('/pupuserias/branches/', token, body);
+    return response.ok;
+  }
+
+  deleteBranch(token, id) {
+    const response = deleteData(`/pupuserias/branches/${id}`, token);
     return response.ok;
   }
 };

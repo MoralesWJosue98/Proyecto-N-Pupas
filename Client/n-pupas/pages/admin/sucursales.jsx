@@ -10,22 +10,36 @@ import { adminRoutes } from 'routes/routes';
 import { getCookie } from 'cookies-next';
 import toast from 'react-hot-toast';
 import Head from 'next/head';
+import useAuthContext from 'context/AuthContext';
 
 const pupuseriaApi = new PupuseriaApi();
 
 const BranchesPage = ({ branches }) => {
-  const deleteBranch = () => {
-    // Lógica para eliminar
-    toast.success('Sucursal eliminada exitosamente');
+  console.log(branches);
+  const { token } = useAuthContext();
+
+  const deleteBranch = async id => {
+    const deleted = await pupuseriaApi.deleteBranch(token, id);
+
+    try {
+      if (deleted) {
+        toast.success('Sucursal eliminada');
+      } else {
+        toast.error('No se pudo eliminar la sucursal');
+      }
+    } catch (e) {
+      console.log(e);
+      toast.error('Ocurrió un error interno');
+    }
   };
 
-  const onDeleteHandler = branchName => {
+  const onDeleteHandler = (id, branchName) => {
     confirmAlert({
       customUI: ({ onClose }) => {
         return (
           <CustomModal
             onClose={onClose}
-            onConfirm={deleteBranch}
+            onConfirm={() => deleteBranch(id)}
             text={`¿Segura/o que quieres eliminar la sucursal "${branchName}"?`}
           />
         );
@@ -45,7 +59,7 @@ const BranchesPage = ({ branches }) => {
             <BranchCard
               branch={branch}
               key={branch.id}
-              onDeleteHandler={() => onDeleteHandler(branch.name)}
+              onDeleteHandler={() => onDeleteHandler(branch.id, branch.name)}
             />
           );
         })}
