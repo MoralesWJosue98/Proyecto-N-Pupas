@@ -19,7 +19,7 @@ const BranchCard = ({ branch, onDeleteHandler }) => {
       <div className='flex flex-col mb-2'>
         <h2 className='font-bold'>{branch.name}</h2>
         <p> {branch.address} </p>
-        <p> {`Desde ${branch.date}`} </p>
+        <p> {`Desde: ${branch.openingDate}`} </p>
         <div>
           <CrudButton actionType={crudActionTypes.update} onClickHandler={handleOnModify} />
           <CrudButton actionType={crudActionTypes.delete} onClickHandler={handleOnDelete} />

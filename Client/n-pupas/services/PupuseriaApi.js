@@ -3,6 +3,53 @@ import { toFormData } from 'utils/utils';
 export const BASE_URL = 'http://localhost:8080';
 let instance;
 
+const getData = async (path, token) => {
+  const response = await fetch(`${BASE_URL}${path}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = response.json();
+  return data;
+};
+
+const postData = async (path, token, body) => {
+  console.log(body);
+  const response = await fetch(`${BASE_URL}${path}`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: toFormData(body),
+  });
+
+  return response.ok;
+};
+
+const deleteData = async (path, token) => {
+  const response = await fetch(`${BASE_URL}${path}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.ok;
+};
+
+const putData = async (path, token, body) => {
+  const response = await fetch(`${BASE_URL}${path}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: toFormData(body),
+  });
+
+  return response.ok;
+};
+
 export const PupuseriaApi = class {
   constructor() {
     if (!instance) {
@@ -28,5 +75,27 @@ export const PupuseriaApi = class {
 
     const user = await response.json();
     return user;
+  }
+
+  getAllBranches(token) {
+    const branches = getData('/pupuserias/branches/me', token);
+    return branches;
+  }
+
+  getOneBranch(token, id) {
+    const branch = getData(`/pupuserias/branches/${id}`, token);
+    return branch;
+  }
+
+  createBranch(token, body) {
+    return postData('/pupuserias/branches/', token, body);
+  }
+
+  deleteBranch(token, id) {
+    return deleteData(`/pupuserias/branches/${id}`, token);
+  }
+
+  updateBranch(token, id, body) {
+    return putData(`/pupuserias/branches/${id}`, token, body);
   }
 };

@@ -1,27 +1,55 @@
 import { CustomModal } from 'components/layout/modal/custom-modal';
 import PageHeading from 'components/information/page-heading';
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import { PupuseriaApi } from 'services/PupuseriaApi';
 import { confirmAlert } from 'react-confirm-alert';
 import BranchCard from 'components/cards/branch';
 import { adminPages } from 'constants/strings';
-import { testBranch } from 'data/tempObjects';
+import { useState, useEffect } from 'react';
+import { tokenCookie } from 'constants/data';
 import { adminRoutes } from 'routes/routes';
+import { getCookie } from 'cookies-next';
 import toast from 'react-hot-toast';
 import Head from 'next/head';
+import useAuthContext from 'context/AuthContext';
 
-const BranchesPage = () => {
-  const deleteBranch = () => {
-    // Lógica para eliminar
-    toast.success('Sucursal eliminada exitosamente');
+const pupuseriaApi = new PupuseriaApi();
+
+const BranchesPage = ({ allBranches }) => {
+  const [branches, setBranches] = useState(allBranches);
+  const [deleteToggle, setDeleteToggle] = useState(false);
+  const { token } = useAuthContext();
+
+  useEffect(() => {
+    const getAllBranches = async () => {
+      const branches = await pupuseriaApi.getAllBranches(token);
+      setBranches(branches);
+    };
+    getAllBranches();
+  }, [deleteToggle]);
+
+  const deleteBranch = async id => {
+    try {
+      const deleted = await pupuseriaApi.deleteBranch(token, id);
+      if (deleted) {
+        setDeleteToggle(!deleteToggle);
+        toast.success('Sucursal eliminada');
+      } else {
+        toast.error('No se pudo eliminar la sucursal');
+      }
+    } catch (e) {
+      console.log(e);
+      toast.error('Ocurrió un error interno');
+    }
   };
 
-  const onDeleteHandler = branchName => {
+  const onDeleteHandler = (id, branchName) => {
     confirmAlert({
       customUI: ({ onClose }) => {
         return (
           <CustomModal
             onClose={onClose}
-            onConfirm={deleteBranch}
+            onConfirm={() => deleteBranch(id)}
             text={`¿Segura/o que quieres eliminar la sucursal "${branchName}"?`}
           />
         );
@@ -36,12 +64,12 @@ const BranchesPage = () => {
       </Head>
       <PageHeading title={adminPages.branches} route={adminRoutes.newBranch} />
       <div className='flex flex-col gap-5 md:grid md:grid-cols-2'>
-        {testBranch.map(branch => {
+        {branches.map(branch => {
           return (
             <BranchCard
               branch={branch}
               key={branch.id}
-              onDeleteHandler={() => onDeleteHandler(branch.name)}
+              onDeleteHandler={() => onDeleteHandler(branch.id, branch.name)}
             />
           );
         })}
@@ -51,3 +79,22 @@ const BranchesPage = () => {
 };
 
 export default BranchesPage;
+
+export async function getServerSideProps({ req, res }) {
+  const token = getCookie(tokenCookie, { req, res });
+
+  try {
+    const allBranches = await pupuseriaApi.getAllBranches(token);
+    return {
+      props: {
+        allBranches: allBranches,
+      },
+    };
+  } catch (e) {
+    return {
+      redirect: {
+        destination: '/500',
+      },
+    };
+  }
+}

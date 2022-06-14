@@ -1,8 +1,8 @@
 import React, { useContext, createContext, useState, useMemo } from 'react';
 
-export const AppContext = createContext(null);
+export const BranchContext = createContext(null);
 
-export const AppContextProvider = ({ children }) => {
+export const BranchContextProvider = ({ children }) => {
   const [branchID, setBranchID] = useState(null);
 
   const values = useMemo(
@@ -13,11 +13,11 @@ export const AppContextProvider = ({ children }) => {
     [branchID]
   );
 
-  return <AppContext.Provider value={values}>{children}</AppContext.Provider>;
+  return <BranchContext.Provider value={values}>{children}</BranchContext.Provider>;
 };
 
-export function useAppContext() {
-  const context = useContext(AppContext);
+export function useBranchContext() {
+  const context = useContext(BranchContext);
 
   if (!context) {
     console.error('An error has occurred');
@@ -25,4 +25,4 @@ export function useAppContext() {
   return context;
 }
 
-export default useAppContext;
+export default useBranchContext;
