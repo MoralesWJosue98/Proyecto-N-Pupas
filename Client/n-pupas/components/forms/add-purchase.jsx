@@ -6,12 +6,10 @@ const AddPurchaseForm = ({ onSubmitHandler }) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm();
 
   const onSubmit = data => {
     onSubmitHandler(data);
-    reset();
   };
 
   return (
@@ -38,16 +36,19 @@ const AddPurchaseForm = ({ onSubmitHandler }) => {
         <div>
           <input
             type='text'
-            placeholder='Fecha y hora'
-            onFocus={e => (e.target.type = 'datetime-local')}
+            placeholder='Fecha'
+            onFocus={e => (e.target.type = 'date')}
             className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-            {...register('datetime', { required: 'Fecha y hora requeridas' })}
+            {...register('purchaseDate', { required: 'Fecha y hora requeridas' })}
           />
-          {errors.datetime && <p className='mt-1 text-red-700'>{errors.datetime.message}</p>}
+          {errors.purchaseDate && (
+            <p className='mt-1 text-red-700'>{errors.purchaseDate.message}</p>
+          )}
         </div>
         <div>
           <input
             type='number'
+            step={0.01}
             placeholder='Monto'
             className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
             {...register('amount', {

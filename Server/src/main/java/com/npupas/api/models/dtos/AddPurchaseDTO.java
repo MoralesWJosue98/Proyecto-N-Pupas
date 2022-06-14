@@ -11,7 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class AddPurchaseDTO {
 	
 	@NotBlank(message = "Concept cannot be blank!")
-	@Size(min = 15,  message = "The concept must have a minimum of 15 characters")
+	@Size(min = 5,  message = "The concept must have a minimum of 5 characters")
 	private String concept;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -24,7 +24,7 @@ public class AddPurchaseDTO {
 	}
 
 	public AddPurchaseDTO(
-			@NotBlank(message = "Concept cannot be blank!") @Size(min = 15, message = "The concept must have a minimum of 15 characters") String concept,
+			@NotBlank(message = "Concept cannot be blank!") @Size(min = 5, message = "The concept must have a minimum of 5 characters") String concept,
 			@NotBlank(message = "Date cannot be blank!") LocalDate purchaseDate,
 			@NotBlank(message = "Amount cannot be blank!") BigDecimal amount) {
 		super();
