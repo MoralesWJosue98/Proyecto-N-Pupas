@@ -1,8 +1,8 @@
 import AddBranchForm from 'components/forms/add-branch';
-import { adminPages } from 'constants/strings';
-import { getCookie } from 'cookies-next';
-import { tokenCookie } from 'constants/data';
 import { PupuseriaApi } from 'services/PupuseriaApi';
+import { adminPages } from 'constants/strings';
+import { tokenCookie } from 'constants/data';
+import { getCookie } from 'cookies-next';
 import toast from 'react-hot-toast';
 import Head from 'next/head';
 import React from 'react';
@@ -40,7 +40,6 @@ export async function getServerSideProps({ query, req, res }) {
       },
     };
   } catch (e) {
-    console.log(e);
     return {
       redirect: {
         destination: '/500',

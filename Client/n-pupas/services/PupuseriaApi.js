@@ -3,7 +3,7 @@ import { toFormData } from 'utils/utils';
 export const BASE_URL = 'http://localhost:8080';
 let instance;
 
-const getData = async (token, path) => {
+const getData = async (path, token) => {
   const response = await fetch(`${BASE_URL}${path}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -12,6 +12,18 @@ const getData = async (token, path) => {
 
   const data = response.json();
   return data;
+};
+
+const postData = async (path, token, body) => {
+  const response = await fetch(`${BASE_URL}${path}`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: toFormData(body),
+  });
+
+  return response;
 };
 
 export const PupuseriaApi = class {
@@ -42,12 +54,17 @@ export const PupuseriaApi = class {
   }
 
   getAllBranches(token) {
-    const branches = getData(token, '/pupuserias/branches/me');
+    const branches = getData('/pupuserias/branches/me', token);
     return branches;
   }
 
   getOneBranch(token, id) {
-    const branch = getData(token, `/pupuserias/branches/${id}`);
+    const branch = getData(`/pupuserias/branches/${id}`, token);
     return branch;
+  }
+
+  createBranch(token, body) {
+    const response = postData('/pupuserias/branches/', token, body);
+    return response.ok;
   }
 };
