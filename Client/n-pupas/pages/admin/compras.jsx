@@ -1,18 +1,70 @@
+import { CustomModal } from 'components/layout/modal/custom-modal';
 import SectionTitle from 'components/information/section-title';
 import PageHeading from 'components/information/page-heading';
 import PurchaseTableRow from 'components/tables/purchaseRow';
 import { branchCookie, tokenCookie } from 'constants/data';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import { adminPages, titles } from 'constants/strings';
-import { PupuseriaApi } from 'services/PupuseriaApi';
 import { calculateTodayExpenses } from 'utils/utils';
+import { PupuseriaApi } from 'services/PupuseriaApi';
+import useBranchContext from 'context/BranchContext';
 import PurchaseCard from 'components/cards/purchase';
+import { confirmAlert } from 'react-confirm-alert';
+import useAuthContext from 'context/AuthContext';
+import { useState, useEffect } from 'react';
 import { adminRoutes } from 'routes/routes';
 import { getCookie } from 'cookies-next';
+import toast from 'react-hot-toast';
 import Head from 'next/head';
 
 const pupuseriaApi = new PupuseriaApi();
 
 const PurchasesPage = ({ todayPurchases, allPurchases }) => {
+  const [purchases, setPurchases] = useState(allPurchases);
+  const [today, setToday] = useState(todayPurchases);
+  const [deleteToggle, setDeleteToggle] = useState(false);
+  const { token } = useAuthContext();
+  const { branchID } = useBranchContext();
+
+  useEffect(() => {
+    const getPurchases = async () => {
+      const purchases = await pupuseriaApi.getAllPurchases(token, branchID);
+      const today = await pupuseriaApi.getTodayPurchases(token, branchID);
+      setPurchases(purchases);
+      setToday(today);
+    };
+    getPurchases();
+  }, [deleteToggle]);
+
+  const deletePurchase = async id => {
+    try {
+      const deleted = await pupuseriaApi.deletePurchase(token, branchID, id);
+      if (deleted) {
+        setDeleteToggle(!deleteToggle);
+        toast.success('Compra eliminada');
+      } else {
+        toast.error('No se pudo eliminar la compra');
+      }
+    } catch (e) {
+      console.log(e);
+      toast.error('Ocurrió un error interno');
+    }
+  };
+
+  const onDeleteHandler = id => {
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <CustomModal
+            onClose={onClose}
+            onConfirm={() => deletePurchase(id)}
+            text={`¿Segura/o que quieres eliminar la compra?`}
+          />
+        );
+      },
+    });
+  };
+
   return (
     <main className='p-6 flex flex-col gap-5'>
       <Head>
@@ -21,7 +73,7 @@ const PurchasesPage = ({ todayPurchases, allPurchases }) => {
       <PageHeading title={adminPages.purchases} route={adminRoutes.newPurchase} />
       <section>
         <SectionTitle title={titles.today} />
-        {todayPurchases.length > 0 ? (
+        {today.length > 0 ? (
           <section>
             <p className='text-lg text-primary-500 font-bold mb-5'>
               Gasto total: ${calculateTodayExpenses(todayPurchases)}
@@ -35,7 +87,7 @@ const PurchasesPage = ({ todayPurchases, allPurchases }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {todayPurchases.map(purchase => {
+                  {today.map(purchase => {
                     return <PurchaseTableRow key={purchase.id} purchase={purchase} />;
                   })}
                 </tbody>
@@ -48,10 +100,15 @@ const PurchasesPage = ({ todayPurchases, allPurchases }) => {
       </section>
       <section>
         <SectionTitle title='Historial de compras' />
-        {allPurchases.length > 0 ? (
+        {purchases.length > 0 ? (
           <section className='flex flex-col gap-5 md:grid md:grid-cols-2 lg:grid-cols-3'>
-            {allPurchases.map(purchase => {
-              return <PurchaseCard purchase={purchase} onDeleteHandler={() => alert('a')} />;
+            {purchases.map(purchase => {
+              return (
+                <PurchaseCard
+                  purchase={purchase}
+                  onDeleteHandler={() => onDeleteHandler(purchase.id)}
+                />
+              );
             })}
           </section>
         ) : (

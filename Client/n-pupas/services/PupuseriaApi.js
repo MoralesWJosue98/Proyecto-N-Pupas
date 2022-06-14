@@ -110,4 +110,8 @@ export const PupuseriaApi = class {
   createPurchase(token, branchID, body) {
     return postData(`/pupuserias/branches/${branchID}/purchases`, token, body);
   }
+
+  deletePurchase(token, branchID, purchaseID) {
+    return deleteData(`/pupuserias/branches/${branchID}/purchases/${purchaseID}`, token);
+  }
 };
