@@ -25,7 +25,7 @@ const AddBranchForm = ({ onSubmitHandler, branch = false }) => {
             placeholder='Nombre'
             defaultValue={branch ? branch.name : ''}
             className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-            {...register('name', {
+            {...register('nameBranch', {
               required: 'Nombre requerido',
               maxLength: {
                 value: 80,
@@ -33,7 +33,7 @@ const AddBranchForm = ({ onSubmitHandler, branch = false }) => {
               },
             })}
           />
-          {errors.name && <p className='mt-1 text-red-700'>{errors.name.message}</p>}
+          {errors.nameBranch && <p className='mt-1 text-red-700'>{errors.nameBranch.message}</p>}
         </div>
         <div>
           <input

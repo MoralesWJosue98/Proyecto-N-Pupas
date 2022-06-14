@@ -5,6 +5,7 @@ import { PupuseriaApi } from 'services/PupuseriaApi';
 import { confirmAlert } from 'react-confirm-alert';
 import BranchCard from 'components/cards/branch';
 import { adminPages } from 'constants/strings';
+import { useState, useEffect } from 'react';
 import { tokenCookie } from 'constants/data';
 import { adminRoutes } from 'routes/routes';
 import { getCookie } from 'cookies-next';
@@ -14,15 +15,24 @@ import useAuthContext from 'context/AuthContext';
 
 const pupuseriaApi = new PupuseriaApi();
 
-const BranchesPage = ({ branches }) => {
-  console.log(branches);
+const BranchesPage = ({ allBranches }) => {
+  const [branches, setBranches] = useState(allBranches);
+  const [deleteToggle, setDeleteToggle] = useState(false);
   const { token } = useAuthContext();
 
-  const deleteBranch = async id => {
-    const deleted = await pupuseriaApi.deleteBranch(token, id);
+  useEffect(() => {
+    const getAllBranches = async () => {
+      const branches = await pupuseriaApi.getAllBranches(token);
+      setBranches(branches);
+    };
+    getAllBranches();
+  }, [deleteToggle]);
 
+  const deleteBranch = async id => {
     try {
+      const deleted = await pupuseriaApi.deleteBranch(token, id);
       if (deleted) {
+        setDeleteToggle(!deleteToggle);
         toast.success('Sucursal eliminada');
       } else {
         toast.error('No se pudo eliminar la sucursal');
@@ -77,7 +87,7 @@ export async function getServerSideProps({ req, res }) {
     const allBranches = await pupuseriaApi.getAllBranches(token);
     return {
       props: {
-        branches: allBranches,
+        allBranches: allBranches,
       },
     };
   } catch (e) {
