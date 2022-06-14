@@ -98,4 +98,8 @@ export const PupuseriaApi = class {
   updateBranch(token, id, body) {
     return putData(`/pupuserias/branches/${id}`, token, body);
   }
+
+  getTodayPurchases(token, branchID) {
+    return getData(`/pupuserias/branches/${branchID}/purchases/today`, token);
+  }
 };

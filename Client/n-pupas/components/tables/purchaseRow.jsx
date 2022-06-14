@@ -7,7 +7,7 @@ const PurchaseTableRow = ({ purchase }) => {
       >
         {purchase.concept}
       </th>
-      <td className='px-6 py-4 font-bold'>${purchase.amount}</td>
+      <td className='px-6 py-4 font-bold'>${purchase.amount.toFixed(2)}</td>
     </tr>
   );
 };
