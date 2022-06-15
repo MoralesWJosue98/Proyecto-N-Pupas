@@ -9,6 +9,8 @@ public interface PurchaseService {
 
 	List<Purchase> getAllBranchPurchases(Long branchId);
 
+	List<Purchase> getTodayBranchPurchases(Long branchId);
+
 	Purchase getOnePurchase(Long idPurchase);
 
 	void save(Long branchId, AddPurchaseDTO purchase);

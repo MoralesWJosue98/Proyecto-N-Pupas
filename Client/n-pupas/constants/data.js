@@ -3,6 +3,7 @@ import { employeePages, adminPages } from './strings';
 
 export const tokenCookie = 'token';
 export const roleCookie = 'role';
+export const branchCookie = 'branch';
 
 export const adminRole = 'Admin';
 export const employeeRole = 'Employee';

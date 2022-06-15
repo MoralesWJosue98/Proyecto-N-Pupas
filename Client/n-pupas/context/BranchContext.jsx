@@ -1,9 +1,15 @@
-import React, { useContext, createContext, useState, useMemo } from 'react';
+import React, { useContext, createContext, useState, useMemo, useEffect } from 'react';
+import { branchCookie } from 'constants/data';
+import { getCookie, setCookies } from 'cookies-next';
 
 export const BranchContext = createContext(null);
 
 export const BranchContextProvider = ({ children }) => {
-  const [branchID, setBranchID] = useState(null);
+  const [branchID, setBranchID] = useState(getCookie(branchCookie));
+
+  useEffect(() => {
+    setCookies(branchCookie, branchID);
+  }, [branchID]);
 
   const values = useMemo(
     () => ({

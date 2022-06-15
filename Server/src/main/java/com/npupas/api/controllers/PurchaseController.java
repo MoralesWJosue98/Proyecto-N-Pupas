@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+
 @RequestMapping("/pupuserias/branches")
 public class PurchaseController {
 	@Autowired
@@ -35,8 +38,23 @@ public class PurchaseController {
 	public ResponseEntity<List<Purchase>> getAll(@PathVariable("id") Long branchId) {
 		try {
 			List<Purchase> purchases = purchaseService.getAllBranchPurchases(branchId);
-			if(purchases == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-			
+			if (purchases == null)
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+			return new ResponseEntity<List<Purchase>>(purchases, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@GetMapping("/{id}/purchases/today")
+	public ResponseEntity<List<Purchase>> getByDate(@PathVariable("id") Long branchId) {
+		try {
+			List<Purchase> purchases = purchaseService.getTodayBranchPurchases(branchId);
+			if (purchases == null)
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
 			return new ResponseEntity<List<Purchase>>(purchases, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -48,8 +66,9 @@ public class PurchaseController {
 	public ResponseEntity<Purchase> getOne(@PathVariable("id_purchase") Long purchaseId) {
 		try {
 			Purchase foundPurchase = purchaseService.getOnePurchase(purchaseId);
-			if(foundPurchase == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-			
+			if (foundPurchase == null)
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
 			return new ResponseEntity<Purchase>(foundPurchase, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -93,9 +112,9 @@ public class PurchaseController {
 						HttpStatus.BAD_REQUEST);
 			}
 
-			if(purchaseService.update(purchaseId, purchaseDTO))
-			return new ResponseEntity<MessageDTO>(new MessageDTO("Compra actualizada."), HttpStatus.OK);
-			
+			if (purchaseService.update(purchaseId, purchaseDTO))
+				return new ResponseEntity<MessageDTO>(new MessageDTO("Compra actualizada."), HttpStatus.OK);
+
 			return new ResponseEntity<MessageDTO>(
 					new MessageDTO("No se pudo modificar la compra." + result.getAllErrors().toString()),
 					HttpStatus.BAD_REQUEST);

@@ -41,6 +41,7 @@ const AddProductForm = ({ onSubmitHandler, product = false }) => {
           <input
             type='number'
             placeholder='Precio'
+            step={0.01}
             defaultValue={product ? product.price : ''}
             className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
             {...register('price', {
