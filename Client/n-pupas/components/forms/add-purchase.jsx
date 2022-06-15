@@ -1,7 +1,7 @@
 import PrimaryButton from 'components/buttons/primary';
 import { useForm } from 'react-hook-form';
 
-const AddPurchaseForm = ({ onSubmitHandler }) => {
+const AddPurchaseForm = ({ onSubmitHandler, purchase = false }) => {
   const {
     register,
     handleSubmit,
@@ -22,6 +22,7 @@ const AddPurchaseForm = ({ onSubmitHandler }) => {
           <input
             type='text'
             placeholder='Concepto'
+            defaultValue={purchase ? purchase.concept : ''}
             className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
             {...register('concept', {
               required: 'Concepto requerido',
@@ -37,6 +38,7 @@ const AddPurchaseForm = ({ onSubmitHandler }) => {
           <input
             type='text'
             placeholder='Fecha'
+            defaultValue={purchase ? purchase.purchaseDate : ''}
             onFocus={e => (e.target.type = 'date')}
             className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
             {...register('purchaseDate', { required: 'Fecha y hora requeridas' })}
@@ -50,6 +52,7 @@ const AddPurchaseForm = ({ onSubmitHandler }) => {
             type='number'
             step={0.01}
             placeholder='Monto'
+            defaultValue={purchase ? purchase.amount : ''}
             className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
             {...register('amount', {
               required: 'Monto requerido',

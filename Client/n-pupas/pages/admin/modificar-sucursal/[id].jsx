@@ -18,8 +18,8 @@ export default function editBranchPage({ branch }) {
 
   const onSubmitForm = async data => {
     try {
-      const upated = await pupuseriaApi.updateBranch(token, branch.id, data);
-      if (upated) {
+      const updated = await pupuseriaApi.updateBranch(token, branch.id, data);
+      if (updated) {
         toast.success('Cambios guardados exitosamente');
         router.push(adminRoutes.branches);
       } else {

@@ -1,12 +1,13 @@
 import { crudActionTypes } from 'constants/strings';
 import CrudButton from 'components/buttons/crud';
 import { useRouter } from 'next/router';
+import { adminRoutes } from 'routes/routes';
 
 const PurchaseCard = ({ purchase, onDeleteHandler }) => {
   const router = useRouter();
 
   const handleOnModify = () => {
-    //router.push(`${adminRoutes.editBranch}/${purchase.id}`);
+    router.push(`${adminRoutes.editPurchase}/${purchase.id}`);
   };
 
   const handleOnDelete = () => {

@@ -15,7 +15,6 @@ const getData = async (path, token) => {
 };
 
 const postData = async (path, token, body) => {
-  console.log(body);
   const response = await fetch(`${BASE_URL}${path}`, {
     method: 'POST',
     headers: {
@@ -107,11 +106,19 @@ export const PupuseriaApi = class {
     return getData(`/pupuserias/branches/${branchID}/purchases`, token);
   }
 
+  getOnePurchase(token, branchID, purchaseID) {
+    return getData(`/pupuserias/branches/${branchID}/purchases/${purchaseID}`, token);
+  }
+
   createPurchase(token, branchID, body) {
     return postData(`/pupuserias/branches/${branchID}/purchases`, token, body);
   }
 
   deletePurchase(token, branchID, purchaseID) {
     return deleteData(`/pupuserias/branches/${branchID}/purchases/${purchaseID}`, token);
+  }
+
+  updatePurchase(token, branchID, purchaseID, body) {
+    return putData(`/pupuserias/branches/${branchID}/purchases/${purchaseID}`, token, body);
   }
 };
