@@ -1,5 +1,6 @@
 import { AuthContextProvider } from 'context/AuthContext';
 import { BranchContextProvider } from 'context/BranchContext';
+import { RouteGuard } from 'components/guards/RouteGuard';
 import Layout from 'components/layout/layout';
 import { loginRoute } from 'routes/routes';
 import { Toaster } from 'react-hot-toast';
@@ -15,9 +16,11 @@ function MyApp({ Component, pageProps }) {
         {router.pathname === loginRoute ? (
           <Component {...pageProps} />
         ) : (
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <RouteGuard>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </RouteGuard>
         )}
         <Toaster
           position='top-center'
