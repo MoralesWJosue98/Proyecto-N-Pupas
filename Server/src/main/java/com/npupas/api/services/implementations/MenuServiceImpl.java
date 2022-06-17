@@ -79,7 +79,7 @@ public class MenuServiceImpl implements MenuService{
 			product.setName(dto.getNameProduct());
 			product.setPrice(dto.getPrice());
 			
-			ProductType type = productTypeRepository.findByType(dto.getType());
+			ProductType type = productTypeRepository.findById(dto.getTypeID()).get();
 			product.setType(type);
 			product.setPupuseria(pupuseria);
 			
@@ -112,7 +112,7 @@ public class MenuServiceImpl implements MenuService{
 			product.setName(dto.getNameProduct());
 			product.setPrice(dto.getPrice());
 			
-			ProductType type = productTypeRepository.findByType(dto.getType());
+			ProductType type = productTypeRepository.findById(dto.getTypeID()).get();
 			product.setType(type);
 			
 			productRepository.save(product);

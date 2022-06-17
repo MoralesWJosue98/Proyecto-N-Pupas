@@ -44,7 +44,7 @@ public class MenuController {
 	public ResponseEntity<MessageDTO> createProduct(@RequestHeader("Authorization") String token, @Valid AddProductDTO product, BindingResult result){
 		try {
 			if(result.hasErrors()) {
-				return new ResponseEntity<MessageDTO>(new MessageDTO("Datos de la petición son incorrectos."), HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<MessageDTO>(new MessageDTO("Datos de la petición son incorrectos. " + result.getAllErrors().toString()), HttpStatus.BAD_REQUEST);
 			}
 			
 			if(menuService.createProduct(token, product)) return new ResponseEntity<MessageDTO>(new MessageDTO("Producto creado con éxito."), HttpStatus.CREATED);
