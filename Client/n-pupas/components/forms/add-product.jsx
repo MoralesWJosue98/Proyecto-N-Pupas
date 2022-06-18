@@ -28,6 +28,10 @@ const AddProductForm = ({ onSubmitHandler, productTypes, product = false }) => {
             className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
             {...register('nameProduct', {
               required: 'Nombre requerido',
+              minLength: {
+                value: 8,
+                message: 'El mínimo de caracteres es 8',
+              },
               maxLength: {
                 value: 80,
                 message: 'El máximo de caracteres es 80',
@@ -52,6 +56,7 @@ const AddProductForm = ({ onSubmitHandler, productTypes, product = false }) => {
         </div>
         <div>
           <select
+            defaultValue={product ? product.type.id : ''}
             className='shadow border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
             {...register('typeID', { required: 'Categoría requerida' })}
           >
@@ -66,27 +71,27 @@ const AddProductForm = ({ onSubmitHandler, productTypes, product = false }) => {
           {errors.typeID && <p className='mt-1 text-red-700'>{errors.typeID.message}</p>}
         </div>
         <div>
-        <input
-          type='file'
-          id='files'
-          placeholder='Imagen'
-          accept='image/png, image/jpeg'
-          // TODO: mostrar imagen guardada al modificar
-          className=' shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-          {...register('image', {
-            required: 'Imagen requerida',
-            validate: {
-              lessThan10MB: files =>
-                !files[0]?.size || files[0]?.size < 5000000 || 'El máximo es de 5MB',
-              acceptedFormats: files =>
-                !files[0]?.size ||
-                ['image/jpeg', 'image/png'].includes(files[0]?.type) ||
-                'La imagen debe ser PNG o JPEG',
-            },
-          })}
-        />
-        {errors.image && <p className=' text-red-700'>{errors.image.message}</p>}
-      </div>
+          <input
+            type='file'
+            id='files'
+            placeholder='Imagen'
+            accept='image/png, image/jpeg'
+            // TODO: mostrar imagen guardada al modificar
+            className=' shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
+            {...register('image', {
+              required: false,
+              validate: {
+                lessThan10MB: files =>
+                  !files[0]?.size || files[0]?.size < 5000000 || 'El máximo es de 5MB',
+                acceptedFormats: files =>
+                  !files[0]?.size ||
+                  ['image/jpeg', 'image/png'].includes(files[0]?.type) ||
+                  'La imagen debe ser PNG o JPEG',
+              },
+            })}
+          />
+          {errors.image && <p className=' text-red-700'>{errors.image.message}</p>}
+        </div>
       </div>
 
       <PrimaryButton text={product ? 'Guardar' : 'Agregar'} />

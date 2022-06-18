@@ -20,6 +20,7 @@ public class AddProductDTO {
 	@NotNull(message = "Type cannot be null")
 	private Long typeID;
 	
+	@Nullable
 	private MultipartFile[] image;
 
 	public AddProductDTO() {

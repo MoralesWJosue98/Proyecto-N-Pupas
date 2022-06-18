@@ -16,7 +16,12 @@ export default function NewProductPage({ productTypes }) {
   const { token } = useAuthContext();
 
   const onSubmitForm = async data => {
-    data.image = data.image[0];
+    if (data.image[length]) {
+      data.image = data.image[0];
+    } else {
+      delete data.image;
+    }
+
     try {
       const created = await pupuseriaApi.createProduct(token, data);
 
