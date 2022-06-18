@@ -21,37 +21,40 @@ import com.npupas.api.repositories.TokenRepository;
 import com.npupas.api.services.MenuService;
 
 @Service
-public class MenuServiceImpl implements MenuService{
+public class MenuServiceImpl implements MenuService {
 
 	@Autowired
 	ProductRepository productRepository;
-	
+
 	@Autowired
 	PupuseriaRepository pupuseriaRepository;
-	
+
 	@Autowired
 	ProductTypeRepository productTypeRepository;
-	
+
 	@Autowired
 	TokenRepository tokenRepository;
-	
+
 	@Override
 	public List<Product> getAllProducts(Long pupuseriaId) {
 		Pupuseria pupuseria = pupuseriaRepository.findById(pupuseriaId).orElse(null);
-		if(pupuseria == null) return null;
-		
+		if (pupuseria == null)
+			return null;
+
 		return pupuseria.getProducts();
-		
+
 	}
 
 	@Override
 	public Product getOneProduct(String tokenStr, Long productId) {
 		Pupuseria pupuseria = tokenRepository.findByContent(tokenStr.substring(7)).getUser().getAdmin().getPupuseria();
-		if(pupuseria == null) return null;
-		
+		if (pupuseria == null)
+			return null;
+
 		List<Product> products = pupuseria.getProducts().stream().filter(p -> p.getID() == productId).toList();
-		if(products.size() <= 0) return null;
-		
+		if (products.size() <= 0)
+			return null;
+
 		Product product = products.get(0);
 		return product;
 	}
@@ -62,32 +65,36 @@ public class MenuServiceImpl implements MenuService{
 		Token token = tokenRepository.findByContent(tokenStr.substring(7));
 		Pupuseria pupuseria = token.getUser().getAdmin().getPupuseria();
 		try {
-			
-	    	Product product = new Product();
-			MultipartFile file = dto.getImage();
-			
-			byte[] byteObjects = new byte[file.getBytes().length];
 
-		    int i = 0;
+			Product product = new Product();
+			MultipartFile[] file = dto.getImage();
 
-		    for (byte b : file.getBytes()){
-		        byteObjects[i++] = b;
-		    }
-		    
-		    
-			product.setImage(byteObjects);
+			if (file != null) {
+				byte[] byteObjects = new byte[file[0].getBytes().length];
+
+				int i = 0;
+
+				for (byte b : file[0].getBytes()) {
+					byteObjects[i++] = b;
+				}
+
+				product.setImage(byteObjects);
+			} else {
+				product.setImage(null);
+			}
+
 			product.setName(dto.getNameProduct());
 			product.setPrice(dto.getPrice());
-			
-			ProductType type = productTypeRepository.findByType(dto.getType());
+
+			ProductType type = productTypeRepository.findById(dto.getTypeID()).get();
 			product.setType(type);
 			product.setPupuseria(pupuseria);
-			
+
 			productRepository.save(product);
 			return true;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			
+
 			e.printStackTrace();
 			return false;
 		}
@@ -95,26 +102,32 @@ public class MenuServiceImpl implements MenuService{
 
 	@Override
 	@Transactional(rollbackOn = Exception.class)
-	public Boolean updateProduct(String tokenStr,  Long productId, AddProductDTO dto) {
+	public Boolean updateProduct(String tokenStr, Long productId, AddProductDTO dto) {
 		try {
-	    	Product product = productRepository.findById(productId).orElse(null);
-	    	if(product == null) return false;
-	    	
-	    	MultipartFile file = dto.getImage();
-			
-			byte[] byteObjects = new byte[file.getBytes().length];
+			Product product = productRepository.findById(productId).orElse(null);
+			if (product == null)
+				return false;
 
-		    int i = 0;
-			for (byte b : file.getBytes()){
-			    byteObjects[i++] = b;
+			MultipartFile[] file = dto.getImage();
+
+			if (file != null) {
+				byte[] byteObjects = new byte[file[0].getBytes().length];
+
+				int i = 0;
+
+				for (byte b : file[0].getBytes()) {
+					byteObjects[i++] = b;
+				}
+
+				product.setImage(byteObjects);
 			}
-			product.setImage(byteObjects);
+			
 			product.setName(dto.getNameProduct());
 			product.setPrice(dto.getPrice());
-			
-			ProductType type = productTypeRepository.findByType(dto.getType());
+
+			ProductType type = productTypeRepository.findById(dto.getTypeID()).get();
 			product.setType(type);
-			
+
 			productRepository.save(product);
 			return true;
 		} catch (IOException e) {
@@ -127,13 +140,15 @@ public class MenuServiceImpl implements MenuService{
 	@Override
 	public Boolean deleteProduct(String tokenStr, Long productId) {
 		Pupuseria pupuseria = tokenRepository.findByContent(tokenStr.substring(7)).getUser().getAdmin().getPupuseria();
-		if(pupuseria == null) return false;
-		
+		if (pupuseria == null)
+			return false;
+
 		List<Product> products = pupuseria.getProducts().stream().filter(p -> p.getID() == productId).toList();
-		if(products.size() <= 0) return false;
-		
+		if (products.size() <= 0)
+			return false;
+
 		productRepository.delete(products.get(0));
 		return true;
 	}
-	
+
 }

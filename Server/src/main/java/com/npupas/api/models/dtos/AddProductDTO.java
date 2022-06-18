@@ -1,48 +1,43 @@
 package com.npupas.api.models.dtos;
 
-
 import java.math.BigDecimal;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
-
 public class AddProductDTO {
-	
+
 	@NotBlank(message = "Name of the product cannot be blank!")
-	@Size(min = 8,  message = "Name of the product has to be 8 characters minimum")
+	@Size(min = 8, message = "Name of the product has to be 8 characters minimum")
 	private String nameProduct;
-	
+
 	private BigDecimal price;
 
-	@NotBlank(message = "Type cannot be blank!")
-	private String type;
+	@NotNull(message = "Type cannot be null")
+	private Long typeID;
 	
-	private MultipartFile image;
-	
-	
-	
+	@Nullable
+	private MultipartFile[] image;
+
 	public AddProductDTO() {
 		super();
 	}
 
-	
-
 	public AddProductDTO(
 			@NotBlank(message = "Name of the product cannot be blank!") @Size(min = 8, message = "Name of the product has to be 8 characters minimum") String nameProduct,
 			@NotBlank(message = "Price cannot be blank!") BigDecimal price,
-			@NotBlank(message = "Type cannot be blank!") @Size(min = 8, max = 30, message = "Type has to be 8 characters minimum") String type,
-			MultipartFile image) {
+			@NotNull(message = "Type cannot be null") Long typeID,
+			MultipartFile[] image) {
 		super();
 		this.nameProduct = nameProduct;
 		this.price = price;
-		this.type = type;
+		this.typeID = typeID;
 		this.image = image;
 	}
-
-
 
 	public String getNameProduct() {
 		return nameProduct;
@@ -60,21 +55,20 @@ public class AddProductDTO {
 		this.price = price;
 	}
 
-	public String getType() {
-		return type;
+	public Long getTypeID() {
+		return typeID;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setTypeID(Long typeID) {
+		this.typeID = typeID;
 	}
 
-	public MultipartFile getImage() {
+	public MultipartFile[] getImage() {
 		return image;
 	}
 
-	public void setImage(MultipartFile image) {
+	public void setImage(MultipartFile[] image) {
 		this.image = image;
 	}
-	
-	
+
 }
