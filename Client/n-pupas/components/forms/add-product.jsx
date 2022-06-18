@@ -1,8 +1,7 @@
 import PrimaryButton from 'components/buttons/primary';
-import { categories } from 'data/tempObjects';
 import { useForm } from 'react-hook-form';
 
-const AddProductForm = ({ onSubmitHandler, product = false }) => {
+const AddProductForm = ({ onSubmitHandler, productTypes, product = false }) => {
   const {
     register,
     handleSubmit,
@@ -12,7 +11,7 @@ const AddProductForm = ({ onSubmitHandler, product = false }) => {
 
   const onSubmit = data => {
     onSubmitHandler(data);
-    reset();
+    //reset();
   };
 
   return (
@@ -27,7 +26,7 @@ const AddProductForm = ({ onSubmitHandler, product = false }) => {
             placeholder='Nombre'
             defaultValue={product ? product.name : ''}
             className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-            {...register('name', {
+            {...register('nameProduct', {
               required: 'Nombre requerido',
               maxLength: {
                 value: 80,
@@ -35,7 +34,7 @@ const AddProductForm = ({ onSubmitHandler, product = false }) => {
               },
             })}
           />
-          {errors.name && <p className='mt-1 text-red-700'>{errors.name.message}</p>}
+          {errors.nameProduct && <p className='mt-1 text-red-700'>{errors.nameProduct.message}</p>}
         </div>
         <div>
           <input
@@ -54,41 +53,40 @@ const AddProductForm = ({ onSubmitHandler, product = false }) => {
         <div>
           <select
             className='shadow border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-            {...register('category', { required: 'Categoría requerida' })}
+            {...register('typeID', { required: 'Categoría requerida' })}
           >
-            {categories.map(category => {
+            {productTypes.map(type => {
               return (
-                <option key={category.id} value={category.id}>
-                  {category.category}
+                <option key={type.id} value={type.id}>
+                  {type.type}
                 </option>
               );
             })}
           </select>
-          {errors.category && <p className='mt-1 text-red-700'>{errors.category.message}</p>}
+          {errors.typeID && <p className='mt-1 text-red-700'>{errors.typeID.message}</p>}
         </div>
-        <div className='w-full cursor-pointer shadow appearance-none border border-gray-400 rounded py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500 hover:bg-gray-200'>
-          <label for='files'>Elige una imagen (opcional)</label>
-          <input
-            type='file'
-            id='files'
-            placeholder='Imagen'
-            accept='image/png, image/jpeg'
-            // TODO: mostrar imagen guardada al modificar
-            className='hidden shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-            {...register('image', {
-              required: false,
-              validate: {
-                lessThan10MB: files =>
-                  !files[0]?.size || files[0]?.size < 10000000 || 'El máximo es de 10MB',
-                acceptedFormats: files =>
-                  !files[0]?.size ||
-                  ['image/jpeg', 'image/png'].includes(files[0]?.type) ||
-                  'La imagen debe ser PNG o JPEG',
-              },
-            })}
-          />
-          {errors.image && <p className='mt-1 text-red-700'>{errors.image.message}</p>}
-        </div>
+        <div>
+        <input
+          type='file'
+          id='files'
+          placeholder='Imagen'
+          accept='image/png, image/jpeg'
+          // TODO: mostrar imagen guardada al modificar
+          className=' shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
+          {...register('image', {
+            required: 'Imagen requerida',
+            validate: {
+              lessThan10MB: files =>
+                !files[0]?.size || files[0]?.size < 5000000 || 'El máximo es de 5MB',
+              acceptedFormats: files =>
+                !files[0]?.size ||
+                ['image/jpeg', 'image/png'].includes(files[0]?.type) ||
+                'La imagen debe ser PNG o JPEG',
+            },
+          })}
+        />
+        {errors.image && <p className=' text-red-700'>{errors.image.message}</p>}
+      </div>
       </div>
 
       <PrimaryButton text={product ? 'Guardar' : 'Agregar'} />

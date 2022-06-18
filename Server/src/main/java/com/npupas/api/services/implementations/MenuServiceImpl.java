@@ -64,13 +64,13 @@ public class MenuServiceImpl implements MenuService{
 		try {
 			
 	    	Product product = new Product();
-			MultipartFile file = dto.getImage();
+			MultipartFile[] file = dto.getImage();
 			
-			byte[] byteObjects = new byte[file.getBytes().length];
+			byte[] byteObjects = new byte[file[0].getBytes().length];
 
 		    int i = 0;
 
-		    for (byte b : file.getBytes()){
+		    for (byte b : file[0].getBytes()){
 		        byteObjects[i++] = b;
 		    }
 		    
@@ -100,12 +100,12 @@ public class MenuServiceImpl implements MenuService{
 	    	Product product = productRepository.findById(productId).orElse(null);
 	    	if(product == null) return false;
 	    	
-	    	MultipartFile file = dto.getImage();
+	    	MultipartFile[] file = dto.getImage();
 			
-			byte[] byteObjects = new byte[file.getBytes().length];
+			byte[] byteObjects = new byte[file[0].getBytes().length];
 
 		    int i = 0;
-			for (byte b : file.getBytes()){
+			for (byte b : file[0].getBytes()){
 			    byteObjects[i++] = b;
 			}
 			product.setImage(byteObjects);
