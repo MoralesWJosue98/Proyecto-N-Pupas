@@ -38,7 +38,6 @@ const BranchesPage = ({ allBranches }) => {
         toast.error('No se pudo eliminar la sucursal');
       }
     } catch (e) {
-      console.log(e);
       toast.error('Ocurrió un error interno');
     }
   };

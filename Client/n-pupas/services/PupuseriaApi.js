@@ -133,4 +133,8 @@ export const PupuseriaApi = class {
   createProduct(token, body) {
     return postData('/pupuserias/menu', token, body);
   }
+
+  deleteProduct(token, productID) {
+    return deleteData(`/pupuserias/menu/${productID}`, token);
+  }
 };

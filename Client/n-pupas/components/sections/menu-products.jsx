@@ -15,7 +15,7 @@ const MenuProductsSection = ({ products, type, onDeleteHandler }) => {
                 <ProductCard
                   product={product}
                   key={product.id}
-                  onDeleteHandler={() => onDeleteHandler(product.name)}
+                  onDeleteHandler={() => onDeleteHandler(product.id, product.name)}
                 />
               );
             })}
