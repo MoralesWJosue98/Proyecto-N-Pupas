@@ -1,15 +1,19 @@
 import MenuProductsSection from 'components/sections/menu-products';
 import { CustomModal } from 'components/layout/modal/custom-modal';
 import PageHeading from 'components/information/page-heading';
-import { categories, testProducts } from 'data/tempObjects';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { adminPages } from 'constants/strings';
 import { confirmAlert } from 'react-confirm-alert';
 import { adminRoutes } from 'routes/routes';
 import toast from 'react-hot-toast';
+import { PupuseriaApi } from 'services/PupuseriaApi';
+import { getCookie } from 'cookies-next';
+import { tokenCookie } from 'constants/data';
 import Head from 'next/head';
 
-const MenuPage = ({ products, categories }) => {
+const pupuseriaApi = new PupuseriaApi();
+
+const MenuPage = ({ productTypes, products }) => {
   const deleteProduct = () => {
     // Lógica para eliminar
     toast.success('Producto eliminado exitosamente');
@@ -36,12 +40,12 @@ const MenuPage = ({ products, categories }) => {
       </Head>
       <PageHeading title={adminPages.menu} route={adminRoutes.newProduct} />
 
-      {categories.map(category => {
+      {productTypes.map(type => {
         return (
           <MenuProductsSection
-            key={category.id}
+            key={type.id}
             products={products}
-            category={category}
+            type={type}
             onDeleteHandler={onDeleteHandler}
           />
         );
@@ -52,11 +56,23 @@ const MenuPage = ({ products, categories }) => {
 
 export default MenuPage;
 
-export async function getServerSideProps() {
-  return {
-    props: {
-      products: testProducts,
-      categories: categories,
-    },
-  };
+export async function getServerSideProps({ req, res }) {
+  const token = getCookie(tokenCookie, { req, res });
+
+  try {
+    const productTypes = await pupuseriaApi.getProductTypes(token);
+    const products = await pupuseriaApi.getAllProducts(token);
+    return {
+      props: {
+        productTypes: productTypes,
+        products: products,
+      },
+    };
+  } catch (e) {
+    return {
+      redirect: {
+        destination: '/500',
+      },
+    };
+  }
 }

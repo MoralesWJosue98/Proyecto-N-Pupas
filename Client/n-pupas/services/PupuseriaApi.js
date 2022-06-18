@@ -121,4 +121,12 @@ export const PupuseriaApi = class {
   updatePurchase(token, branchID, purchaseID, body) {
     return putData(`/pupuserias/branches/${branchID}/purchases/${purchaseID}`, token, body);
   }
+
+  getProductTypes(token) {
+    return getData('/pupuserias/products/types', token);
+  }
+
+  getAllProducts(token) {
+    return getData('/pupuserias/menu', token);
+  }
 };

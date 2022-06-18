@@ -17,7 +17,7 @@ const ProductCard = ({ product, quantity = 0, onDeleteHandler }) => {
 
   return (
     <article className='bg-white shadow-md flex'>
-      <img src={'/sample.jpg'} alt='N Pupas' className='w-[80px] xs:w-[100px] object-cover' />
+      <img src={`data:image/jpeg;base64,${product.image}`} alt='N Pupas' className='w-[80px] xs:w-[100px] object-cover' />
       <div className='p-3 xs:p-5 flex w-full flex-col'>
         <ProductInfo product={product} quantity={quantity} />
         <div>

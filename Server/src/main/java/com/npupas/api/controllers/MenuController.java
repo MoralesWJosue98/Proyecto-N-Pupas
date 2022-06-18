@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.npupas.api.models.dtos.AddProductDTO;
 import com.npupas.api.models.dtos.MessageDTO;
+import com.npupas.api.models.entities.Admin;
 import com.npupas.api.models.entities.Product;
 import com.npupas.api.models.entities.ProductType;
+import com.npupas.api.services.AdminService;
 import com.npupas.api.services.MenuService;
 import com.npupas.api.services.ProductTypeService;
 
@@ -34,13 +36,21 @@ public class MenuController {
 	MenuService menuService;
 
 	@Autowired
+	AdminService adminService;
+
+	@Autowired
 	ProductTypeService productTypeService;
 
-	@GetMapping("/{id}/menu")
-	public ResponseEntity<List<Product>> getPupuseriaMenu(@PathVariable("id") Long id) {
+	@GetMapping("/menu")
+	public ResponseEntity<List<Product>> getPupuseriaMenu(@RequestHeader("Authorization") String token) {
 		try {
-			List<Product> products = menuService.getAllProducts(id);
-			return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+			Admin admin = adminService.getAdminByToken(token.substring(7));
+			if (admin == null) {
+				return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+			} else {
+				List<Product> products = menuService.getAllProducts(admin.getPupuseria().getID());
+				return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
