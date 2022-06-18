@@ -34,7 +34,15 @@ const EmployeesPage = () => {
       <Head>
         <title>{adminPages.employees}</title>
       </Head>
-      <PageHeading title={adminPages.employees} route={adminRoutes.newEmployee} />
+
+      <div className='flex flex-wrap gap-3 justify-between mb-2 items-center'>
+        <h1 className='font-bold text-2xl sm:text-3xl'>{adminPages.employees}</h1>
+        <div className='flex gap-5'>
+         <EditButton route={adminRoutes.reportEmployee} />
+          <AddButton route={adminRoutes.newEmployee} />  
+        </div>
+      </div>
+    
       <div className='flex flex-col gap-5 md:grid md:grid-cols-2'>
         {testEmployeeAdmin.map(employee => {
           return (
