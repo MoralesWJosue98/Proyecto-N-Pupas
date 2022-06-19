@@ -17,7 +17,7 @@ import useBranchContext from 'context/BranchContext';
 
 const pupuseriaApi = new PupuseriaApi();
 
-const EmployeesPage = () => {
+const EmployeesPage =  ({ allEmployees }) => {
 
   const [employees, setEmployees] = useState(allEmployees);
   const [deleteToggle, setDeleteToggle] = useState(false);
@@ -33,19 +33,28 @@ const EmployeesPage = () => {
     getEmployees();
   }, [deleteToggle]);
 
-  const deleteEmployee = () => {
-    // Lógica para eliminar
-    toast.success('Empleado eliminado exitosamente');
+  const deleteEmployee = async id => {
+    try {
+      const deleted = await pupuseriaApi.deleteEmployee(token, branchID, id);
+      if (deleted) {
+        setDeleteToggle(!deleteToggle);
+        toast.success('Empleado eliminado exitosamente');
+      } else {
+        toast.error('No se pudo eliminar el empleado');
+      }
+    } catch (e) {
+      console.log(e);
+      toast.error('Ocurrió un error interno');
+    }
   };
-
-  const onDeleteHandler = employee => {
+  const onDeleteHandler = id => {
     confirmAlert({
       customUI: ({ onClose }) => {
         return (
           <CustomModal
             onClose={onClose}
-            onConfirm={deleteEmployee}
-            text={`¿Segura/o que quieres eliminar al empleado "${employee}"?`}
+            onConfirm={() => deleteEmployee(id)}
+            text={`¿Segura/o que quieres eliminar al empleado ?`}
           />
         );
       },
