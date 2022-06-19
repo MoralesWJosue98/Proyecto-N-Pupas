@@ -122,6 +122,10 @@ export const PupuseriaApi = class {
     return putData(`/pupuserias/branches/${branchID}/purchases/${purchaseID}`, token, body);
   }
   
+  createEmployee(token, branchID, body) {
+    return getData(`/pupuserias/branches/${branchID}/employees`, token, body);
+  }
+  
   getAllEmployees(token, branchID) {
     return getData(`/pupuserias/branches/${branchID}/employees`, token);
   }
