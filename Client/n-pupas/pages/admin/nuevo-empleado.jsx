@@ -1,16 +1,13 @@
 import AddEmployeeForm from 'components/forms/add-employee';
+import { PupuseriaApi } from 'services/PupuseriaApi';
+import useAuthContext from 'context/AuthContext';
 import { adminPages } from 'constants/strings';
-import { fillWithZero } from 'utils/utils';
+import { branchCookie } from 'constants/data';
+import { adminRoutes } from 'routes/routes';
+import { useRouter } from 'next/router';
+import { getCookie } from 'cookies-next';
 import toast from 'react-hot-toast';
 import Head from 'next/head';
-import useAuthContext from 'context/AuthContext';
-import { PupuseriaApi } from 'services/PupuseriaApi';
-import { getCookie } from 'cookies-next';
-import { branchCookie } from 'constants/data';
-import { useRouter } from 'next/router';
-import { branches } from 'data/tempObjects';
-import { adminRoutes } from 'routes/routes';
-
 
 export default function NewEmployeePage() {
 
@@ -18,7 +15,6 @@ export default function NewEmployeePage() {
   const branchID = getCookie(branchCookie);
   const { token } = useAuthContext();
   const router = useRouter();
-
   
   const onSubmitForm = async data => {
     try {
@@ -40,8 +36,8 @@ export default function NewEmployeePage() {
       <Head>
         <title>{adminPages.newEmployee}</title>
       </Head>
-      <h1 className='font-bold text-2xl sm:text-3xl md:text-center md:my-3'>{adminRoutes.newEmployee}</h1>
-      <AddEmployeeForm id={fillWithZero(3)} onSubmitHandler={onSubmitForm} />
+      <h1 className='font-bold text-2xl sm:text-3xl md:text-center md:my-3'>{adminPages.newEmployee}</h1>
+      <AddEmployeeForm  onSubmitHandler={onSubmitForm} />
     </main>
   );
 }

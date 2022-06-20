@@ -3,7 +3,6 @@ import PrimaryButton from 'components/buttons/primary';
 import { titles } from 'constants/strings';
 import { useForm } from 'react-hook-form';
 import { useRef} from 'react';
-import { branches } from 'data/tempObjects';
 
 const AddEmployeeForm = ({ onSubmitHandler, employee = false }) => {
   const {

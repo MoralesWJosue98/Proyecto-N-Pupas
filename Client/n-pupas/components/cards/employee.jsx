@@ -18,8 +18,6 @@ const EmployeeCard = ({ employee, onDeleteHandler }) => {
     router.push(`${adminRoutes.newReport}/${employee.id}`);
   };
 
-
-  console.log(employee);
   return (
     <article className='bg-white shadow-md p-4'>
       <div className='flex flex-col mb-2'>

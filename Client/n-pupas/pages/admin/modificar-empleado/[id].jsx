@@ -5,7 +5,6 @@ import useBranchContext from 'context/BranchContext';
 import useAuthContext from 'context/AuthContext';
 import { adminPages } from 'constants/strings';
 import { adminRoutes } from 'routes/routes';
-import { fillWithZero } from 'utils/utils';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
@@ -48,7 +47,7 @@ export default function editEmployeePage({ employee }) {
 export async function getServerSideProps({ query, req, res }) {
   const token = getCookie(tokenCookie, { req, res });
   const branchID = getCookie(branchCookie, { req, res });
-    const employeeID = query.id;
+  const employeeID = query.id;
   
     try {
       const employee = await pupuseriaApi.getOneEmployee(token, branchID, employeeID);
