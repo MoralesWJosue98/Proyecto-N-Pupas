@@ -2,7 +2,6 @@ import SaleDetailProductCard from 'components/cards/sale-detail-product';
 import { SaleProductModal } from 'components/layout/modal/sale-modal';
 import SaleProductsSection from 'components/sections/sale-products';
 import { checkForProduct, createSaleObject } from 'utils/utils';
-import { categories, testProducts } from 'data/tempObjects';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { PupuseriaApi } from 'services/PupuseriaApi';
 import useBranchContext from 'context/BranchContext';
@@ -16,8 +15,12 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import Head from 'next/head';
 import React from 'react';
+import { getCookie } from 'cookies-next';
+import { tokenCookie } from 'constants/data';
 
-export default function NewSalePage({ products, categories }) {
+const pupuseriaApi = new PupuseriaApi();
+
+export default function NewSalePage({ products, productTypes }) {
   const [saleDetails, setSaleDetails] = useState([]);
   const [saleTotal, setSaleTotal] = useState(0);
   const pupuseriaApi = new PupuseriaApi();
@@ -79,12 +82,12 @@ export default function NewSalePage({ products, categories }) {
       <div className='flex flex-col gap-5 lg:flex-row lg:grid lg:grid-cols-7'>
         <div className='col-span-5 p-6 flex flex-col gap-5'>
           <h1 className='font-bold text-2xl sm:text-3xl'>{adminPages.newSale}</h1>
-          {categories.map(category => {
+          {productTypes.map(type => {
             return (
               <SaleProductsSection
-                key={category.id}
+                key={type.id}
                 products={products}
-                category={category}
+                type={type}
                 onClickHandler={openProductModal}
               />
             );
@@ -123,11 +126,23 @@ export default function NewSalePage({ products, categories }) {
   );
 }
 
-export async function getServerSideProps() {
-  return {
-    props: {
-      products: testProducts,
-      categories: categories,
-    },
-  };
+export async function getServerSideProps({ req, res }) {
+  const token = getCookie(tokenCookie, { req, res });
+
+  try {
+    const products = await pupuseriaApi.getAllProducts(token);
+    const productTypes = await pupuseriaApi.getProductTypes(token);
+    return {
+      props: {
+        products: products,
+        productTypes: productTypes,
+      },
+    };
+  } catch (e) {
+    return {
+      redirect: {
+        destination: '/500',
+      },
+    };
+  }
 }

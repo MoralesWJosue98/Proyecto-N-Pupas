@@ -155,6 +155,7 @@ export const PupuseriaApi = class {
   }
 
   async createSale(token, branchID, body) {
+    console.log(body);
     const response = await fetch(`${BASE_URL}/pupuserias/branches/${branchID}/sales`, {
       method: 'POST',
       headers: {
