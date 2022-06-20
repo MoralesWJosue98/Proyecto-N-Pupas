@@ -1,17 +1,22 @@
-import { testHistoryAdmin, testProducts, testSaleDetails } from 'data/tempObjects';
 import { CustomModal } from 'components/layout/modal/custom-modal';
 import SectionTitle from 'components/information/section-title';
 import PageHeading from 'components/information/page-heading';
+import { branchCookie, tokenCookie } from 'constants/data';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { adminPages, titles } from 'constants/strings';
 import SaleTableRow from 'components/tables/saleRow';
+import { PupuseriaApi } from 'services/PupuseriaApi';
 import { confirmAlert } from 'react-confirm-alert';
 import SaleCard from 'components/cards/sale';
 import { adminRoutes } from 'routes/routes';
+import { getCookie } from 'cookies-next';
 import toast from 'react-hot-toast';
 import Head from 'next/head';
+import { calculateSaleTotal } from 'utils/utils';
 
-const SalesPage = ({ salesByProduct, total }) => {
+const pupuseriaApi = new PupuseriaApi();
+
+const SalesPage = ({ salesByProduct, total, allSales }) => {
   const deleteSale = () => {
     // Lógica para eliminar
     toast.success('Venta eliminada exitosamente');
@@ -63,12 +68,13 @@ const SalesPage = ({ salesByProduct, total }) => {
       <section>
         <SectionTitle title={titles.history} />
         <div className='flex flex-col gap-5 md:grid md:grid-cols-2'>
-          {testHistoryAdmin.map(history => {
+          {allSales.map(sale => {
             return (
               <SaleCard
-                history={history}
-                key={history.id}
-                onDeleteHandler={() => onDeleteHandler(history.id)}
+                sale={sale}
+                total={calculateSaleTotal(sale.details)}
+                key={sale.id}
+                onDeleteHandler={() => onDeleteHandler(sale.id)}
               />
             );
           })}
@@ -80,28 +86,48 @@ const SalesPage = ({ salesByProduct, total }) => {
 
 export default SalesPage;
 
-export async function getServerSideProps() {
-  const products = testProducts;
-  const sales = [];
-  let total = 0;
+export async function getServerSideProps({ req, res }) {
+  const branchID = getCookie(branchCookie, { req, res });
+  const token = getCookie(tokenCookie, { req, res });
 
-  products.forEach(product => {
-    sales.push({ product: product, soldAmount: 0 });
-  });
+  try {
+    const products = await pupuseriaApi.getAllProducts(token);
+    const todaySales = await pupuseriaApi.getTodaySales(token, branchID);
+    const allSales = await pupuseriaApi.getAllSales(token, branchID);
 
-  testSaleDetails.forEach(detail => {
-    sales.forEach(sale => {
-      if (sale.product.id == detail.product.id) {
-        sale.soldAmount += detail.amount;
-        total += detail.total;
-      }
+    const salesByProduct = [];
+    const details = [];
+    let total = 0;
+
+    todaySales.forEach(sale => {
+      details.push(...sale.details);
     });
-  });
 
-  return {
-    props: {
-      salesByProduct: sales,
-      total: total.toFixed(2),
-    },
-  };
+    products.forEach(product => {
+      salesByProduct.push({ product: product, soldAmount: 0 });
+    });
+
+    details.forEach(detail => {
+      salesByProduct.forEach(saleByProduct => {
+        if (saleByProduct.product.id == detail.product.id) {
+          saleByProduct.soldAmount += detail.amount;
+          total += detail.total;
+        }
+      });
+    });
+
+    return {
+      props: {
+        salesByProduct: salesByProduct,
+        total: total.toFixed(2),
+        allSales: allSales.reverse(),
+      },
+    };
+  } catch (e) {
+    return {
+      redirect: {
+        destination: '/500',
+      },
+    };
+  }
 }

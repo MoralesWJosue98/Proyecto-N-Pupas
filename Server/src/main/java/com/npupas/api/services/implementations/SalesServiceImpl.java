@@ -100,11 +100,12 @@ public class SalesServiceImpl implements SalesService {
 			if (product.getType().getType().equals("Pupusas")) {
 
 				SalesDetailMass detailsMass = new SalesDetailMass();
-
 				if (dt.getMass() != null) {
 					Mass mass = massRepository.findById(dt.getMass()).get();
 					System.out.println("Lo que encontre es: " + dt.getMass());
 					detailsMass.setMass(mass);
+				} else {
+					detailsMass.setMass(null);
 				}
 
 				detailsMass.setDetails(detail);
@@ -155,7 +156,10 @@ public class SalesServiceImpl implements SalesService {
 				if (dt.getMass() != null) {
 					Mass mass = massRepository.findById(dt.getMass()).get();
 					detailsMass.setMass(mass);
+				} else {
+					detailsMass.setMass(null);
 				}
+				
 				detailsMass.setDetails(detail);
 
 				detail.setMassDetails(detailsMass);

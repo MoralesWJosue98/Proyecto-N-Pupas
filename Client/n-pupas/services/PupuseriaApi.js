@@ -146,17 +146,24 @@ export const PupuseriaApi = class {
     return putData(`/pupuserias/menu/${productID}`, token, body);
   }
 
+  getAllSales(token, branchID) {
+    return getData(`/pupuserias/branches/${branchID}/sales`, token);
+  }
+
+  getTodaySales(token, branchID) {
+    return getData(`/pupuserias/branches/${branchID}/sales/today`, token);
+  }
+
   async createSale(token, branchID, body) {
-    console.log(body);
     const response = await fetch(`${BASE_URL}/pupuserias/branches/${branchID}/sales`, {
       method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(body),
     });
-  
+
     return response.ok;
   }
 };
