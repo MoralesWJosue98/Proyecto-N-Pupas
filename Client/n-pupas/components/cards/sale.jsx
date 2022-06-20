@@ -22,7 +22,7 @@ const SaleCard = ({ sale, total, onDeleteHandler }) => {
         {sale.details.length > 0 &&
           sale.details.map(detail => {
             return (
-              <div className='font-medium flex flex-auto justify-between items-start mt-4 border-l-2 border-primary-500 border-opacity-50 pl-2'>
+              <div key={detail.id} className='font-medium flex flex-auto justify-between items-start mt-4 border-l-2 border-primary-500 border-opacity-50 pl-2'>
                 <div>
                   <p>
                     {detail.product.name} x{detail.amount}

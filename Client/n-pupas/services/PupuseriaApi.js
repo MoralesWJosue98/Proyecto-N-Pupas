@@ -154,8 +154,15 @@ export const PupuseriaApi = class {
     return getData(`/pupuserias/branches/${branchID}/sales/today`, token);
   }
 
+  getOneSale(token, branchID, saleID) {
+    return getData(`/pupuserias/branches/${branchID}/sales/${saleID}`, token)
+  }
+
+  deleteSale(token, branchID, saleID) {
+    return deleteData(`/pupuserias/branches/${branchID}/sales/${saleID}`, token);
+  }
+
   async createSale(token, branchID, body) {
-    console.log(body);
     const response = await fetch(`${BASE_URL}/pupuserias/branches/${branchID}/sales`, {
       method: 'POST',
       headers: {
@@ -168,7 +175,16 @@ export const PupuseriaApi = class {
     return response.ok;
   }
 
-  deleteSale(token, branchID, saleID) {
-    return deleteData(`/pupuserias/branches/${branchID}/sales/${saleID}`, token);
+  async updateSale(token, branchID, saleID, body) {
+    const response = await fetch(`${BASE_URL}/pupuserias/branches/${branchID}/sales/${saleID}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    return response.ok;
   }
 };

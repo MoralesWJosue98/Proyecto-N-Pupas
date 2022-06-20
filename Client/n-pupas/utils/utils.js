@@ -12,7 +12,10 @@ export const checkForProduct = (addedProducts, product, formData) => {
   const found = false;
 
   addedProducts.forEach(obj => {
-    if (obj.idProducto == product.id && obj.mass == formData.dough) {
+    if (
+      (obj.idProducto == product.id && obj.mass == formData.dough) ||
+      obj.idProducto == product.id
+    ) {
       obj.amount += Number(formData.quantity);
       obj.total += Number(formData.quantity * obj.product.price);
       found = true;

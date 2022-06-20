@@ -14,7 +14,7 @@ const SaleDetailProductCard = ({ detailProduct, onDeleteHandler }) => {
           <p>{detailProduct.amount > 0 ? `$${detailProduct.total.toFixed(2)}` : ''}</p>
         </div>
         <div className='flex gap-3'>
-          {detailProduct.product.type === 1 && (
+          {detailProduct.product.type.id === 1 && (
             <p className='text-sm'>{detailProduct.mass == 1 ? 'Arroz' : 'Maíz'}</p>
           )}
           <p className='text-sm'>

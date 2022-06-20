@@ -104,7 +104,7 @@ const SalesPage = ({ products, allSales }) => {
 
       <section>
         <SectionTitle title={titles.today} />
-        <p className='text-lg text-primary-500 font-bold'>Ingreso total: ${total}</p>
+        <p className='text-lg text-primary-500 font-bold'>Ingreso total: ${Number(total).toFixed(2)}</p>
       </section>
       <section>
         <div className='relative overflow-x-auto shadow-md sm:rounded-lg mb-6'>
@@ -156,7 +156,7 @@ export async function getServerSideProps({ req, res }) {
     return {
       props: {
         products: products,
-        allSales: allSales.reverse(),
+        allSales: allSales,
       },
     };
   } catch (e) {
