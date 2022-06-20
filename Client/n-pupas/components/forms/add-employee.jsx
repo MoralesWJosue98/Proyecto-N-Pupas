@@ -3,6 +3,7 @@ import PrimaryButton from 'components/buttons/primary';
 import { titles } from 'constants/strings';
 import { useForm } from 'react-hook-form';
 import { useRef} from 'react';
+import { branches } from 'data/tempObjects';
 
 const AddEmployeeForm = ({ onSubmitHandler, employee = false }) => {
   const {
@@ -21,8 +22,6 @@ const AddEmployeeForm = ({ onSubmitHandler, employee = false }) => {
   };
 
 
-
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -35,6 +34,7 @@ const AddEmployeeForm = ({ onSubmitHandler, employee = false }) => {
             <input
               type='text'
               placeholder='Nombre'
+              defaultValue={employee ? employee.user.name : ''}
               className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
               {...register('name', {
                 required: 'Nombre requerido',
@@ -55,6 +55,7 @@ const AddEmployeeForm = ({ onSubmitHandler, employee = false }) => {
             <input
               type='text'
               placeholder='Nombre de usuario'
+              defaultValue={employee ? employee.user.username : ''}
               className= 'shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
               {...register('userName', {
                 required: 'Nombre de usuario requerido',
@@ -70,14 +71,14 @@ const AddEmployeeForm = ({ onSubmitHandler, employee = false }) => {
             />
             {errors.userName && <p className='mt-1 text-red-700'>{errors.userName.message}</p>}
           </div>
-
           <div>
             <input
               type='text'
               placeholder='Fecha de contratación'
+              defaultValue={employee ? employee.hiringDate : ''}
               onFocus={e => (e.target.type = 'date')}
               className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-              {...register('date', { required: 'Fecha requerida' })}
+              {...register('hiringDate', { required: 'Fecha requerida' })}
             />
             {errors.hiringDate && <p className='mt-1 text-red-700'>{errors.hiringDate.message}</p>}
           </div>
@@ -85,9 +86,9 @@ const AddEmployeeForm = ({ onSubmitHandler, employee = false }) => {
             <input
               type='number'
               placeholder='Salario'
+              defaultValue={employee ? employee.salary : ''}
               className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-              {...register('salary', {
-                required: 'Salario requerido',
+              {...register('salary', { required: 'Salario requerido',
                 min: { value: 0.01, message: 'La cantidad debe ser mayor a $0.01' },
               })}
             />

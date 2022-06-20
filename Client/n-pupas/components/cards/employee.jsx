@@ -18,11 +18,13 @@ const EmployeeCard = ({ employee, onDeleteHandler }) => {
     router.push(`${adminRoutes.newReport}/${employee.id}`);
   };
 
+
+  console.log(employee);
   return (
     <article className='bg-white shadow-md p-4'>
       <div className='flex flex-col mb-2'>
         <h2 className='font-bold'>{employee.user.name}</h2>
-        <p> {`Empleado desde ${employee.hiringDate}`} </p>
+        <p> {`Empleado desde: ${employee.hiringDate}`} </p>
         <p> {`Salario: $${employee.salary}`} </p>
       </div>
       <div>
