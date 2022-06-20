@@ -1,53 +1,120 @@
 import { CustomModal } from 'components/layout/modal/custom-modal';
-import PageHeading from 'components/information/page-heading';
+import { branchCookie, tokenCookie } from 'constants/data';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import EmployeeCard from 'components/cards/employee';
-import { testEmployeeAdmin } from 'data/tempObjects';
+import { PupuseriaApi } from 'services/PupuseriaApi';
+import useBranchContext from 'context/BranchContext';
 import { confirmAlert } from 'react-confirm-alert';
+import EditButton from 'components/buttons/edit';
+import useAuthContext from 'context/AuthContext';
+import AddButton from 'components/buttons/add';
 import { adminPages } from 'constants/strings';
 import { adminRoutes } from 'routes/routes';
+import { useState, useEffect } from 'react';
+import { getCookie } from 'cookies-next';
 import toast from 'react-hot-toast';
 import Head from 'next/head';
 
-const EmployeesPage = () => {
-  const deleteEmployee = () => {
-    // Lógica para eliminar
-    toast.success('Empleado eliminado exitosamente');
+
+const pupuseriaApi = new PupuseriaApi();
+
+const EmployeesPage = ({ allEmployees }) => {
+const [employees, setEmployees] = useState(allEmployees);
+const [deleteToggle, setDeleteToggle] = useState(false);
+const { token } = useAuthContext();
+const { branchID } = useBranchContext();
+
+  useEffect(() => {
+    const getEmployees = async () => {
+      const employees = await pupuseriaApi.getAllEmployees(token, branchID);
+      setEmployees(employees);
+    };
+    getEmployees();
+  }, [deleteToggle]);
+
+  const deleteEmployee = async id => {
+    try {
+      const deleted = await pupuseriaApi.deleteEmployee(token, branchID, id);
+      if (deleted) {
+        setDeleteToggle(!deleteToggle);
+        toast.success('Empleado eliminado exitosamente');
+      } else {
+        toast.error('No se pudo eliminar el empleado');
+      }
+    } catch (e) {
+      console.log(e);
+      toast.error('Ocurrió un error interno');
+    }
   };
 
-  const onDeleteHandler = employee => {
+  const onDeleteHandler = id => {
     confirmAlert({
       customUI: ({ onClose }) => {
         return (
           <CustomModal
             onClose={onClose}
-            onConfirm={deleteEmployee}
-            text={`¿Segura/o que quieres eliminar al empleado "${employee}"?`}
+            onConfirm={() => deleteEmployee(id)}
+            text={`¿Segura/o que quieres eliminar al empleado "? `}
           />
         );
       },
     });
   };
 
+
   return (
     <main className='p-6 flex flex-col gap-5'>
       <Head>
         <title>{adminPages.employees}</title>
       </Head>
-      <PageHeading title={adminPages.employees} route={adminRoutes.newEmployee} />
-      <div className='flex flex-col gap-5 md:grid md:grid-cols-2'>
-        {testEmployeeAdmin.map(employee => {
+
+        <div className='flex flex-wrap gap-3 justify-between mb-2 items-center'>
+          <h1 className='font-bold text-2xl sm:text-3xl'>{adminPages.employees}</h1>
+          <div className='flex gap-5'>
+          <EditButton route={adminRoutes.reportEmployee} />
+          <AddButton route={adminRoutes.newEmployee} />  
+          </div>
+        </div>
+
+        <div className='flex flex-col gap-5 md:grid md:grid-cols-2'>
+      
+        {employees.map(employee => {
+          
           return (
             <EmployeeCard
               employee={employee}
               key={employee.id}
-              onDeleteHandler={() => onDeleteHandler(employee.name)}
+              onDeleteHandler={() => onDeleteHandler(employee.id, employee.name)}
             />
           );
         })}
       </div>
+
     </main>
   );
 };
 
 export default EmployeesPage;
+
+
+
+export async function getServerSideProps({ req, res }) {
+  const token = getCookie(tokenCookie, { req, res });
+  const branchID = getCookie(branchCookie, { req, res });
+
+  try {
+    const allEmployees = await pupuseriaApi.getAllEmployees(token, branchID);
+    return {
+      props: {
+        allEmployees: allEmployees,
+      },
+    };
+  } catch (e) {
+    return {
+      redirect: {
+        destination: '/500',
+      },
+    };
+  }
+}
+
