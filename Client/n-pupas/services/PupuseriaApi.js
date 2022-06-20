@@ -167,4 +167,8 @@ export const PupuseriaApi = class {
 
     return response.ok;
   }
+
+  deleteSale(token, branchID, saleID) {
+    return deleteData(`/pupuserias/branches/${branchID}/sales/${saleID}`, token);
+  }
 };

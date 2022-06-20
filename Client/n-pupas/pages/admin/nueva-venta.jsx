@@ -56,10 +56,10 @@ export default function NewSalePage({ products, productTypes }) {
       const created = await pupuseriaApi.createSale(token, branchID, sale);
 
       if (created) {
-        toast.success('Sucursal creada exitosamente');
+        toast.success('Venta agregada exitosamente');
         router.push(adminRoutes.sales);
       } else {
-        toast.error('No se pudo crear la sucursal');
+        toast.error('No se pudo crear la venta');
       }
     } catch (e) {
       toast.error('Ocurrió un error interno');
