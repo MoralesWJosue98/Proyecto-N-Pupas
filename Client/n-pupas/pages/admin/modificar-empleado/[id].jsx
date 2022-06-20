@@ -1,14 +1,37 @@
 import AddEmployeeForm from 'components/forms/add-employee';
+import { branchCookie, tokenCookie } from 'constants/data';
+import { PupuseriaApi } from 'services/PupuseriaApi';
+import useBranchContext from 'context/BranchContext';
+import useAuthContext from 'context/AuthContext';
 import { adminPages } from 'constants/strings';
-import { testAdmin } from 'data/tempObjects';
+import { adminRoutes } from 'routes/routes';
 import { fillWithZero } from 'utils/utils';
+import { getCookie } from 'cookies-next';
+import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import Head from 'next/head';
 
+const pupuseriaApi = new PupuseriaApi();
+
 export default function editEmployeePage({ employee }) {
-  const onSubmitForm = (data) => {
-    //alert(data.name);
-    toast.success('Cambios guardados con éxito');
+  const { branchID } = useBranchContext();
+  const { token } = useAuthContext();
+  const router = useRouter();
+
+
+  const onSubmitForm = async data => {
+    try {
+      const updated = await pupuseriaApi.updateEmployee(token, branchID, employee.id, data);
+      if (updated) {
+        toast.success('Cambios guardados exitosamente');
+        router.push(adminRoutes.employees);
+      } else {
+        toast.error('No se pudieron guardar los cambios');
+      }
+    } catch (e) {
+      console.log(e);
+      toast.error('Ocurrió un error interno');
+    }
   }
 
   return (
@@ -17,19 +40,29 @@ export default function editEmployeePage({ employee }) {
         <title>{adminPages.editEmployee}</title>
       </Head>
       <h1 className='font-bold text-2xl sm:text-3xl md:text-center md:my-3'>{adminPages.editEmployee}</h1>
-      <AddEmployeeForm onSubmitHandler={onSubmitForm} id={fillWithZero(3)} employee={employee}/>
+      <AddEmployeeForm onSubmitHandler={onSubmitForm}  employee={employee}/>
     </main>
   );
 }
 
-export async function getServerSideProps(context) {
-    const employeeId = context.query;
+export async function getServerSideProps({ query, req, res }) {
+  const token = getCookie(tokenCookie, { req, res });
+  const branchID = getCookie(branchCookie, { req, res });
+    const employeeID = query.id;
   
-    // Fetch para obtener producto según id
-  
-    return {
-      props: {
-        employee: testAdmin,
-      },
-    };
+    try {
+      const employee = await pupuseriaApi.getOneEmployee(token, branchID, employeeID);
+      return {
+        props: {
+          employee: employee,
+        },
+      };
+    } catch (e) {
+      return {
+        redirect: {
+          destination: '/500',
+        },
+      };
+    }
+
   }

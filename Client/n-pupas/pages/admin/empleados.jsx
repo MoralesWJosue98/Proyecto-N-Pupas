@@ -15,15 +15,14 @@ import useAuthContext from 'context/AuthContext';
 import { branchCookie, tokenCookie } from 'constants/data';
 import useBranchContext from 'context/BranchContext';
 
+
 const pupuseriaApi = new PupuseriaApi();
 
-const EmployeesPage =  ({ allEmployees }) => {
-
-  const [employees, setEmployees] = useState(allEmployees);
-  const [deleteToggle, setDeleteToggle] = useState(false);
-  const { token } = useAuthContext();
-  const { branchID } = useBranchContext();
-
+const EmployeesPage = ({ allEmployees }) => {
+const [employees, setEmployees] = useState(allEmployees);
+const [deleteToggle, setDeleteToggle] = useState(false);
+const { token } = useAuthContext();
+const { branchID } = useBranchContext();
 
   useEffect(() => {
     const getEmployees = async () => {
@@ -47,6 +46,7 @@ const EmployeesPage =  ({ allEmployees }) => {
       toast.error('Ocurrió un error interno');
     }
   };
+
   const onDeleteHandler = id => {
     confirmAlert({
       customUI: ({ onClose }) => {
@@ -54,12 +54,13 @@ const EmployeesPage =  ({ allEmployees }) => {
           <CustomModal
             onClose={onClose}
             onConfirm={() => deleteEmployee(id)}
-            text={`¿Segura/o que quieres eliminar al empleado ?`}
+            text={`¿Segura/o que quieres eliminar al empleado "? `}
           />
         );
       },
     });
   };
+
 
   return (
     <main className='p-6 flex flex-col gap-5'>
@@ -67,16 +68,18 @@ const EmployeesPage =  ({ allEmployees }) => {
         <title>{adminPages.employees}</title>
       </Head>
 
-      <div className='flex flex-wrap gap-3 justify-between mb-2 items-center'>
-        <h1 className='font-bold text-2xl sm:text-3xl'>{adminPages.employees}</h1>
-        <div className='flex gap-5'>
-         <EditButton route={adminRoutes.reportEmployee} />
+        <div className='flex flex-wrap gap-3 justify-between mb-2 items-center'>
+          <h1 className='font-bold text-2xl sm:text-3xl'>{adminPages.employees}</h1>
+          <div className='flex gap-5'>
+          <EditButton route={adminRoutes.reportEmployee} />
           <AddButton route={adminRoutes.newEmployee} />  
+          </div>
         </div>
-      </div>
-    
-      <div className='flex flex-col gap-5 md:grid md:grid-cols-2'>
+
+        <div className='flex flex-col gap-5 md:grid md:grid-cols-2'>
+      
         {employees.map(employee => {
+          
           return (
             <EmployeeCard
               employee={employee}
@@ -86,6 +89,7 @@ const EmployeesPage =  ({ allEmployees }) => {
           );
         })}
       </div>
+
     </main>
   );
 };
@@ -113,5 +117,4 @@ export async function getServerSideProps({ req, res }) {
     };
   }
 }
-
 
