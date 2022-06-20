@@ -121,9 +121,10 @@ export const PupuseriaApi = class {
   updatePurchase(token, branchID, purchaseID, body) {
     return putData(`/pupuserias/branches/${branchID}/purchases/${purchaseID}`, token, body);
   }
-  
+
+
   createEmployee(token, branchID, body) {
-    return getData(`/pupuserias/branches/${branchID}/employees`, token, body);
+    return postData(`/pupuserias/branches/${branchID}/employees`, token, body);
   }
   
   getAllEmployees(token, branchID) {
@@ -132,6 +133,14 @@ export const PupuseriaApi = class {
 
   deleteEmployee(token, branchID, id) {
     return deleteData(`/pupuserias/branches/${branchID}/employees/${id}`, token);
+  }
+
+  getOneEmployee(token, branchID, employeeID) {
+    return getData(`/pupuserias/branches/${branchID}/employees/${employeeID}`, token);
+  }
+
+  updateEmployee(token, branchID, employeeID, body) {
+    return putData(`/pupuserias/branches/${branchID}/employees/${employeeID}`, token, body);
   }
 
 };
