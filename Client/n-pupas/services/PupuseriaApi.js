@@ -122,7 +122,6 @@ export const PupuseriaApi = class {
     return putData(`/pupuserias/branches/${branchID}/purchases/${purchaseID}`, token, body);
   }
 
-
   createEmployee(token, branchID, body) {
     return postData(`/pupuserias/branches/${branchID}/employees`, token, body);
   }
@@ -141,6 +140,30 @@ export const PupuseriaApi = class {
 
   updateEmployee(token, branchID, employeeID, body) {
     return putData(`/pupuserias/branches/${branchID}/employees/${employeeID}`, token, body);
+  }
+
+  getProductTypes(token) {
+    return getData('/pupuserias/products/types', token);
+  }
+
+  getAllProducts(token) {
+    return getData('/pupuserias/menu', token);
+  }
+
+  getOneProduct(token, productID) {
+    return getData(`/pupuserias/menu/${productID}`, token);
+  }
+
+  createProduct(token, body) {
+    return postData('/pupuserias/menu', token, body);
+  }
+
+  deleteProduct(token, productID) {
+    return deleteData(`/pupuserias/menu/${productID}`, token);
+  }
+
+  updateProduct(token, productID, body) {
+    return putData(`/pupuserias/menu/${productID}`, token, body);
   }
 
 };

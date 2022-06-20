@@ -1,0 +1,1 @@
+INSERT INTO type(id, type) VALUES( 1, 'Pupusas'), (2, 'Bebidas'), (3, 'Otros');
