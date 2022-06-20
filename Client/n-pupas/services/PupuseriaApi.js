@@ -145,4 +145,18 @@ export const PupuseriaApi = class {
   updateProduct(token, productID, body) {
     return putData(`/pupuserias/menu/${productID}`, token, body);
   }
+
+  async createSale(token, branchID, body) {
+    console.log(body);
+    const response = await fetch(`${BASE_URL}/pupuserias/branches/${branchID}/sales`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+  
+    return response.ok;
+  }
 };

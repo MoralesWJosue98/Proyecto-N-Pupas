@@ -1,11 +1,16 @@
 import SaleDetailProductCard from 'components/cards/sale-detail-product';
 import { SaleProductModal } from 'components/layout/modal/sale-modal';
 import SaleProductsSection from 'components/sections/sale-products';
+import { checkForProduct, createSaleObject } from 'utils/utils';
 import { categories, testProducts } from 'data/tempObjects';
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import { PupuseriaApi } from 'services/PupuseriaApi';
+import useBranchContext from 'context/BranchContext';
 import { confirmAlert } from 'react-confirm-alert';
+import useAuthContext from 'context/AuthContext';
 import { adminPages } from 'constants/strings';
-import { checkForProduct } from 'utils/utils';
+import { adminRoutes } from 'routes/routes';
+import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -13,33 +18,49 @@ import Head from 'next/head';
 import React from 'react';
 
 export default function NewSalePage({ products, categories }) {
+  const [saleDetails, setSaleDetails] = useState([]);
   const [saleTotal, setSaleTotal] = useState(0);
-  const [addedProducts, setAddedProducts] = useState([]);
+  const pupuseriaApi = new PupuseriaApi();
+  const { branchID } = useBranchContext();
+  const { token } = useAuthContext();
+  const router = useRouter();
 
   useEffect(() => {
     let total = 0;
-    addedProducts.forEach(added => {
-      total += Number(added.product.price) * Number(added.quantity);
+    saleDetails.forEach(added => {
+      total += Number(added.total);
     });
     setSaleTotal(total.toFixed(2));
-  }, [addedProducts]);
+  }, [saleDetails]);
 
   const addProduct = (product, formData) => {
-    setAddedProducts(checkForProduct(addedProducts, product.id, formData));
+    setSaleDetails(checkForProduct(saleDetails, product, formData));
     setSaleTotal((Number(saleTotal) + product.price * Number(formData.quantity)).toFixed(2));
   };
 
   const deleteProductFromList = index => {
-    const auxProducts = [...addedProducts];
+    const auxProducts = [...saleDetails];
     if (index > -1) {
       auxProducts.splice(index, 1);
     }
-    setAddedProducts(auxProducts);
+    setSaleDetails(auxProducts);
   };
 
-  const addSale = () => {
-    setAddedProducts([]);
-    toast.success('Venta guardada existosamente');
+  const addSale = async () => {
+    const sale = createSaleObject(saleDetails);
+
+    try {
+      const created = await pupuseriaApi.createSale(token, branchID, sale);
+
+      if (created) {
+        toast.success('Sucursal creada exitosamente');
+        router.push(adminRoutes.sales);
+      } else {
+        toast.error('No se pudo crear la sucursal');
+      }
+    } catch (e) {
+      toast.error('Ocurrió un error interno');
+    }
   };
 
   const openProductModal = product => {
@@ -87,10 +108,10 @@ export default function NewSalePage({ products, categories }) {
           ) : (
             <p className='text-lg'>No hay productos agregados.</p>
           )}
-          {addedProducts.map((obj, index) => {
+          {saleDetails.map((obj, index) => {
             return (
               <SaleDetailProductCard
-                key={obj.product.id}
+                key={obj.idProducto}
                 detailProduct={obj}
                 onDeleteHandler={() => deleteProductFromList(index)}
               />
