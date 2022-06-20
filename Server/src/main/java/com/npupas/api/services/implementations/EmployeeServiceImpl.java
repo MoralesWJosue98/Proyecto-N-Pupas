@@ -108,6 +108,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employee.setHiringDate(dto.getHiringDate());
 		employee.getUser().setName(dto.getName());
 		employee.getUser().setUsername(dto.getUserName());
+		employee.setSalary(dto.getSalary());
 		employee.getUser().setPassword(passEncoder.encode(dto.getPassword()));
 		
 		userRepository.save(employee.getUser());
