@@ -15,16 +15,16 @@ public class SalesDetailsDTO {
 	@Min(value = 1, message = "You must provide at least 1 product.")
 	private Long idProducto;
 	
-	private String mass;
+	private Long massID;
 
 	public SalesDetailsDTO(@Min(value = 1, message = "You must provide at least 1 product.") Long amount,
 			@Min(0) BigDecimal total,
-			@Min(value = 1, message = "You must provide at least 1 product.") Long idProducto, String mass) {
+			@Min(value = 1, message = "You must provide at least 1 product.") Long idProducto, Long mass) {
 		super();
 		this.amount = amount;
 		this.total = total;
 		this.idProducto = idProducto;
-		this.mass = mass;
+		this.massID = mass;
 	}
 	
 
@@ -57,12 +57,12 @@ public class SalesDetailsDTO {
 		this.idProducto = idProducto;
 	}
 
-	public String getMass() {
-		return mass;
+	public Long getMass() {
+		return massID;
 	}
 
-	public void setMass(String mass) {
-		this.mass = mass;
+	public void setMass(Long massID) {
+		this.massID = massID;
 	}
 	
 	

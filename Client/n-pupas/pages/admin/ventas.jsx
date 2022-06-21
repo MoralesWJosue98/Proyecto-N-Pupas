@@ -1,20 +1,84 @@
-import { testHistoryAdmin, testProducts, testSaleDetails } from 'data/tempObjects';
 import { CustomModal } from 'components/layout/modal/custom-modal';
 import SectionTitle from 'components/information/section-title';
 import PageHeading from 'components/information/page-heading';
+import { branchCookie, tokenCookie } from 'constants/data';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { adminPages, titles } from 'constants/strings';
 import SaleTableRow from 'components/tables/saleRow';
+import { PupuseriaApi } from 'services/PupuseriaApi';
+import useBranchContext from 'context/BranchContext';
 import { confirmAlert } from 'react-confirm-alert';
+import { calculateSaleTotal } from 'utils/utils';
+import useAuthContext from 'context/AuthContext';
 import SaleCard from 'components/cards/sale';
 import { adminRoutes } from 'routes/routes';
+import { useState, useEffect } from 'react';
+import { getCookie } from 'cookies-next';
 import toast from 'react-hot-toast';
 import Head from 'next/head';
 
-const SalesPage = ({ salesByProduct, total }) => {
-  const deleteSale = () => {
-    // Lógica para eliminar
-    toast.success('Venta eliminada exitosamente');
+const pupuseriaApi = new PupuseriaApi();
+
+const SalesPage = ({ products, allSales }) => {
+  const [deleteToggle, setDeleteToggle] = useState(false);
+  const [sales, setSales] = useState(allSales);
+  const [salesByProduct, setSalesByProduct] = useState([]);
+  const [total, setTotal] = useState([]);
+  const { branchID} = useBranchContext();
+  const { token } = useAuthContext();
+
+  useEffect(() => {
+    const getSales = async () => {
+      const sales = await pupuseriaApi.getAllSales(token, branchID);
+      setSales(sales);
+    };
+    
+    const getTodaySales = async () => {
+      try {
+        const details = [];
+        const salesByProduct = [];
+        const total = 0;
+        const todaySales = await pupuseriaApi.getTodaySales(token, branchID);
+
+        products.forEach(product => {
+          salesByProduct.push({ product: product, soldAmount: 0 });
+        });
+        
+        todaySales.forEach(sale => {
+          details.push(...sale.details);
+        });
+        
+        details.forEach(detail => {
+          salesByProduct.forEach(saleByProduct => {
+            if (saleByProduct.product.id == detail.product.id) {
+              saleByProduct.soldAmount += detail.amount;
+              total += detail.total;
+            }
+          });
+        });
+        
+        setSalesByProduct(salesByProduct);
+        setTotal(total);
+      } catch(e) {
+        toast.error('Ocurrió un error');
+      }
+    }
+    getSales();
+    getTodaySales();
+  }, [deleteToggle]);
+
+  const deleteSale = async id => {
+    try {
+      const deleted = await pupuseriaApi.deleteSale(token, branchID, id);
+      if (deleted) {
+        setDeleteToggle(!deleteToggle);
+        toast.success('Venta eliminada');
+      } else {
+        toast.error('No se pudo eliminar la venta');
+      }
+    } catch (e) {
+      toast.error('Ocurrió un error interno');
+    }
   };
 
   const onDeleteHandler = saleId => {
@@ -23,7 +87,7 @@ const SalesPage = ({ salesByProduct, total }) => {
         return (
           <CustomModal
             onClose={onClose}
-            onConfirm={deleteSale}
+            onConfirm={() => deleteSale(saleId)}
             text={`¿Segura/o que quieres eliminar la venta #${saleId}?`}
           />
         );
@@ -40,7 +104,7 @@ const SalesPage = ({ salesByProduct, total }) => {
 
       <section>
         <SectionTitle title={titles.today} />
-        <p className='text-lg text-primary-500 font-bold'>Ingreso total: ${total}</p>
+        <p className='text-lg text-primary-500 font-bold'>Ingreso total: ${Number(total).toFixed(2)}</p>
       </section>
       <section>
         <div className='relative overflow-x-auto shadow-md sm:rounded-lg mb-6'>
@@ -63,15 +127,16 @@ const SalesPage = ({ salesByProduct, total }) => {
       <section>
         <SectionTitle title={titles.history} />
         <div className='flex flex-col gap-5 md:grid md:grid-cols-2'>
-          {testHistoryAdmin.map(history => {
+          {sales.length > 0 ? (sales.map(sale => {
             return (
               <SaleCard
-                history={history}
-                key={history.id}
-                onDeleteHandler={() => onDeleteHandler(history.id)}
+                sale={sale}
+                total={calculateSaleTotal(sale.details)}
+                key={sale.id}
+                onDeleteHandler={() => onDeleteHandler(sale.id)}
               />
             );
-          })}
+          })) : <p>No se encontraron ventas</p>}
         </div>
       </section>
     </main>
@@ -80,28 +145,25 @@ const SalesPage = ({ salesByProduct, total }) => {
 
 export default SalesPage;
 
-export async function getServerSideProps() {
-  const products = testProducts;
-  const sales = [];
-  let total = 0;
+export async function getServerSideProps({ req, res }) {
+  const branchID = getCookie(branchCookie, { req, res });
+  const token = getCookie(tokenCookie, { req, res });
 
-  products.forEach(product => {
-    sales.push({ product: product, soldAmount: 0 });
-  });
+  try {
+    const products = await pupuseriaApi.getAllProducts(token);
+    const allSales = await pupuseriaApi.getAllSales(token, branchID);
 
-  testSaleDetails.forEach(detail => {
-    sales.forEach(sale => {
-      if (sale.product.id == detail.product.id) {
-        sale.soldAmount += detail.amount;
-        total += detail.total;
-      }
-    });
-  });
-
-  return {
-    props: {
-      salesByProduct: sales,
-      total: total.toFixed(2),
-    },
-  };
+    return {
+      props: {
+        products: products,
+        allSales: allSales,
+      },
+    };
+  } catch (e) {
+    return {
+      redirect: {
+        destination: '/500',
+      },
+    };
+  }
 }

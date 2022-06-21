@@ -1,58 +1,88 @@
 import SaleDetailProductCard from 'components/cards/sale-detail-product';
 import { SaleProductModal } from 'components/layout/modal/sale-modal';
 import SaleProductsSection from 'components/sections/sale-products';
+import { tokenCookie, branchCookie } from 'constants/data';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import { testSaleDetails } from 'data/tempObjects';
+import { PupuseriaApi } from 'services/PupuseriaApi';
 import { confirmAlert } from 'react-confirm-alert';
-import { testProducts } from 'data/tempObjects';
 import { adminPages } from 'constants/strings';
 import { checkForProduct } from 'utils/utils';
-import { categories } from 'data/tempObjects';
+import { createSaleObject } from 'utils/utils';
 import toast from 'react-hot-toast';
+import { getCookie } from 'cookies-next';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Head from 'next/head';
 import React from 'react';
+import useAuthContext from 'context/AuthContext';
+import useBranchContext from 'context/BranchContext';
+import { adminRoutes } from 'routes/routes';
+import { useRouter } from 'next/router';
 
-export default function EditSalePage({ id, saleDetails, products, categories }) {
+const pupuseriaApi = new PupuseriaApi();
+
+export default function EditSalePage({ sale, products, productTypes }) {
   const [saleTotal, setSaleTotal] = useState(0);
-  const [addedProducts, setAddedProducts] = useState([]);
+  const [saleDetails, setSaleDetails] = useState([]);
+  const { token } = useAuthContext();
+  const { branchID} = useBranchContext();
+  const router = useRouter();
 
   const addProduct = (product, formData) => {
-    setAddedProducts(checkForProduct(addedProducts, product.id, formData));
+    setSaleDetails(checkForProduct(saleDetails, product, formData));
     setSaleTotal((Number(saleTotal) + product.price * Number(formData.quantity)).toFixed(2));
   };
 
   useEffect(() => {
     const savedProducts = [];
 
-    saleDetails.forEach(detail => {
-      savedProducts.push({ product: detail.product, quantity: detail.amount, dough: detail.dough });
+    sale.details.forEach(detail => {
+      savedProducts.push({
+        idProducto: detail.product.id,
+        product: detail.product,
+        amount: Number(detail.amount),
+        mass: Number(detail.massDetails ? detail.massDetails.mass.id : null),
+        total: Number(detail.product.price * detail.amount),
+      });
     });
 
-    setAddedProducts(savedProducts);
-  }, [saleDetails]);
+    setSaleDetails(savedProducts);
+  }, []);
 
   useEffect(() => {
     let total = 0;
 
-    addedProducts.forEach(added => {
-      total += Number(added.product.price) * Number(added.quantity);
+    saleDetails.forEach(added => {
+      total += Number(added.product.price) * Number(added.amount);
     });
 
     setSaleTotal(total.toFixed(2));
-  }, [addedProducts]);
+  }, [saleDetails]);
 
   const deleteProductFromList = index => {
-    const auxProducts = [...addedProducts];
+    const auxProducts = [...saleDetails];
     if (index > -1) {
       auxProducts.splice(index, 1);
     }
-    setAddedProducts(auxProducts);
+    setSaleDetails(auxProducts);
   };
 
-  const editSale = () => {
-    toast.success('Cambios guardados con éxito');
+  const editSale = async () => {
+    const newSale = createSaleObject(saleDetails);
+
+    try {
+      const updated = await pupuseriaApi.updateSale(token, branchID, sale.id, newSale);
+
+      if (updated) {
+        toast.success('Cambios guardados');
+        router.push(adminRoutes.sales);
+      } else {
+        toast.error('No se pudo modificar la venta');
+      }
+    } catch (e) {
+      console.log(e);
+      toast.error('Ocurrió un error interno');
+    }
   };
 
   const openProductModal = product => {
@@ -71,19 +101,19 @@ export default function EditSalePage({ id, saleDetails, products, categories }) 
       <div className='flex flex-col gap-5 lg:flex-row lg:grid lg:grid-cols-7'>
         <div className='col-span-5 p-6 flex flex-col gap-5'>
           <h1 className='font-bold text-2xl sm:text-3xl'>{adminPages.editSale}</h1>
-          {categories.map(category => {
+          {productTypes.map(type => {
             return (
               <SaleProductsSection
-                key={category.id}
+                key={type.id}
                 products={products}
-                category={category}
+                type={type}
                 onClickHandler={openProductModal}
               />
             );
           })}
         </div>
         <div className='flex flex-col gap-5 col-span-2 bg-gray-200 p-6 lg:p-4'>
-          <h2 className='text-xl sm:text-2xl font-bold mt-3'>{`Detalle de venta #${id.id}`} </h2>
+          <h2 className='text-xl sm:text-2xl font-bold mt-3'>{`Detalle de venta #${sale.id}`} </h2>
           {saleTotal > 0 ? (
             <div className='flex justify-between items-center'>
               <p className='text-primary-500 font-bold text-lg sm:text-xl text-right'>
@@ -100,7 +130,7 @@ export default function EditSalePage({ id, saleDetails, products, categories }) 
           ) : (
             <p className='text-lg'>No hay productos agregados.</p>
           )}
-          {addedProducts.map((obj, index) => {
+          {saleDetails.map((obj, index) => {
             return (
               <SaleDetailProductCard
                 key={obj.product.id}
@@ -115,17 +145,28 @@ export default function EditSalePage({ id, saleDetails, products, categories }) 
   );
 }
 
-export async function getServerSideProps(context) {
-  const saleId = context.query;
+export async function getServerSideProps({ query, req, res }) {
+  const branchId = getCookie(branchCookie, { req, res });
+  const token = getCookie(tokenCookie, { req, res });
+  const saleId = query.id;
 
-  // Fetch para obtener detalles de venta según id
+  try {
+    const sale = await pupuseriaApi.getOneSale(token, branchId, saleId);
+    const products = await pupuseriaApi.getAllProducts(token);
+    const productTypes = await pupuseriaApi.getProductTypes(token);
 
-  return {
-    props: {
-      id: saleId,
-      saleDetails: testSaleDetails,
-      products: testProducts,
-      categories: categories,
-    },
-  };
+    return {
+      props: {
+        sale: sale,
+        products: products,
+        productTypes: productTypes,
+      },
+    };
+  } catch (e) {
+    return {
+      redirect: {
+        destination: '/500',
+      },
+    };
+  }
 }

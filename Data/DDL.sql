@@ -172,7 +172,7 @@ CREATE TABLE IF NOT EXISTS public.sales_details_mass
 (
     id serial NOT NULL,
     id_sale_detail integer NOT NULL,
-    id_mass integer NOT NULL,
+    id_mass integer,
     CONSTRAINT pk_sales_details_mass PRIMARY KEY (id),
     CONSTRAINT fk_sales_details_mass_id FOREIGN KEY (id_mass)
         REFERENCES public.mass (id) MATCH SIMPLE

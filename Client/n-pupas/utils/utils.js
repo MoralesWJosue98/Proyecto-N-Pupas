@@ -1,5 +1,4 @@
 import { testProducts } from 'data/tempObjects';
-
 export const fillWithZero = number => {
   return String(number).padStart(8, '0');
 };
@@ -9,13 +8,16 @@ export const getProductDetails = (products, id) => {
   return product[0];
 };
 
-export const checkForProduct = (addedProducts, id, formData) => {
-  const product = getProductDetails(testProducts, id);
+export const checkForProduct = (addedProducts, product, formData) => {
   const found = false;
 
   addedProducts.forEach(obj => {
-    if (obj.product.id == id && obj.dough == formData.dough) {
-      obj.quantity += Number(formData.quantity);
+    if (
+      (obj.idProducto == product.id && obj.mass == formData.dough) ||
+      obj.idProducto == product.id
+    ) {
+      obj.amount += Number(formData.quantity);
+      obj.total += Number(formData.quantity * obj.product.price);
       found = true;
     }
   });
@@ -23,7 +25,13 @@ export const checkForProduct = (addedProducts, id, formData) => {
   if (!found) {
     return [
       ...addedProducts,
-      { product: product, quantity: Number(formData.quantity), dough: formData.dough },
+      {
+        idProducto: product.id,
+        product: product,
+        amount: Number(formData.quantity),
+        mass: Number(formData.dough),
+        total: Number(product.price * formData.quantity),
+      },
     ];
   }
 
@@ -47,4 +55,41 @@ export const calculateTodayExpenses = purchases => {
   });
 
   return total.toFixed(2);
+};
+
+const getDate = () => {
+  const date = new Date();
+
+  const dd = String(date.getDate()).padStart(2, '0');
+  const MM = String(date.getMonth() + 1).padStart(2, '0');
+  const yyyy = date.getFullYear();
+
+  return `${yyyy}-${MM}-${dd}`;
+};
+
+export const createSaleObject = details => {
+  const saleDetails = [];
+
+  details.forEach(detail => {
+    saleDetails.push({
+      idProducto: detail.idProducto,
+      amount: detail.amount,
+      mass: detail.mass,
+      total: detail.total,
+    });
+  });
+
+  return {
+    date: getDate(),
+    details: saleDetails,
+  };
+};
+
+export const calculateSaleTotal = details => {
+  const total = 0;
+  details.forEach(detail => {
+    total += detail.total;
+  });
+
+  return Number(total);
 };

@@ -15,6 +15,7 @@ export const AuthContextProvider = ({ children }) => {
   const router = useRouter();
 
   const login = async credentials => {
+    console.log(credentials);
     try {
       const loggedUser = await pupuseriaApi.login(credentials);
 
@@ -23,6 +24,7 @@ export const AuthContextProvider = ({ children }) => {
         setRole(loggedUser.role);
         setCookies(tokenCookie, loggedUser.token);
         setCookies(roleCookie, loggedUser.role);
+
         router.push(adminRoutes.home);
       } else {
         toast.error('Credenciales inválidas');

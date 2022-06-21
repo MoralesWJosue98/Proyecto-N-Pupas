@@ -5,10 +5,12 @@ import { adminRoutes } from 'routes/routes';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import Head from 'next/head';
+import useAuthContext from 'context/AuthContext';
 
 const RegisterPage = () => {
   const pupuseriaApi = new PupuseriaApi();
   const router = useRouter();
+  const { login } = useAuthContext();
 
   const onSubmitForm = async data => {
     delete data.password_repeat;
@@ -21,7 +23,7 @@ const RegisterPage = () => {
         toast.error(errorObj.message);
       } else {
         toast.success('Usuario registrado existosamente');
-        router.push(adminRoutes.home);
+        login({ username: data.username, password: data.Password });
       }
     } catch (e) {
       toast.error('Ocurrió un error');

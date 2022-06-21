@@ -16,7 +16,7 @@ const AddSaleForm = ({ onSubmitHandler, product }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-5'>
-      {product.type === 1 && (
+      {product.type.id === 1 && (
         <div>
           <p className='mb-1 text-sm'>Tipo de masa</p>
           <div className='flex gap-6'>

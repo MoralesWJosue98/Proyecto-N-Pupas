@@ -121,25 +121,25 @@ export const testEmployeeAdmin = [
 
 export const testProducts = [
   {
-    id: 1,
+    id: 15,
     name: 'Pupusa revuelta',
     price: 0.8,
     type: 1,
   },
   {
-    id: 2,
+    id: 18,
     name: 'Pupusa de queso',
     price: 0.9,
     type: 1,
   },
   {
-    id: 3,
+    id: 20,
     name: 'Pupusa de queso y loroco ',
     price: 0.9,
     type: 1,
   },
-  { id: 4, name: 'Horchata', price: 1.0, type: 2 },
-  { id: 5, name: 'Curtido', price: 0.75, type: 3 },
+  { id: 21, name: 'Horchata', price: 1.0, type: 2 },
+  { id: 22, name: 'Curtido', price: 0.75, type: 3 },
 ];
 
 export const testHistoryAdmin = [
@@ -184,7 +184,7 @@ export const testSaleDetails = [
     date: '02/10/2021 18:00',
   },
   {
-    id: 2,
+    id: 15,
     amount: 2,
     total: 1.8,
     dough: 2,
@@ -197,7 +197,7 @@ export const testSaleDetails = [
     date: '02/10/2021 18:00',
   },
   {
-    id: 3,
+    id: 18,
     amount: 3,
     total: 3.0,
     dough: null,

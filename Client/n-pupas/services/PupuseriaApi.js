@@ -166,4 +166,45 @@ export const PupuseriaApi = class {
     return putData(`/pupuserias/menu/${productID}`, token, body);
   }
 
+  getAllSales(token, branchID) {
+    return getData(`/pupuserias/branches/${branchID}/sales`, token);
+  }
+
+  getTodaySales(token, branchID) {
+    return getData(`/pupuserias/branches/${branchID}/sales/today`, token);
+  }
+
+  getOneSale(token, branchID, saleID) {
+    return getData(`/pupuserias/branches/${branchID}/sales/${saleID}`, token)
+  }
+
+  deleteSale(token, branchID, saleID) {
+    return deleteData(`/pupuserias/branches/${branchID}/sales/${saleID}`, token);
+  }
+
+  async createSale(token, branchID, body) {
+    const response = await fetch(`${BASE_URL}/pupuserias/branches/${branchID}/sales`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    return response.ok;
+  }
+
+  async updateSale(token, branchID, saleID, body) {
+    const response = await fetch(`${BASE_URL}/pupuserias/branches/${branchID}/sales/${saleID}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    return response.ok;
+  }
 };
