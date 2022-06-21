@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS public.product
 (
     id serial NOT NULL,
     name character varying COLLATE pg_catalog."default" NOT NULL,
-    price money NOT NULL,
+    price decimal NOT NULL,
     id_pupuseria integer NOT NULL,
     image bytea NOT NULL,
     id_type integer NOT NULL,
@@ -81,10 +81,10 @@ CREATE TABLE IF NOT EXISTS public.employee
 (
     id serial NOT NULL,
     user_id integer NOT NULL,
-    salary money NOT NULL,
-    afp_accumulated money NOT NULL,
-    isss_accumulated money NOT NULL,
-    rent_accumulated money NOT NULL,
+    salary decimal NOT NULL,
+    afp_accumulated decimal NOT NULL,
+    isss_accumulated decimal NOT NULL,
+    rent_accumulated decimal NOT NULL,
     hiring_date timestamp without time zone NOT NULL,
     branch_id integer NOT NULL,
     CONSTRAINT employee_pkey PRIMARY KEY (id),
@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS public.purchase
     id serial NOT NULL,
     purchase_date timestamp without time zone NOT NULL,
     concept character varying COLLATE pg_catalog."default" NOT NULL,
-    amount money NOT NULL,
+    amount decimal NOT NULL,
     id_branch integer NOT NULL,
     CONSTRAINT pk_purchase PRIMARY KEY (id),
     CONSTRAINT fk_purchase_branch_id FOREIGN KEY (id_branch)
@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS public.sales_detail
 (
     id serial NOT NULL,
     amount integer NOT NULL,
-    total money NOT NULL,
+    total decimal NOT NULL,
     id_sale integer NOT NULL,
     id_product integer NOT NULL,
     CONSTRAINT pk_sales_detail PRIMARY KEY (id),
