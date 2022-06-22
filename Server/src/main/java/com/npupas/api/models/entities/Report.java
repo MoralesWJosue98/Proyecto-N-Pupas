@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity(name= "report")
 public class Report {
 	@Id
@@ -26,12 +28,15 @@ public class Report {
 	private LocalDate reportDate;
 	
 	@ManyToOne
+	@JsonBackReference
 	@JoinColumn(name = "id_admin", nullable = true)
 	private Admin admin;
 	
 	@ManyToOne
+	@JsonBackReference
 	@JoinColumn(name = "id_employee", nullable = true)
 	private Employee employee;
+	
 
 	public Report() {
 		super();
@@ -76,6 +81,7 @@ public class Report {
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
+
 	
-	
+		
 }
