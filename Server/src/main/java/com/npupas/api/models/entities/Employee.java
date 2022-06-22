@@ -50,6 +50,7 @@ public class Employee {
 	User user;
 	
 	@OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
+	@JsonBackReference
 	private List<Report> reports;
 	
 	@ManyToOne
