@@ -39,6 +39,7 @@ public class User {
 	private String password;
 	
 	@OneToOne(mappedBy = "user")
+	@JsonBackReference
 	@NotFound(action = NotFoundAction.IGNORE)
 	private Admin admin;
 	
