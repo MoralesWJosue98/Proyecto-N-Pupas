@@ -10,7 +10,7 @@ import Head from 'next/head';
 
 const pupuseriaApi = new PupuseriaApi();
 
-const AdminHomePage = ({ branches }) => {
+const AdminHomePage = ({ pupuseriaName, branches }) => {
   const { branchID, setBranchID } = useBranchContext();
 
   useEffect(() => {
@@ -23,8 +23,6 @@ const AdminHomePage = ({ branches }) => {
     setBranchID(id);
   };
 
-  const testPupuseriaName = 'La bendición';
-
   return (
     <main className='p-6 flex flex-col gap-5'>
       <Head>
@@ -32,7 +30,7 @@ const AdminHomePage = ({ branches }) => {
       </Head>
       <h1 className='font-bold text-2xl sm:text-3xl'>{homePageName}</h1>
       <section className='mb-4'>
-        <h2 className='text-primary-500 font-bold text-lg mb-3'>{`Pupusería ${testPupuseriaName}`}</h2>
+        <h2 className='text-primary-500 font-bold text-lg mb-3'>{`Pupusería: ${pupuseriaName}`}</h2>
         <BranchSelect onChangeHandler={changeBranch} branches={branches} value={branchID} />
       </section>
       <HomeMenu isAdmin={true} />
@@ -46,10 +44,11 @@ export async function getServerSideProps({ req, res }) {
   const token = getCookie(tokenCookie, { req, res });
 
   try {
-    const allBranches = await pupuseriaApi.getAllBranches(token);
+    const pupuseria = await pupuseriaApi.getMyPupuseria(token);
     return {
       props: {
-        branches: allBranches,
+        pupuseriaName: pupuseria.name,
+        branches: pupuseria.branches,
       },
     };
   } catch (e) {

@@ -24,7 +24,7 @@ const SalesPage = ({ products, allSales }) => {
   const [sales, setSales] = useState(allSales);
   const [salesByProduct, setSalesByProduct] = useState([]);
   const [total, setTotal] = useState([]);
-  const { branchID} = useBranchContext();
+  const { branchID } = useBranchContext();
   const { token } = useAuthContext();
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const SalesPage = ({ products, allSales }) => {
       const sales = await pupuseriaApi.getAllSales(token, branchID);
       setSales(sales);
     };
-    
+
     const getTodaySales = async () => {
       try {
         const details = [];
@@ -43,11 +43,11 @@ const SalesPage = ({ products, allSales }) => {
         products.forEach(product => {
           salesByProduct.push({ product: product, soldAmount: 0 });
         });
-        
+
         todaySales.forEach(sale => {
           details.push(...sale.details);
         });
-        
+
         details.forEach(detail => {
           salesByProduct.forEach(saleByProduct => {
             if (saleByProduct.product.id == detail.product.id) {
@@ -56,13 +56,13 @@ const SalesPage = ({ products, allSales }) => {
             }
           });
         });
-        
+
         setSalesByProduct(salesByProduct);
         setTotal(total);
-      } catch(e) {
+      } catch (e) {
         toast.error('Ocurrió un error');
       }
-    }
+    };
     getSales();
     getTodaySales();
   }, [deleteToggle]);
@@ -101,42 +101,49 @@ const SalesPage = ({ products, allSales }) => {
         <title>{adminPages.sales}</title>
       </Head>
       <PageHeading title={adminPages.sales} route={adminRoutes.newSale} />
-
       <section>
         <SectionTitle title={titles.today} />
-        <p className='text-lg text-primary-500 font-bold'>Ingreso total: ${Number(total).toFixed(2)}</p>
-      </section>
-      <section>
-        <div className='relative overflow-x-auto shadow-md sm:rounded-lg mb-6'>
-          <table className='w-full text-sm text-left'>
-            <thead>
-              <tr>
-                <th className='pl-6'>Producto</th>
-                <th className='pl-5 '>Cantidad</th>
-                <th className='pl-6 '>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              {salesByProduct.map(sale => {
-                return <SaleTableRow sale={sale} key={sale.product.id} />;
-              })}
-            </tbody>
-          </table>
-        </div>
+        {total > 0 ? (
+          <div className='relative overflow-x-auto shadow-md sm:rounded-lg mb-6'>
+            <p className='text-lg text-primary-500 font-bold'>
+              Ingreso total: ${Number(total).toFixed(2)}
+            </p>
+            <table className='w-full text-sm text-left mt-6'>
+              <thead>
+                <tr>
+                  <th className='pl-6'>Producto</th>
+                  <th className='pl-5 '>Cantidad</th>
+                  <th className='pl-6 '>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {salesByProduct.map(sale => {
+                  return <SaleTableRow sale={sale} key={sale.product.id} />;
+                })}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p>No se han realizado ventas en este día</p>
+        )}
       </section>
       <section>
         <SectionTitle title={titles.history} />
         <div className='flex flex-col gap-5 md:grid md:grid-cols-2'>
-          {sales.length > 0 ? (sales.map(sale => {
-            return (
-              <SaleCard
-                sale={sale}
-                total={calculateSaleTotal(sale.details)}
-                key={sale.id}
-                onDeleteHandler={() => onDeleteHandler(sale.id)}
-              />
-            );
-          })) : <p>No se encontraron ventas</p>}
+          {sales.length > 0 ? (
+            sales.map(sale => {
+              return (
+                <SaleCard
+                  sale={sale}
+                  total={calculateSaleTotal(sale.details)}
+                  key={sale.id}
+                  onDeleteHandler={() => onDeleteHandler(sale.id)}
+                />
+              );
+            })
+          ) : (
+            <p>No se encontraron ventas</p>
+          )}
         </div>
       </section>
     </main>

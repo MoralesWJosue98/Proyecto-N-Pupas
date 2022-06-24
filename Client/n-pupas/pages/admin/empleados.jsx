@@ -15,7 +15,6 @@ import { getCookie } from 'cookies-next';
 import toast from 'react-hot-toast';
 import Head from 'next/head';
 
-
 const pupuseriaApi = new PupuseriaApi();
 
 const EmployeesPage = ({ allEmployees }) => {
@@ -78,8 +77,7 @@ const { branchID } = useBranchContext();
 
         <div className='flex flex-col gap-5 md:grid md:grid-cols-2'>
       
-        {employees.map(employee => {
-          
+        {allEmployees.length > 0 ? employees.map(employee => {
           return (
             <EmployeeCard
               employee={employee}
@@ -87,7 +85,7 @@ const { branchID } = useBranchContext();
               onDeleteHandler={() => onDeleteHandler(employee.id, employee.name)}
             />
           );
-        })}
+        }): <p>Aún no se han registrado empleados</p>}
       </div>
 
     </main>
