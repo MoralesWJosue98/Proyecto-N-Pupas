@@ -1,4 +1,5 @@
 import { employeeRoutes, adminRoutes } from 'routes/routes';
+import { homePageName, profilePageName } from './strings';
 import { employeePages, adminPages } from './strings';
 
 export const tokenCookie = 'token';
@@ -22,19 +23,24 @@ export const adminMenuOptions = [
   { title: adminPages.branches, route: adminRoutes.branches },
 ];
 
-export const departments = [
-  'San Salvador',
-  'Morazán',
-  'Cabañas',
-  'San Miguel',
-  'Chalatenango',
-  'La Libertad',
-  'Cuscatlán',
-  'La Unión',
-  'Ahuachapán',
-  'Sonsonate',
-  'Santa Ana',
-  'San Vicente',
-  'Usulután',
-  'La Paz',
+export const adminNav = [
+  {
+    name: `${homePageName}`,
+    route: `${adminRoutes.home}`,
+  },
+  {
+    name: `${profilePageName}`,
+    route: `${adminRoutes.profile}`,
+  },
+];
+
+export const employeeNav = [
+  {
+    name: `${homePageName}`,
+    route: `${employeeRoutes.home}`,
+  },
+  {
+    name: `${profilePageName}`,
+    route: `${employeeRoutes.profile}`,
+  },
 ];

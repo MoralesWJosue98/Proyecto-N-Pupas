@@ -15,7 +15,6 @@ export const AuthContextProvider = ({ children }) => {
   const router = useRouter();
 
   const login = async credentials => {
-    console.log(credentials);
     try {
       const loggedUser = await pupuseriaApi.login(credentials);
 

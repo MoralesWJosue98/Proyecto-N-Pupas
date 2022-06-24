@@ -125,7 +125,7 @@ export const PupuseriaApi = class {
   createEmployee(token, branchID, body) {
     return postData(`/pupuserias/branches/${branchID}/employees`, token, body);
   }
-  
+
   getAllEmployees(token, branchID) {
     return getData(`/pupuserias/branches/${branchID}/employees`, token);
   }
@@ -175,7 +175,7 @@ export const PupuseriaApi = class {
   }
 
   getOneSale(token, branchID, saleID) {
-    return getData(`/pupuserias/branches/${branchID}/sales/${saleID}`, token)
+    return getData(`/pupuserias/branches/${branchID}/sales/${saleID}`, token);
   }
 
   deleteSale(token, branchID, saleID) {
@@ -206,5 +206,17 @@ export const PupuseriaApi = class {
     });
 
     return response.ok;
+  }
+
+  getEmployeeInfo(token) {
+    return getData('/pupuserias/branches/employees/me', token);
+  }
+
+  getAdminInfo(token) {
+    return getData('/pupuserias/admins/me', token);
+  }
+
+  getMyPupuseria(token) {
+    return getData('/pupuserias/me', token);
   }
 };
