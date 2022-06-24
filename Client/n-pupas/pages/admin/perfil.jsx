@@ -1,15 +1,20 @@
 import { CustomModal } from 'components/layout/modal/custom-modal';
+import ProfileCardAdmin from 'components/cards/profile-admin';
 import SecondaryButton from 'components/buttons/secondary';
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import { PupuseriaApi } from 'services/PupuseriaApi';
 import { profilePageName } from 'constants/strings';
 import { confirmAlert } from 'react-confirm-alert';
-import ProfileCard from 'components/cards/profile';
 import useAuthContext from 'context/AuthContext';
-import { testAdmin } from 'data/tempObjects';
+import { tokenCookie } from 'constants/data';
+import { getCookie } from 'cookies-next';
 import Head from 'next/head';
 
-const EmployeeProfilePage = () => {
+const pupuseriaApi = new PupuseriaApi();
+
+const EmployeeProfilePage = ({ admin }) => {
   const { logout } = useAuthContext();
+  console.log(admin);
 
   const handleOnLogout = () => {
     confirmAlert({
@@ -32,7 +37,7 @@ const EmployeeProfilePage = () => {
         <title>{profilePageName}</title>
       </Head>
       <h1 className='font-bold text-2xl sm:text-3xl'>{profilePageName}</h1>
-      <ProfileCard employee={testAdmin} />
+      <ProfileCardAdmin admin={admin} />
       <div className='flex justify-center mt-4'>
         <SecondaryButton text='Cerrar sesión' onClickHandler={handleOnLogout} isRed={true} />
       </div>
@@ -41,3 +46,23 @@ const EmployeeProfilePage = () => {
 };
 
 export default EmployeeProfilePage;
+
+export async function getServerSideProps({ req, res }) {
+  const token = getCookie(tokenCookie, { req, res });
+
+  try {
+    const adminInfo = await pupuseriaApi.getAdminInfo(token);
+    return {
+      props: {
+        admin: adminInfo,
+      },
+    };
+  } catch (e) {
+    console.log(e);
+    return {
+      redirect: {
+        destination: '/500',
+      },
+    };
+  }
+}

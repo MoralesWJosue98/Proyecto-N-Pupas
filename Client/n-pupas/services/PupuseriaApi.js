@@ -207,4 +207,12 @@ export const PupuseriaApi = class {
 
     return response.ok;
   }
+
+  getEmployeeInfo(token) {
+    return getData('/pupuserias/branches/employees/me', token);
+  }
+
+  getAdminInfo(token) {
+    return getData('/pupuserias/admins/me', token);
+  }
 };
