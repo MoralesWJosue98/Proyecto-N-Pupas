@@ -1,5 +1,6 @@
 package com.npupas.api.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.npupas.api.models.dtos.AddPurchaseDTO;
@@ -10,6 +11,8 @@ public interface PurchaseService {
 	List<Purchase> getAllBranchPurchases(Long branchId);
 
 	List<Purchase> getTodayBranchPurchases(Long branchId);
+
+	List<Purchase> getPurchasesBetweenDates(LocalDate initialDate, LocalDate finalDate);
 
 	Purchase getOnePurchase(Long idPurchase);
 

@@ -25,7 +25,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Override
 	public List<Purchase> getAllBranchPurchases(Long branchId) {
 		Branch branch = branchRepository.findById(branchId).orElse(null);
-		if(branch == null) {
+		if (branch == null) {
 			return null;
 		}
 		List<Purchase> foundBranchPurchase = purchaseRepository.findByBranch(branch);
@@ -36,7 +36,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Override
 	public List<Purchase> getTodayBranchPurchases(Long branchId) {
 		Branch branch = branchRepository.findById(branchId).orElse(null);
-		if(branch == null) {
+		if (branch == null) {
 			return null;
 		}
 
@@ -50,6 +50,12 @@ public class PurchaseServiceImpl implements PurchaseService {
 		Purchase foundPurchase = purchaseRepository.findById(idPurchase).orElse(null);
 		return foundPurchase;
 	}
+
+	@Override
+	public List<Purchase> getPurchasesBetweenDates(LocalDate initialDate, LocalDate finalDate) {
+		List<Purchase> purchases = purchaseRepository.findBetweenDates(initialDate, finalDate);
+		return purchases;
+	};
 
 	@Override
 	public void save(Long branchId, AddPurchaseDTO purchaseDTO) {
@@ -72,8 +78,9 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Override
 	public Boolean update(Long purchaseId, AddPurchaseDTO purchaseDTO) {
 		Purchase purchase = purchaseRepository.findById(purchaseId).orElse(null);
-		if(purchase == null) return false;
-		
+		if (purchase == null)
+			return false;
+
 		purchase.setConcept(purchaseDTO.getConcept());
 		purchase.setAmount(purchaseDTO.getAmount());
 		purchase.setPurchaseDate(purchaseDTO.getPurchaseDate());

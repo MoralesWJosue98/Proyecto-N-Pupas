@@ -1,5 +1,6 @@
 package com.npupas.api.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -38,6 +40,21 @@ public class PurchaseController {
 	public ResponseEntity<List<Purchase>> getAll(@PathVariable("id") Long branchId) {
 		try {
 			List<Purchase> purchases = purchaseService.getAllBranchPurchases(branchId);
+			if (purchases == null)
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+			return new ResponseEntity<List<Purchase>>(purchases, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@GetMapping("/{id}/purchases/report")
+	public ResponseEntity<List<Purchase>> getBetweenDates(@PathVariable("id") Long branchId,
+			@RequestParam("initialDate") String initialDate, @RequestParam("finalDate") String finalDate) {
+		try {
+			List<Purchase> purchases = purchaseService.getPurchasesBetweenDates(LocalDate.parse(initialDate), LocalDate.parse(finalDate));
 			if (purchases == null)
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
