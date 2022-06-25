@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "cookies-next": "^2.0.4",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.25",
+    "moment": "^2.29.3",
     "next": "12.1.5",
     "react": "18.1.0",
     "react-confirm-alert": "^3.0.2",
