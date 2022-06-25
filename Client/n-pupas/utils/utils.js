@@ -1,4 +1,5 @@
-import { testProducts } from 'data/tempObjects';
+import moment from 'moment';
+
 export const fillWithZero = number => {
   return String(number).padStart(8, '0');
 };
@@ -93,3 +94,22 @@ export const calculateSaleTotal = details => {
 
   return Number(total);
 };
+
+export const calculateSoldProducts = details => {
+  const total = 0;
+  details.forEach(detail => {
+    total += detail.amount;
+  });
+
+  return Number(total);
+};
+
+export const calculateAllSalesTotal = sales => {
+  const total = 0;
+  sales.forEach(sale => {
+    total += calculateSaleTotal(sale.details);
+  });
+
+  return Number(total);
+};
+

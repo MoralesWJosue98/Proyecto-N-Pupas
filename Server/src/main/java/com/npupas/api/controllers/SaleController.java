@@ -1,5 +1,6 @@
 package com.npupas.api.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.npupas.api.models.dtos.AddSaleDTO;
@@ -35,6 +37,22 @@ public class SaleController {
 	private ResponseEntity<List<Sale>> getAllSales(@PathVariable("id") Long id) {
 		try {
 			List<Sale> sales = salesService.getAllSales(id);
+			if (sales == null)
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+			return new ResponseEntity<List<Sale>>(sales, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@GetMapping("/{id}/sales/report")
+	public ResponseEntity<List<Sale>> getBetweenDates(@PathVariable("id") Long branchId,
+			@RequestParam("initialDate") String initialDate, @RequestParam("finalDate") String finalDate) {
+		try {
+			List<Sale> sales = salesService.getSalesBetweenDates(LocalDate.parse(initialDate),
+					LocalDate.parse(finalDate));
 			if (sales == null)
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
@@ -109,7 +127,7 @@ public class SaleController {
 			}
 
 			Boolean created = salesService.updateSale(id, saleDTO, saleId);
-			
+
 			if (created) {
 				return new ResponseEntity<MessageDTO>(new MessageDTO("Venta modificada con éxito."),
 						HttpStatus.CREATED);
@@ -128,14 +146,15 @@ public class SaleController {
 	private ResponseEntity<MessageDTO> deleteSale(@PathVariable("id") Long id, @PathVariable("sale_id") Long saleId) {
 		try {
 			Boolean deleted = salesService.deleteSale(id, saleId);
-			
-			if(deleted) return new ResponseEntity<MessageDTO>(new MessageDTO("Venta borrada con éxito."), HttpStatus.OK);
-			
-			
+
+			if (deleted)
+				return new ResponseEntity<MessageDTO>(new MessageDTO("Venta borrada con éxito."), HttpStatus.OK);
+
 			return new ResponseEntity<MessageDTO>(new MessageDTO("Petición mal realizada."), HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return new ResponseEntity<MessageDTO>( new MessageDTO("Error en servidor.") ,HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<MessageDTO>(new MessageDTO("Error en servidor."),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 

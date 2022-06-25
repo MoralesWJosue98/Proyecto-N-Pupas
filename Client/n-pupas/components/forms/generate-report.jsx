@@ -25,10 +25,10 @@ const GenerateReportForm = ({ onSubmitHandler }) => {
             type='date'
             placeholder='Desde'
             className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-            {...register('initial_date', { required: 'Fecha de inicio requerida' })}
+            {...register('initialDate', { required: 'Fecha de inicio requerida' })}
           />
-          {errors.initial_date && (
-            <p className='mt-1 text-red-700'>{errors.initial_date.message}</p>
+          {errors.initialDate && (
+            <p className='mt-1 text-red-700'>{errors.initialDate.message}</p>
           )}
         </div>
         <div>
@@ -36,9 +36,9 @@ const GenerateReportForm = ({ onSubmitHandler }) => {
             type='date'
             placeholder='Hasta'
             className='shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
-            {...register('final_date', { required: 'Fecha final requerida' })}
+            {...register('finalDate', { required: 'Fecha final requerida' })}
           />
-          {errors.final_date && <p className='mt-1 text-red-700'>{errors.final_date.message}</p>}
+          {errors.finalDate && <p className='mt-1 text-red-700'>{errors.finalDate.message}</p>}
         </div>
       </div>
 

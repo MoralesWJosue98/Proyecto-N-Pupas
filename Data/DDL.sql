@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS public.product
     name character varying COLLATE pg_catalog."default" NOT NULL,
     price decimal NOT NULL,
     id_pupuseria integer NOT NULL,
-    image bytea NOT NULL,
+    image bytea,
     id_type integer NOT NULL,
     CONSTRAINT pk_product PRIMARY KEY (id),
     CONSTRAINT fk_product_pupuseria_id FOREIGN KEY (id_pupuseria)
