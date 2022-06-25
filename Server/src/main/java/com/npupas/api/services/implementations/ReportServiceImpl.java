@@ -7,8 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.npupas.api.models.dtos.AddReportDTO;
 import com.npupas.api.models.entities.Admin;
+import com.npupas.api.models.entities.Branch;
 import com.npupas.api.models.entities.Employee;
+import com.npupas.api.models.entities.Purchase;
 import com.npupas.api.models.entities.Report;
+import com.npupas.api.repositories.AdminRepository;
 import com.npupas.api.repositories.BranchRepository;
 import com.npupas.api.repositories.EmployeeRepository;
 import com.npupas.api.repositories.ReportRepository;
@@ -25,12 +28,25 @@ public class ReportServiceImpl implements ReportService {
 
 	@Autowired
 	EmployeeRepository employeeRepository;
+	
+	@Autowired
+	AdminRepository adminRepository;
 
 	@Override
-	public Report getOneReport(Long idReport) {
-		Report foundReport = reportRepository.findById(idReport).orElse(null);
+	public Report getOneReport(Long reportId) {
+		Report foundReport = reportRepository.findById(reportId).orElse(null);
 		return foundReport;
 	}
+	
+	@Override
+	public List<Report> getAllReport(Long adminId) {
+		Admin admin = adminRepository.findById(adminId).orElse(null);
+		if (admin == null)
+			return null;
+
+		return admin.getReports();
+	}
+
 
 	@Override
 	public void save(Admin admin, Long employeeId, AddReportDTO reportDTO) {
@@ -66,12 +82,6 @@ public class ReportServiceImpl implements ReportService {
 
 		reportRepository.save(report);
 		return true;
-	}
-
-	@Override
-	public List<Report> getAllBranchReport(Long branchId) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
