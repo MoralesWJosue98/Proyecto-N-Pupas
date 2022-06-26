@@ -1,3 +1,4 @@
+
 import PrimaryButton from 'components/buttons/primary';
 import { useForm } from 'react-hook-form';
 
@@ -21,6 +22,7 @@ const AddEmployeeReportForm = ({ onSubmitHandler, report = false }) => {
     >
       <div>
         <textarea
+          type='text'
           placeholder='Escribe tu comentario o reporte...'
           defaultValue={report ? report.comment : ''}
           rows='8'
