@@ -234,6 +234,15 @@ export const PupuseriaApi = class {
     );
   }
 
+  updateReport(branchID, token, body, reportId) {
+    return putData(`/pupuserias/branches/${branchID}/employees/reports/${reportId}`, token, body);
+  }
+
+  getOneReport(branchID, token, reportId) {
+    console.log(token);
+    return getData(`/pupuserias/branches/${branchID}/employees/reports/${reportId}`, token);
+  }
+
   createEmployeeReport(token, branchID, employeeID, body) {
     return postData(
       `/pupuserias/branches/${branchID}/employees/reports/${employeeID}`,
