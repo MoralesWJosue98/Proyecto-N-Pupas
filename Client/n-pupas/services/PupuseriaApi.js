@@ -233,4 +233,17 @@ export const PupuseriaApi = class {
       token
     );
   }
+
+  createEmployeeReport(token, branchID, employeeID, body) {
+    return postData(
+      `/pupuserias/branches/${branchID}/employees/reports/${employeeID}`,
+      token,
+      body
+    );
+  }
+
+  deleteReport(token, branchID, reportID) {
+    return deleteData(`/pupuserias/branches/${branchID}/employees/reports/${reportID}`, token);
+  }
+
 };

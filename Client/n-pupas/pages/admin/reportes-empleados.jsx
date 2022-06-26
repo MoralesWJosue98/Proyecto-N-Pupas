@@ -7,6 +7,7 @@ import { testComments } from 'data/tempObjects';
 import { adminPages } from 'constants/strings';
 import { branchCookie } from 'constants/data';
 import { tokenCookie } from 'constants/data';
+import { useState, useEffect } from 'react';
 import { getCookie } from 'cookies-next';
 import toast from 'react-hot-toast';
 import Head from 'next/head';
@@ -14,18 +15,44 @@ import Head from 'next/head';
 const pupuseriaApi = new PupuseriaApi();
 
 const ReportesPages = ({ allEmployees }) => {
-  const deleteReport = () => {
-    // Lógica para eliminar
-    toast.success('Reporte eliminado exitosamente');
+  const [employees, setEmployees] = useState(allEmployees);
+  const [deleteToggle, setDeleteToggle] = useState(false);
+  const { token } = useAuthContext();
+  const { branchID } = useBranchContext();
+
+  console.log(allEmployees);
+
+  useEffect(() => {
+    const getEmployees = async () => {
+      const employees = await pupuseriaApi.getAllEmployees(token, branchID);
+      setEmployees(employees);
+    };
+    getEmployees();
+  }, [deleteToggle]);
+
+  const deleteReport = async id => {
+    try {
+      const deleted = await pupuseriaApi.deleteReport(token, branchID, id);
+      if (deleted) {
+        setDeleteToggle(!deleteToggle);
+        toast.success('Reporte eliminado exitosamente');
+      } else {
+        toast.error('No se pudo eliminar el empleado');
+      }
+    } catch (e) {
+      console.log(e);
+      toast.error('Ocurrió un error interno');
+    }
+   
   };
 
-  const onDeleteHandler = report => {
+  const onDeleteHandler = reportId => {
     confirmAlert({
       customUI: ({ onClose }) => {
         return (
           <CustomModal
             onClose={onClose}
-            onConfirm={deleteReport}
+            onConfirm={() => deleteReport(reportId)}
             text={`¿Segura/o que quieres eliminar el reporte de "${report}"?`}
           />
         );
