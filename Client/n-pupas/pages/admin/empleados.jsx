@@ -5,7 +5,6 @@ import EmployeeCard from 'components/cards/employee';
 import { PupuseriaApi } from 'services/PupuseriaApi';
 import useBranchContext from 'context/BranchContext';
 import { confirmAlert } from 'react-confirm-alert';
-import EditButton from 'components/buttons/edit';
 import useAuthContext from 'context/AuthContext';
 import AddButton from 'components/buttons/add';
 import { adminPages } from 'constants/strings';
@@ -18,10 +17,12 @@ import Head from 'next/head';
 const pupuseriaApi = new PupuseriaApi();
 
 const EmployeesPage = ({ allEmployees }) => {
-const [employees, setEmployees] = useState(allEmployees);
-const [deleteToggle, setDeleteToggle] = useState(false);
-const { token } = useAuthContext();
-const { branchID } = useBranchContext();
+  const [employees, setEmployees] = useState(allEmployees);
+  const [deleteToggle, setDeleteToggle] = useState(false);
+  const { token } = useAuthContext();
+  const { branchID } = useBranchContext();
+
+  console.log(allEmployees);
 
   useEffect(() => {
     const getEmployees = async () => {
@@ -60,41 +61,39 @@ const { branchID } = useBranchContext();
     });
   };
 
-
   return (
     <main className='p-6 flex flex-col gap-5'>
       <Head>
         <title>{adminPages.employees}</title>
       </Head>
 
-        <div className='flex flex-wrap gap-3 justify-between mb-2 items-center'>
-          <h1 className='font-bold text-2xl sm:text-3xl'>{adminPages.employees}</h1>
-          <div className='flex gap-5'>
-          <EditButton route={adminRoutes.reportEmployee} />
-          <AddButton route={adminRoutes.newEmployee} />  
-          </div>
+      <div className='flex flex-wrap gap-3 justify-between mb-2 items-center'>
+        <h1 className='font-bold text-2xl sm:text-3xl'>{adminPages.employees}</h1>
+        <div className='flex gap-5'>
+          <AddButton route={adminRoutes.newEmployee} />
         </div>
-
-        <div className='flex flex-col gap-5 md:grid md:grid-cols-2'>
-      
-        {allEmployees.length > 0 ? employees.map(employee => {
-          return (
-            <EmployeeCard
-              employee={employee}
-              key={employee.id}
-              onDeleteHandler={() => onDeleteHandler(employee.id, employee.name)}
-            />
-          );
-        }): <p>Aún no se han registrado empleados</p>}
       </div>
 
+      <div className='flex flex-col gap-5 md:grid md:grid-cols-2'>
+        {allEmployees.length > 0 ? (
+          employees.map(employee => {
+            return (
+              <EmployeeCard
+                employee={employee}
+                key={employee.id}
+                onDeleteHandler={() => onDeleteHandler(employee.id, employee.name)}
+              />
+            );
+          })
+        ) : (
+          <p>Aún no se han registrado empleados</p>
+        )}
+      </div>
     </main>
   );
 };
 
 export default EmployeesPage;
-
-
 
 export async function getServerSideProps({ req, res }) {
   const token = getCookie(tokenCookie, { req, res });
@@ -115,4 +114,3 @@ export async function getServerSideProps({ req, res }) {
     };
   }
 }
-
