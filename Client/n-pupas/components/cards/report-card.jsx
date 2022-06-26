@@ -3,32 +3,27 @@ import CrudButton from 'components/buttons/crud';
 import { adminRoutes } from 'routes/routes';
 import { useRouter } from 'next/router';
 
-const ReportECard = ({  comment, onDeleteHandler }) => {
+const ReportECard = ({ comment, onDeleteHandler }) => {
   const router = useRouter();
 
-
-const handleOnModify = () => {
-    router.push(`${adminRoutes.editReport}/${comment.id}`)
+  const handleOnModify = () => {
+    router.push(`${adminRoutes.editReport}/${comment.id}`);
   };
 
   const handleOnDelete = () => {
     onDeleteHandler();
   };
 
-    return (
-      <article className='bg-white shadow-md p-4'>
-        <div className="flex flex-col sm:flex-row sm:justify-between mb-2">
-          <h2 className='font-bold text-primary-500'>{comment.name}</h2>
-          <p className='font-light text-gray-700'>{comment.date}</p>
-        </div>
-        <p>{comment.body}</p>
-        <div>
+  return (
+    <article className='bg-white shadow-md p-4'>
+      <p className='font-light text-gray-700 text-sm'>{comment.reportDate}</p>
+      <p className='mb-1'>{comment.comment}</p>
+      <div>
         <CrudButton actionType={crudActionTypes.update} onClickHandler={handleOnModify} />
         <CrudButton actionType={crudActionTypes.delete} onClickHandler={handleOnDelete} />
       </div>
-      </article>
-    );
-  };
-  
-  export default ReportECard;
+    </article>
+  );
+};
 
+export default ReportECard;

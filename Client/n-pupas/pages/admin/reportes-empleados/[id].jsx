@@ -3,7 +3,6 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import ReportECard from 'components/cards/report-card';
 import { PupuseriaApi } from 'services/PupuseriaApi';
 import { confirmAlert } from 'react-confirm-alert';
-import { testComments } from 'data/tempObjects';
 import { adminPages } from 'constants/strings';
 import { branchCookie } from 'constants/data';
 import { tokenCookie } from 'constants/data';
@@ -13,7 +12,8 @@ import Head from 'next/head';
 
 const pupuseriaApi = new PupuseriaApi();
 
-const ReportesPages = ({ allEmployees }) => {
+const ReportesPages = ({ employee }) => {
+  console.log(employee);
   const deleteReport = () => {
     // Lógica para eliminar
     toast.success('Reporte eliminado exitosamente');
@@ -38,14 +38,14 @@ const ReportesPages = ({ allEmployees }) => {
       <Head>
         <title>{adminPages.reportsEmployee}</title>
       </Head>
-      <h1 className='font-bold text-2xl sm:text-3xl  md:my-3'>{adminPages.reportsEmployee}</h1>
+      <h1 className='font-bold text-2xl sm:text-3xl  md:my-3'>Reportes a {employee.user.name}</h1>
       <div className='flex flex-col gap-5 md:grid md:grid-cols-2'>
-        {testComments.map(comment => {
+        {employee.reports.map(report => {
           return (
             <ReportECard
-              comment={comment}
-              key={comment.id}
-              onDeleteHandler={() => onDeleteHandler(comment.name)}
+              comment={report}
+              key={report.id}
+              onDeleteHandler={() => onDeleteHandler(report.name)}
             />
           );
         })}
@@ -56,15 +56,16 @@ const ReportesPages = ({ allEmployees }) => {
 
 export default ReportesPages;
 
-export async function getServerSideProps({ req, res }) {
+export async function getServerSideProps({ query, req, res }) {
   const token = getCookie(tokenCookie, { req, res });
   const branchID = getCookie(branchCookie, { req, res });
+  const employeeID = query.id;
 
   try {
-    const allEmployees = await pupuseriaApi.getAllEmployees(token, branchID);
+    const employee = await pupuseriaApi.getOneEmployee(token, branchID, employeeID);
     return {
       props: {
-        allEmployees: allEmployees,
+        employee: employee,
       },
     };
   } catch (e) {
