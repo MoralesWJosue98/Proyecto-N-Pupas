@@ -233,4 +233,13 @@ export const PupuseriaApi = class {
       token
     );
   }
+
+  updateReport(branchID, token, body, reportId) {
+    return putData(`/pupuserias/branches/${branchID}/employees/reports/${reportId}`, token, body);
+  }
+
+  getOneReport(branchID, token, reportId) {
+    console.log(token);
+    return getData(`/pupuserias/branches/${branchID}/employees/reports/${reportId}`, token);
+  }
 };
