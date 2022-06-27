@@ -255,4 +255,8 @@ export const PupuseriaApi = class {
     return deleteData(`/pupuserias/branches/${branchID}/employees/reports/${reportID}`, token);
   }
 
+  getEmployeeBranch(token) {
+    return getData('/pupuserias/branches/employees/branch', token);
+  }
+
 };
