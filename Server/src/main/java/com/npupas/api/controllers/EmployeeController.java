@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import com.npupas.api.models.dtos.AddEmployeeDTO;
 import com.npupas.api.models.dtos.MessageDTO;
 import com.npupas.api.models.entities.Admin;
+import com.npupas.api.models.entities.Branch;
 import com.npupas.api.models.entities.Employee;
 import com.npupas.api.services.AdminService;
 import com.npupas.api.services.EmployeeService;
@@ -71,6 +72,20 @@ public class EmployeeController {
 				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 			} else
 				return new ResponseEntity<Employee>(employee, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@GetMapping("/employees/branch")
+	public ResponseEntity<Branch> getEmployeeBranchInfo(@RequestHeader("Authorization") String token) {
+		try {
+			Employee employee = employeeService.getEmployeeByToken(token.substring(7));
+			if (employee == null) {
+				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			} else
+				return new ResponseEntity<Branch>(employee.getBranch(), HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -160,7 +175,6 @@ public class EmployeeController {
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
 
 	@DeleteMapping("/{id}/employees/{id_employee}")
 	public ResponseEntity<MessageDTO> deleteEmployee(@PathVariable("id") Long branchId,
