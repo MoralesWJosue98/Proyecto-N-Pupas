@@ -1,10 +1,23 @@
 import SectionTitle from 'components/information/section-title';
 import { employeePages, titles } from 'constants/strings';
-import { testEmployee } from 'data/tempObjects';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import { PupuseriaApi } from 'services/PupuseriaApi';
+import { biweeklyDiscounts, getPeriodOfTime, montlyDiscounts } from 'utils/utils';
+import { tokenCookie } from 'constants/data';
+import { getCookie } from 'cookies-next';
 import Head from 'next/head';
 
-const ReportPage = () => {
-  const employee = testEmployee;
+const pupuseriaApi = new PupuseriaApi();
+
+const ReportPage = ({ employee }) => {
+  const monthlyISSS = montlyDiscounts.isss(employee.salary).toFixed(2);
+  const biweeklyISSS = biweeklyDiscounts.isss(employee.salary).toFixed(2);
+
+  const monthlyAFP = montlyDiscounts.afp(employee.salary).toFixed(2);
+  const biweeklyAFP = biweeklyDiscounts.afp(employee.salary).toFixed(2);
+
+  const monthlyRent = montlyDiscounts.rent(employee.salary).toFixed(2);
+  const biweeklyRent = biweeklyDiscounts.rent(employee.salary).toFixed(2);
 
   return (
     <main className='p-6 flex flex-col gap-5'>
@@ -12,15 +25,21 @@ const ReportPage = () => {
         <title>{employeePages.report}</title>
       </Head>
       <h1 className='font-bold text-2xl sm:text-3xl'>{employeePages.report}</h1>
-      <p className='font-bold'> Empleado desde: {employee.hiring}</p>
+      <div>
+        <p className='mb-1'> Empleado desde: {employee.hiringDate}</p>
+        <p>Tiempo laborado: {getPeriodOfTime(employee.hiringDate)}</p>
+      </div>
       <section>
         <SectionTitle title={titles.salary} />
-        <p className='mb-6'>Salario mensual: ${employee.salary}</p>
-        <h3 className='font-bold mb-4'>Descuentos</h3>
-        {/* TODO: Hacer componente */}
+        <p className='mb-7 font-bold mt-1'>Salario mensual: ${employee.salary}</p>
         <div className='relative overflow-x-auto shadow-md sm:rounded-lg mb-6'>
           <table className='w-full text-sm text-left'>
-            <tbody>
+            <thead>
+              <th>Descuento</th>
+              <th>Quincenal</th>
+              <th>Mensual</th>
+            </thead>
+            <tbody className='mt-2'>
               <tr className='bg-white border-b'>
                 <th
                   scope='row'
@@ -28,7 +47,8 @@ const ReportPage = () => {
                 >
                   ISSS
                 </th>
-                <td className='px-6 py-4 font-bold'>$12.00</td>
+                <td className='px-6 py-4 font-bold'>${biweeklyISSS}</td>
+                <td className='px-6 py-4 font-bold'>${monthlyISSS}</td>
               </tr>
               <tr className='bg-white border-b '>
                 <th
@@ -37,7 +57,8 @@ const ReportPage = () => {
                 >
                   AFP
                 </th>
-                <td className='px-6 py-4 font-bold'>$29.00</td>
+                <td className='px-6 py-4 font-bold'>${biweeklyAFP}</td>
+                <td className='px-6 py-4 font-bold'>${monthlyAFP}</td>
               </tr>
               <tr className='bg-white'>
                 <th
@@ -46,23 +67,44 @@ const ReportPage = () => {
                 >
                   ISR
                 </th>
-                <td className='px-6 py-4 font-bold'>$0.00</td>
+                <td className='px-6 py-4 font-bold'>${biweeklyRent}</td>
+                <td className='px-6 py-4 font-bold'>${monthlyRent}</td>
               </tr>
             </tbody>
           </table>
         </div>
         <div className='flex flex-col gap-1'>
-          <p className='text-lg text-primary-500 font-bold'>Salario neto mensual: $359.00</p>
-          <p className='text-lg text-primary-500 font-bold'>Salario neto quincenal: $179.50</p>
+          <p className='text-lg text-primary-500 font-bold'>
+            Salario neto mensual: ${employee.salary - monthlyISSS - monthlyAFP - monthlyRent}
+          </p>
+          <p className='text-lg text-primary-500 font-bold'>
+            Salario neto quincenal: $
+            {employee.salary / 2 - biweeklyISSS - biweeklyAFP - biweeklyRent}
+          </p>
         </div>
-      </section>
-      <section>
-        <SectionTitle title={titles.afp} />
-        <p className='mb-4'>Tiempo laborado: 2 años, 6 meses</p>
-        <p className='text-lg text-primary-500 font-bold'>AFP cotizada: $1000</p>
       </section>
     </main>
   );
 };
 
 export default ReportPage;
+
+export async function getServerSideProps({ req, res }) {
+  const token = getCookie(tokenCookie, { req, res });
+
+  try {
+    const employeeInfo = await pupuseriaApi.getEmployeeInfo(token);
+    return {
+      props: {
+        employee: employeeInfo,
+      },
+    };
+  } catch (e) {
+    console.log(e);
+    return {
+      redirect: {
+        destination: '/500',
+      },
+    };
+  }
+}
