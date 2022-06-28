@@ -1,6 +1,6 @@
 import { toFormData } from 'utils/utils';
 
-export const BASE_URL = 'http://localhost:8080';
+export const BASE_URL = 'https://npupas.herokuapp.com';
 let instance;
 
 const getData = async (path, token) => {
@@ -239,7 +239,6 @@ export const PupuseriaApi = class {
   }
 
   getOneReport(branchID, token, reportId) {
-    console.log(token);
     return getData(`/pupuserias/branches/${branchID}/employees/reports/${reportId}`, token);
   }
 
