@@ -35,8 +35,10 @@ const EmployeeProfilePage = ({ employee }) => {
       <Head>
         <title>{profilePageName}</title>
       </Head>
-      <h1 className='font-bold text-2xl sm:text-3xl'>{profilePageName}</h1>
-      <ProfileCardEmployee employee={employee} />
+      <div className='w-full md:max-w-[800px] mx-auto flex flex-col gap-4'>
+        <h1 className='font-bold text-2xl sm:text-3xl md:text-center md:my-3'>{profilePageName}</h1>
+        <ProfileCardEmployee employee={employee} />
+      </div>
       <div className='flex justify-center mt-4'>
         <SecondaryButton text='Cerrar sesión' onClickHandler={handleOnLogout} isRed={true} />
       </div>

@@ -6,12 +6,10 @@ const AddProductForm = ({ onSubmitHandler, productTypes, product = false }) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm();
 
   const onSubmit = data => {
     onSubmitHandler(data);
-    //reset();
   };
 
   return (
@@ -89,7 +87,6 @@ const AddProductForm = ({ onSubmitHandler, productTypes, product = false }) => {
               id='files'
               placeholder='Imagen'
               accept='image/png, image/jpeg'
-              // TODO: mostrar imagen guardada al modificar
               className=' shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 leading-tight focus:outline-none focus:border-2 focus:border-secondary-500'
               {...register('image', {
                 required: false,
