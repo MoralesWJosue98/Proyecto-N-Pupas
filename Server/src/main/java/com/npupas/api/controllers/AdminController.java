@@ -13,7 +13,7 @@ import com.npupas.api.models.entities.Admin;
 import com.npupas.api.services.AdminService;
 
 @RestController
-@CrossOrigin(origins = { "http://localhost:3000", "https://npupas.herokuapp.com" }, allowCredentials = "true")
+@CrossOrigin(origins = { "http://localhost:3000", "https://n-pupas.vercel.app" }, allowCredentials = "true")
 @RequestMapping("/pupuserias")
 public class AdminController {
     @Autowired

@@ -28,7 +28,7 @@ import com.npupas.api.services.MenuService;
 import com.npupas.api.services.ProductTypeService;
 
 @RestController
-@CrossOrigin(origins = { "http://localhost:3000", "https://npupas.herokuapp.com" }, allowCredentials = "true")
+@CrossOrigin(origins = { "http://localhost:3000", "https://n-pupas.vercel.app" }, allowCredentials = "true")
 @RequestMapping("/pupuserias")
 public class MenuController {
 
