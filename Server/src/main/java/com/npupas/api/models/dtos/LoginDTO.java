@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 public class LoginDTO {
     
 		@NotBlank(message = "User Name cannot be blank!")
-		@Size(min = 8, max = 10, message = "User Name has to be 10 characters")
+		@Size(min = 8, message = "User Name has to be 8 characters minimum")
 		private String username;
 			
 			
@@ -21,7 +21,7 @@ public class LoginDTO {
 
 
 		public LoginDTO(
-				@NotBlank(message = "User Name cannot be blank!") @Size(min = 8, max = 10, message = "User Name has to be 10 characters") String username,
+				@NotBlank(message = "User Name cannot be blank!") @Size(min = 8, message = "User Name has to be 8 characters minimum") String username,
 				@NotBlank(message = "Password cannot be blank!") @Size(min = 6, message = "Password has to be 6 characters minimum") String password) {
 				super();
 				this.username = username;
