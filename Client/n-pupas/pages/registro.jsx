@@ -1,15 +1,12 @@
 import { registerPageName } from 'constants/strings';
 import RegisterForm from 'components/forms/register';
 import { PupuseriaApi } from 'services/PupuseriaApi';
-import { adminRoutes } from 'routes/routes';
-import { useRouter } from 'next/router';
+import useAuthContext from 'context/AuthContext';
 import toast from 'react-hot-toast';
 import Head from 'next/head';
-import useAuthContext from 'context/AuthContext';
 
 const RegisterPage = () => {
   const pupuseriaApi = new PupuseriaApi();
-  const router = useRouter();
   const { login } = useAuthContext();
 
   const onSubmitForm = async data => {
@@ -23,7 +20,7 @@ const RegisterPage = () => {
         toast.error(errorObj.message);
       } else {
         toast.success('Usuario registrado existosamente');
-        login({ username: data.username, password: data.Password });
+        await login({ username: data.username, password: data.Password });
       }
     } catch (e) {
       toast.error('Ocurrió un error');
