@@ -26,7 +26,7 @@ public class RegistrationFormDTO {
 	private String phoneNumber;
 
 	@NotBlank(message = "User Name cannot be blank!")
-	@Size(min = 5, message = "User Name has to be 5 characters minimum")
+	@Size(min = 8, message = "User Name has to be 5 characters minimum")
 	private String username;
 
 	@NotBlank(message = "Password cannot be blank!")
@@ -57,7 +57,7 @@ public class RegistrationFormDTO {
 			@NotBlank(message = "DUI cannot be blank!") @Size(min = 9, max = 9, message = "DUI has to be 9 characters") String dUI,
 			@NotBlank(message = "NIT cannot be blank!") @Size(min = 14, max = 14, message = "NIT has to be 14 characters") String nIT,
 			@NotBlank(message = "Phone number cannot be blank!") @Size(min = 8, max = 8, message = "Pohne number has to be 8 characters") String phoneNumber,
-			@NotBlank(message = "User Name cannot be blank!") @Size(min = 8, max = 10, message = "User Name has to be 10 characters") String username,
+			@NotBlank(message = "Username cannot be blank!") @Size(min = 8, message = "Username has to be 8 characters minimum") String username,
 			@NotBlank(message = "Password cannot be blank!") @Size(min = 6, max = 32, message = "Password  has to be 6 characters minimum") @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,32}$") String password,
 			@NotBlank(message = "Name of the pupuseria cannot be blank!") @Size(min = 8, message = "Name of the pupuseria has to be 8 characters minimum") String namePupuseria,
 			@NotBlank(message = "Name of the branch cannot be blank!") @Size(min = 8, message = "Name of the branch has to be 8 characters minimum") String nameBranch,

@@ -30,7 +30,7 @@ export const adminPages = {
 };
 
 export const titles = {
-  salary: 'Salario',
+  salary: 'Salario y descuentos',
   afp: 'AFP',
   today: 'Este día',
   history: 'Historial',

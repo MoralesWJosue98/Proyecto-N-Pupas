@@ -1,9 +1,9 @@
 import SecondaryButton from 'components/buttons/secondary';
 import { adminRoutes, registerRoute } from 'routes/routes';
+import { roleCookie, tokenCookie } from 'constants/data';
 import { loginPageName } from 'constants/strings';
 import useAuthContext from 'context/AuthContext';
 import LoginForm from 'components/forms/login';
-import { roleCookie } from 'constants/data';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/router';
 import logo from 'public/n-pupas.png';
@@ -45,8 +45,9 @@ export default LoginPage;
 
 export async function getServerSideProps({ req, res }) {
   const role = getCookie(roleCookie, { req, res });
+  const token = getCookie(tokenCookie, { req, res });
 
-  if (role) {
+  if (token && role) {
     return {
       redirect: {
         permanent: false,

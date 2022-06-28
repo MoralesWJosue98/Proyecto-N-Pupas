@@ -12,7 +12,6 @@ const RegisterForm = ({ onSubmitHandler }) => {
     handleSubmit,
     formState: { errors },
     watch,
-    reset,
   } = useForm();
 
   const password = useRef({});
@@ -32,7 +31,6 @@ const RegisterForm = ({ onSubmitHandler }) => {
 
   const onSubmit = data => {
     onSubmitHandler(data);
-    //reset();
   };
 
   return (
@@ -56,7 +54,7 @@ const RegisterForm = ({ onSubmitHandler }) => {
                     message: 'El mínimo de caracteres es 8',
                   },
                   maxLength: {
-                    value: 80,
+                    value: 50,
                     message: 'El máximo de caracteres es 80',
                   },
                 })}
@@ -124,11 +122,15 @@ const RegisterForm = ({ onSubmitHandler }) => {
                 {...register('username', {
                   required: 'Nombre de usuario requerido',
                   minLength: {
-                    value: 10,
+                    value: 8,
                     message: 'El mínimo de caracteres es 10',
                   },
+                  maxLength: {
+                    value: 20,
+                    message: 'El máximo de caracteres es 20',
+                  },
                   pattern: {
-                    value: /^[A-Za-z0-9_-]{10,20}$/,
+                    value: /^[A-Za-z0-9_-]{8,20}$/,
                     message: 'Algunos caracteres son inválidos',
                   },
                 })}
