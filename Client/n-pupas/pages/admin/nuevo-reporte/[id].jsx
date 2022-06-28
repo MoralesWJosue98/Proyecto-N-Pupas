@@ -33,7 +33,6 @@ export default function NewEmployeeReportPage({ employee }) {
         toast.error('No se pudo enviar el reporte');
       }
     } catch (e) {
-      console.log(e);
       toast.error('Ocurrió un error interno');
     }
   };

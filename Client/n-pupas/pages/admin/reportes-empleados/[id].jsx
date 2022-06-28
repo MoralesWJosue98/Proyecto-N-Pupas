@@ -21,8 +21,6 @@ const ReportesPages = ({ employee }) => {
   const { token } = useAuthContext();
   const { branchID } = useBranchContext();
   
-  console.log(employee);
-
   useEffect(() => {
     const getEmployee = async () => {
       const employee1 = await pupuseriaApi.getOneEmployee(token, branchID, employee.id);
@@ -41,7 +39,6 @@ const ReportesPages = ({ employee }) => {
         toast.error('No se pudo eliminar el reporte');
       }
     } catch (e) {
-      console.log(e);
       toast.error('Ocurrió un error interno');
     }
   };

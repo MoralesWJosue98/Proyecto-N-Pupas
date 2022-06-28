@@ -80,7 +80,6 @@ export default function EditSalePage({ sale, products, productTypes }) {
         toast.error('No se pudo modificar la venta');
       }
     } catch (e) {
-      console.log(e);
       toast.error('Ocurrió un error interno');
     }
   };

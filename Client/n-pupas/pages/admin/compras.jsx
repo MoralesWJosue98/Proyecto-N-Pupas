@@ -46,7 +46,6 @@ const PurchasesPage = ({ todayPurchases, allPurchases }) => {
         toast.error('No se pudo eliminar la compra');
       }
     } catch (e) {
-      console.log(e);
       toast.error('Ocurrió un error interno');
     }
   };
