@@ -27,7 +27,6 @@ export default function NewEmployeePage() {
         toast.error('No se pudo crear el empleado');
       }
     } catch (e) {
-      console.log(e);
       toast.error('Ocurrió un error interno');
     }
   };

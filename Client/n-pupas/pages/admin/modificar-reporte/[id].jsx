@@ -32,7 +32,6 @@ export default function editReport({ report }) {
         toast.error('No se pudieron guardar los cambios');
       }
     } catch (e) {
-      console.log(e);
       toast.error('Ocurrió un error interno');
     }
   };

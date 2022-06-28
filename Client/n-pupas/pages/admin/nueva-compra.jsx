@@ -27,7 +27,6 @@ export default function NewPurchasePage() {
         toast.error('No se pudo crear la compra');
       }
     } catch (e) {
-      console.log(e);
       toast.error('Ocurrió un error interno');
     }
   };

@@ -14,7 +14,6 @@ const pupuseriaApi = new PupuseriaApi();
 
 const EmployeeProfilePage = ({ admin }) => {
   const { logout } = useAuthContext();
-  console.log(admin);
 
   const handleOnLogout = () => {
     confirmAlert({
@@ -60,7 +59,6 @@ export async function getServerSideProps({ req, res }) {
       },
     };
   } catch (e) {
-    console.log(e);
     return {
       redirect: {
         destination: '/500',
