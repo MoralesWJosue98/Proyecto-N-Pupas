@@ -20,14 +20,14 @@ const ReportPage = ({ employee }) => {
   const biweeklyRent = biweeklyDiscounts.rent(employee.salary).toFixed(2);
 
   return (
-    <main className='p-6 flex flex-col gap-5'>
+    <main className='p-6 flex flex-col gap-5  w-full md:max-w-[900px] mx-auto'>
       <Head>
         <title>{employeePages.report}</title>
-      </Head>
-      <h1 className='font-bold text-2xl sm:text-3xl'>{employeePages.report}</h1>
+      </Head> 
+      <h1 className='font-bold text-2xl sm:text-3xl md:text-center'>{employeePages.report}</h1>
       <div>
-        <p className='mb-1'> Empleado desde: {employee.hiringDate}</p>
-        <p>Tiempo laborado: {getPeriodOfTime(employee.hiringDate)}</p>
+        <p className='mb-1 md:text-center'> Empleado desde: {employee.hiringDate}</p>
+        <p className='md:text-center'>Tiempo laborado: {getPeriodOfTime(employee.hiringDate)}</p>
       </div>
       <section>
         <SectionTitle title={titles.salary} />
@@ -73,11 +73,11 @@ const ReportPage = ({ employee }) => {
             </tbody>
           </table>
         </div>
-        <div className='flex flex-col gap-1'>
-          <p className='text-lg text-primary-500 font-bold'>
+        <div className='flex flex-col md:flex-row md:justify-between gap-1 md:mt-6'>
+          <p className='text-lg text-primary-500 font-bold md:text-center'>
             Salario neto mensual: ${employee.salary - monthlyISSS - monthlyAFP - monthlyRent}
           </p>
-          <p className='text-lg text-primary-500 font-bold'>
+          <p className='text-lg text-primary-500 font-bold md:text-center'>
             Salario neto quincenal: $
             {employee.salary / 2 - biweeklyISSS - biweeklyAFP - biweeklyRent}
           </p>

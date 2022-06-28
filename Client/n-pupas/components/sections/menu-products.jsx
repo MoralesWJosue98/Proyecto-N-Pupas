@@ -6,10 +6,10 @@ const MenuProductsSection = ({ products, type, onDeleteHandler }) => {
 
   return (
     <div>
-      <section className='flex flex-col gap-2'>
+      <section className='flex flex-col'>
         <SectionTitle title={type.type} />
         {categoryProducts.length > 0 ? (
-          <div className='flex flex-col gap-5 md:grid md:grid-cols-2 lg:grid-cols-3'>
+          <div className='flex flex-col gap-5 md:grid md:grid-cols-2 lg:grid-cols-3 mb-3'>
             {categoryProducts.map(product => {
               return (
                 <ProductCard

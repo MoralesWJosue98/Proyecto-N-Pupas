@@ -28,11 +28,18 @@ const AdminHomePage = ({ pupuseriaName, branches }) => {
       <Head>
         <title>{homePageName}</title>
       </Head>
-      <h1 className='font-bold text-2xl sm:text-3xl'>{homePageName}</h1>
-      <section className='mb-4'>
-        <h2 className='text-primary-500 font-bold text-lg mb-3'>{`Pupusería: ${pupuseriaName}`}</h2>
-        <BranchSelect onChangeHandler={changeBranch} branches={branches} value={branchID} />
-      </section>
+      <div className='w-full md:max-w-[900px] mx-auto flex flex-col gap-4'>
+        <h1 className='font-bold text-2xl sm:text-3xl md:text-center'>{homePageName}</h1>
+        <section className='mb-4'>
+          <h2 className='text-primary-500 font-bold text-lg mb-3 md:text-center'>{`Pupusería: ${pupuseriaName}`}</h2>
+          <p className='mb-1 md:text-center'>Seleccione una sucursal</p>
+          <div className='w-full md:max-w-[500px] m-auto'>
+          <BranchSelect onChangeHandler={changeBranch} branches={branches} value={branchID} />
+
+          </div>
+        </section>
+      </div>
+
       <HomeMenu isAdmin={true} />
     </main>
   );
