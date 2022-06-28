@@ -26,7 +26,7 @@ import com.npupas.api.services.AdminService;
 import com.npupas.api.services.BranchService;
 
 @RestController
-@CrossOrigin(origins = { "http://localhost:3000", "https://npupas.herokuapp.com" }, allowCredentials = "true")
+@CrossOrigin(origins = { "http://localhost:3000", "https://n-pupas.vercel.app" }, allowCredentials = "true")
 @RequestMapping("/pupuserias/branches")
 public class BranchController {
 	@Autowired
