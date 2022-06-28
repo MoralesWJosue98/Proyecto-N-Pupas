@@ -26,7 +26,7 @@ import com.npupas.api.models.entities.Sale;
 import com.npupas.api.services.SalesService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = { "http://localhost:3000", "https://npupas.herokuapp.com" }, allowCredentials = "true")
 @RequestMapping("/pupuserias/branches")
 public class SaleController {
 
