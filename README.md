@@ -32,8 +32,10 @@ La aplicación y sus componentes han sido utilizados y desarrollados en entorno 
 
 ## Instalación de servicio Web
 1. Modificar el contenido de ```Server/src/main/resources/application.properties``` asignando las credenciales para la base de datos. 
-2. Dentro de la carpeta ```Server/``` ejecutar el comando ```mvn spring-boot:run```.
 ![Credenciales a modificar](./Images/spring.png)
+2. Dentro de la carpeta ```Server/``` ejecutar el comando ```mvn spring-boot:run```.
+![Ejemplo de ejecución con Maven](./Images/maven.png)
+
 ## Instalación de cliente web
 1. Dentro de la carpeta ``` Client/n-pupas/``` ejecutar el comando ```npm install```.
 2. Dentro de la misma carpeta ejecutar el comando ```npm run build```.
