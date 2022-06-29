@@ -12,7 +12,7 @@ public interface PurchaseService {
 
 	List<Purchase> getTodayBranchPurchases(Long branchId);
 
-	List<Purchase> getPurchasesBetweenDates(LocalDate initialDate, LocalDate finalDate);
+	List<Purchase> getPurchasesBetweenDates(Long branchId, LocalDate initialDate, LocalDate finalDate);
 
 	Purchase getOnePurchase(Long idPurchase);
 

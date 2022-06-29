@@ -12,12 +12,12 @@ import com.npupas.api.models.entities.Sale;
 public interface SalesRepository extends JpaRepository<Sale, Long> {
 
 	List<Sale> findByBranch(Branch branch);
-	
+
 	List<Sale> findBySaleDate(LocalDate saleDate);
-	
+
 	List<Sale> findBySaleDateAndBranch(LocalDate saleDate, Branch branch);
 
-	@Query(value = "SELECT * FROM sale WHERE sale_date >= :initialDate AND sale_date <= :finalDate", nativeQuery = true)
-	List<Sale> findBetweenDates(LocalDate initialDate, LocalDate finalDate);
+	@Query(value = "SELECT * FROM sale WHERE id_branch = :branchId AND sale_date >= :initialDate AND sale_date <= :finalDate", nativeQuery = true)
+	List<Sale> findBetweenDates(Long branchId, LocalDate initialDate, LocalDate finalDate);
 
 }

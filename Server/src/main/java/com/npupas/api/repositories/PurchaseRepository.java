@@ -14,6 +14,6 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
 
 	List<Purchase> findByBranchAndPurchaseDate(Branch branch, LocalDate date);
 
-	@Query(value = "SELECT * FROM purchase WHERE purchase_date >= :initialDate AND purchase_date <= :finalDate", nativeQuery = true)
-	List<Purchase> findBetweenDates(LocalDate initialDate, LocalDate finalDate);
+	@Query(value = "SELECT * FROM purchase WHERE id_branch = :branchId AND purchase_date >= :initialDate AND purchase_date <= :finalDate", nativeQuery = true)
+	List<Purchase> findBetweenDates(Long branchId, LocalDate initialDate, LocalDate finalDate);
 }

@@ -12,7 +12,7 @@ public interface SalesService {
 
 	List<Sale> getTodaySales(Long branchId);
 
-	List<Sale> getSalesBetweenDates(LocalDate initialDate, LocalDate finalDate);
+	List<Sale> getSalesBetweenDates(Long branchId, LocalDate initialDate, LocalDate finalDate);
 
 	Sale getSale(Long branchId, Long idSale);
 
