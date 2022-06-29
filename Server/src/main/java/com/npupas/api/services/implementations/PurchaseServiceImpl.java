@@ -52,8 +52,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	@Override
-	public List<Purchase> getPurchasesBetweenDates(LocalDate initialDate, LocalDate finalDate) {
-		List<Purchase> purchases = purchaseRepository.findBetweenDates(initialDate, finalDate);
+	public List<Purchase> getPurchasesBetweenDates(Long branchId, LocalDate initialDate, LocalDate finalDate) {
+		List<Purchase> purchases = purchaseRepository.findBetweenDates(branchId, initialDate, finalDate);
 		return purchases;
 	};
 

@@ -65,8 +65,8 @@ public class SalesServiceImpl implements SalesService {
 	}
 
 	@Override
-	public List<Sale> getSalesBetweenDates(LocalDate initialDate, LocalDate finalDate) {
-		List<Sale> sales = salesRepository.findBetweenDates(initialDate, finalDate);
+	public List<Sale> getSalesBetweenDates(Long branchId, LocalDate initialDate, LocalDate finalDate) {
+		List<Sale> sales = salesRepository.findBetweenDates(branchId, initialDate, finalDate);
 		return sales;
 	};
 

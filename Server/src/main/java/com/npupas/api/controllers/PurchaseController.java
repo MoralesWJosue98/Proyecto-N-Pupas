@@ -54,7 +54,8 @@ public class PurchaseController {
 	public ResponseEntity<List<Purchase>> getBetweenDates(@PathVariable("id") Long branchId,
 			@RequestParam("initialDate") String initialDate, @RequestParam("finalDate") String finalDate) {
 		try {
-			List<Purchase> purchases = purchaseService.getPurchasesBetweenDates(LocalDate.parse(initialDate), LocalDate.parse(finalDate));
+			List<Purchase> purchases = purchaseService.getPurchasesBetweenDates(branchId, LocalDate.parse(initialDate),
+					LocalDate.parse(finalDate));
 			if (purchases == null)
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
