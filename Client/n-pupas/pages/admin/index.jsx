@@ -2,7 +2,7 @@ import BranchSelect from 'components/forms/branchSelect';
 import useBranchContext from 'context/BranchContext';
 import { PupuseriaApi } from 'services/PupuseriaApi';
 import { homePageName } from 'constants/strings';
-import { tokenCookie } from 'constants/data';
+import { branchCookie, tokenCookie } from 'constants/data';
 import HomeMenu from 'components/menu/menu';
 import { getCookie } from 'cookies-next';
 import { useEffect } from 'react';
@@ -14,7 +14,7 @@ const AdminHomePage = ({ pupuseriaName, branches }) => {
   const { branchID, setBranchID } = useBranchContext();
 
   useEffect(() => {
-    if (!branchID || branchID !== branches[0].id) {
+    if (!getCookie(branchCookie)) {
       setBranchID(branches[0].id);
     }
   }, [branches, branchID, setBranchID]);
@@ -58,7 +58,6 @@ export async function getServerSideProps({ req, res }) {
       },
     };
   } catch (e) {
-    console.log(e);
     return {
       redirect: {
         destination: '/500',

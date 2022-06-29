@@ -1,6 +1,6 @@
 import React, { useContext, createContext, useState, useMemo } from 'react';
 import { getCookie, setCookies, removeCookies } from 'cookies-next';
-import { roleCookie, tokenCookie } from 'constants/data';
+import { branchCookie, roleCookie, tokenCookie } from 'constants/data';
 import { adminRoutes, loginRoute } from 'routes/routes';
 import { PupuseriaApi } from 'services/PupuseriaApi';
 import { useRouter } from 'next/router';
@@ -36,6 +36,7 @@ export const AuthContextProvider = ({ children }) => {
   const logout = async () => {
     removeCookies(tokenCookie);
     removeCookies(roleCookie);
+    removeCookies(branchCookie);
 
     router.push(loginRoute);
   };
