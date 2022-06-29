@@ -62,7 +62,8 @@ La aplicación y sus componentes han sido utilizados y desarrollados en entorno 
 4. Puede acceder a la aplicación por medio de un navegador consultando la dirección [http://localhost:3000](http://localhost:3000).
 
 ![Ejemplo de ejecución en terminal](./Images/console.png)
-## Manual de Usuario
+
+## Manual 
 
 
 ## Integrantes                                      
