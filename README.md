@@ -63,8 +63,8 @@ La aplicación y sus componentes han sido utilizados y desarrollados en entorno 
 
 ![Ejemplo de ejecución en terminal](./Images/console.png)
 
-## Manual 
-
+## Manual de Usuario
+![Manual](./Documents/Manual.pdf)
 
 ## Integrantes                                      
 
